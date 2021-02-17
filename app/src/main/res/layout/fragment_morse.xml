@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".ui.fragments.MorseFragment">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.6" />
+
+
+    <TextView
+        android:id="@+id/tvShowingChar"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@android:color/holo_green_light"
+        android:gravity="center"
+        android:text="x"
+        android:textSize="116sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <LinearLayout
+        android:id="@+id/llrow1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline2">
+
+        <Button
+            android:id="@+id/btnChar1"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="1"
+            android:textSize="10sp"
+
+            android:background="@drawable/roundedbutton"
+            android:layout_margin="2dp"
+            />
+
+        <Button
+            android:id="@+id/btnChar2"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="2"
+            android:textSize="10sp"
+            android:background="@drawable/roundedbutton"
+            android:layout_margin="2dp"/>
+
+        <Button
+            android:id="@+id/btnChar3"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="3"
+            android:textSize="10sp"
+            android:background="@drawable/roundedbutton"
+            android:layout_margin="2dp" />
+
+        <Button
+            android:id="@+id/btnChar4"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="4"
+            android:textSize="10sp"
+            android:background="@drawable/roundedbutton"
+            android:layout_margin="2dp"/>
+
+        <Button
+            android:id="@+id/btnChar5"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="5"
+            android:textSize="10sp"
+            android:background="@drawable/roundedbutton"
+            android:layout_margin="2dp" />
+
+        <Button
+            android:id="@+id/btnChar6"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="6"
+            android:textSize="10sp"
+            android:background="@drawable/roundedbutton"
+            android:layout_margin="2dp"/>
+
+        <Button
+            android:id="@+id/btnChar7"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="7"
+            android:textSize="10sp"
+            android:background="@drawable/roundedbutton"
+            android:layout_margin="2dp"/>
+
+        <Button
+            android:id="@+id/btnChar8"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="8"
+            android:textSize="10sp"
+            android:background="@drawable/roundedbutton"
+            android:layout_margin="2dp" />
+
+        <Button
+            android:id="@+id/btnChar9"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="9"
+            android:textSize="10sp"
+            android:background="@drawable/roundedbutton"
+            android:layout_margin="2dp"/>
+
+        <Button
+            android:id="@+id/btnChar0"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="0"
+            android:textSize="10sp"
+            android:background="@drawable/roundedbutton"
+            android:layout_margin="2dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llrow2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llrow1">
+
+        <Button
+            android:id="@+id/r2btnChar1"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="1"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/r2btnChar2"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="2"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/r2btnChar3"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="3"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/r2btnChar4"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="4"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/r2btnChar5"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="5"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/r2btnChar6"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="6"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/r2btnChar7"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="7"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/r2btnChar8"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="8"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/r2btnChar9"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="9"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/r2btnChar0"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="0"
+            android:textSize="10sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llrow3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llrow2">
+
+        <Button
+            android:id="@+id/r3btnChar1"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="1"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/r3btnChar2"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="2"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/r3btnChar3"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="3"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/r3btnChar4"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="4"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/r3btnChar5"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="5"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/r3btnChar6"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="6"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/r3btnChar7"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="7"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/r3btnChar8"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="8"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/r3btnChar9"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="9"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/r3btnChar0"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="0"
+            android:textSize="10sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llrow4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llrow3">
+
+        <Button
+            android:id="@+id/r4btnChar1"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="1"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/r4btnChar2"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="2"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/r4btnChar3"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="3"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/r4btnChar4"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="4"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/r4btnChar5"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="5"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/r4btnChar6"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="6"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/r4btnChar7"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="7"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/r4btnChar8"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="8"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/r4btnChar9"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="9"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/r4btnChar0"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="0"
+            android:textSize="10sp" />
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="worth: 0%"
+        app:layout_constraintBaseline_toBaselineOf="@+id/button17"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="stop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

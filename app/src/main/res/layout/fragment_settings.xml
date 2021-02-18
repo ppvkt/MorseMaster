@@ -148,20 +148,18 @@
     <Button
         android:id="@+id/btnRun"
         android:layout_width="116dp"
-        android:layout_height="116dp"
-        android:background="@android:color/holo_red_dark"
-        android:padding="32dp"
+        android:layout_height="58dp"
         android:text="run"
+        android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/baselineLayout2" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btClearStatistic"
         android:layout_width="116dp"
         android:layout_height="58dp"
         android:text="clear statistic"
+        android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

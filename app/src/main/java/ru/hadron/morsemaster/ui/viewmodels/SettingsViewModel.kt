@@ -3,11 +3,16 @@ package ru.hadron.morsemaster.ui.viewmodels
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import ru.hadron.morsemaster.db.entity.Lesson
 import ru.hadron.morsemaster.db.entity.Stat
+import ru.hadron.morsemaster.db.entity.StatForStmCountAdv
+import ru.hadron.morsemaster.db.entity.StatForStmNextSymbol
 import ru.hadron.morsemaster.repositories.DefaultRepository
 import ru.hadron.morsemaster.util.Question
+import timber.log.Timber
 import java.util.*
 
 class SettingsViewModel @ViewModelInject constructor(
@@ -43,26 +48,37 @@ class SettingsViewModel @ViewModelInject constructor(
             if (c.equals(" ")) {
                 res += "|"
             } else {
-                val code = repository.getStmCode(symbol = c.toString())
-                if (code.isNotEmpty()) {
-                    res += "$code "
+                viewModelScope.launch(Dispatchers.IO) {
+                    val code = repository.getStmCode(symbol = c.toString())
+                    if (code.isNotEmpty()) {
+                        res += "$code "
+                    }
                 }
+
             }
         }
         return res
     }
 
     fun loadLesson(info: String): Lesson? {
-        var symbols = repository.getStmSymbolsFromLesson(info = info)
+        var s: String? = null
+        viewModelScope.launch(Dispatchers.IO) {
+            s = repository.getStmSymbolsFromLesson(info = info)
+            Timber.e("--------------------------------$s")
+        }
         return if (symbols.isNotEmpty()) {
-            Lesson(info = info, symbols = symbols?.split(" ").toString())
+            Lesson(info = info, symbols = s?.split(" ").toString())
         } else {
             null
         }
+
+
     }
 
     fun clearStat() {
-        repository.deleteStat()
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteStat()
+        }
     }
 
     fun initStat(symbols: Array<String>) {
@@ -75,7 +91,7 @@ class SettingsViewModel @ViewModelInject constructor(
             stat.symbol = symbol
             stat.lastseen = System.currentTimeMillis() / (30 * 1000)
 
-            viewModelScope.launch {
+            viewModelScope.launch(Dispatchers.IO) {
                 repository.insertStat(stat = stat)
             }
         }
@@ -83,14 +99,14 @@ class SettingsViewModel @ViewModelInject constructor(
 
     fun updateStat(symbol: String, correct: Boolean) {
         if (correct) {
-            viewModelScope.launch {
+            viewModelScope.launch(Dispatchers.IO) {
                 repository.updateStatIfAnswerCorrect(
                     lastseen = System.currentTimeMillis() / (30*1000) - (Math.random() * 3.0f).toInt(), //?
                     symbol = symbol
                 )
             }
         } else {
-            viewModelScope.launch {
+            viewModelScope.launch(Dispatchers.IO) {
                 repository.updateStatIfAnswerNotCorrect(
                     lastseen = System.currentTimeMillis() / (30*1000) - (Math.random() * 3.0f).toInt(),
                     symbol = symbol
@@ -100,22 +116,35 @@ class SettingsViewModel @ViewModelInject constructor(
     }
 
     fun getNextSymbol(remain: Int): Question {
-        val rs = repository.getStmNextSymbol(adv_level)
+        var rs: List<StatForStmNextSymbol> =
+        viewModelScope.async(Dispatchers.IO) {
+           repository.getStmNextSymbol(adv_level)
+        }.getCompleted()
+
         if (remain > 1 && Math.random() > 0.5) {
             //rs.next
             //rs.next
             // to do smth
         }
-        return Question(rs[0].symbol, rs[0].correct) //?
+        return Question(symbol = rs[0].symbol, correct = rs[0].correct) //?
+        //return Question(symbol = "", correct = 1) //test
     }
 
+
     fun getCountAdv(): Int {
-        val stm_count_adv = repository.getStmCountAdv(ratio = adv_level)
+        val stm_count_adv: List<StatForStmCountAdv>
+        val stm =  viewModelScope.async(Dispatchers.IO) {
+            repository.getStmCountAdv(ratio = adv_level)
+        }
+        stm_count_adv = stm.getCompleted()
         return stm_count_adv.indexOf(0)  //?
     }
 
     fun getNextAdv(adv: Int): Question {
-        val rs = repository.getStmNextAdv(adv_level)
+        val rs =
+             viewModelScope.async(Dispatchers.IO) {
+                 repository.getStmNextAdv(adv_level)
+             }.getCompleted()
         var items: Vector<AdvItem> = Vector<AdvItem>()
         var question = ""
         var min_ratio = 99

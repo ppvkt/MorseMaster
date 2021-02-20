@@ -20,6 +20,7 @@ class DefaultRepository @Inject constructor(
     fun getStmSymbolsFromLesson(info: String) = dao.getStmSymbolsFromLesson(info)
     fun deleteStat() = dao.deleteStat()
     suspend fun insertStat(stat: Stat) = dao.insertStat(stat)
+
    //suspend fun updateStat(stat: Stat) = dao.updateStat(stat)
 
     suspend fun updateStatIfAnswerCorrect(lastseen: Long, symbol: String) = dao.updateStatIfCorrectAnswer(lastseen, symbol)

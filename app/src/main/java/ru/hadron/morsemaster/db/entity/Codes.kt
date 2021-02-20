@@ -1,6 +1,6 @@
 package ru.hadron.morsemaster.db.entity
 
-import androidx.annotation.NonNull
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -8,9 +8,8 @@ import androidx.room.PrimaryKey
 data class Codes(
     val group_id: Int,
     @PrimaryKey(autoGenerate = false)
-    @NonNull
-    val symbol: String,
-    val code: String
+    @ColumnInfo(name = "symbol") val symbol: String,
+    @ColumnInfo(name = "code") val code: String
 ) {
 
 }

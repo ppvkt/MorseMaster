@@ -15,9 +15,7 @@ class SettingsViewModelTest {
    */
 /* fun setup() {
      //  viewModel = SettingsViewModel(FakeRepository())
-      //  viewModel = SettingsViewModel(MainRepository(dao = StorageDao1))
     }*//*
-
 
 */
 /*    @Test

@@ -6,27 +6,16 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.hadron.morsemaster.db.entity.Lesson
 import ru.hadron.morsemaster.db.entity.Stat
-import ru.hadron.morsemaster.db.entity.StatForUpdateStat
 import ru.hadron.morsemaster.repositories.DefaultRepository
 import ru.hadron.morsemaster.util.Question
 import java.util.*
 
-
-/**
- * storage
- */
 class SettingsViewModel @ViewModelInject constructor(
     val repository: DefaultRepository
 ) : ViewModel() {
 
-
     private val adv_level = 75
     private val adv_max = 3
-
-    /*  var stat: Stat = Stat(
-          "", 0, 0,
-          0
-      )*/
 
     class AdvItem(
         var initSymbol: String
@@ -62,7 +51,6 @@ class SettingsViewModel @ViewModelInject constructor(
         }
         return res
     }
-
 
     fun loadLesson(info: String): Lesson? {
         var symbols = repository.getStmSymbolsFromLesson(info = info)
@@ -110,7 +98,6 @@ class SettingsViewModel @ViewModelInject constructor(
             }
         }
     }
-
 
     fun getNextSymbol(remain: Int): Question {
         val rs = repository.getStmNextSymbol(adv_level)
@@ -164,6 +151,7 @@ class SettingsViewModel @ViewModelInject constructor(
     lateinit var symbols: Array<String>
     private var count = 0
     private var question: Question = Question("", 0)
+
     fun getQuestion(): Question {
         val adv = this.getCountAdv()
         val remain = symbols.size - adv
@@ -193,7 +181,4 @@ class SettingsViewModel @ViewModelInject constructor(
         return correct
     }
 }
-//что не лив дата сделать суспенд! потом
-//---------------------
-
 

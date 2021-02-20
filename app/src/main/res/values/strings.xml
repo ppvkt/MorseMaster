@@ -16,4 +16,37 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    
+    <string-array name="lesson_array">
+        <item>test1</item>
+        <item>test2</item>
+        <item>test3</item>
+    </string-array>
+    <string-array name="speed_array">
+        <item>test1</item>
+        <item>test2</item>
+        <item>test3</item>
+    </string-array>
+
+    <string-array name="answer_timeout_array">
+        <item>test1</item>
+        <item>test2</item>
+        <item>test3</item>
+    </string-array>
+    <string-array name="level_array">
+        <item>test1</item>
+        <item>test2</item>
+        <item>test3</item>
+    </string-array>
+    <string-array name="max_char_array">
+        <item>test1</item>
+        <item>test2</item>
+        <item>test3</item>
+    </string-array>
+    <string-array name="repeat_array">
+        <item>test1</item>
+        <item>test2</item>
+        <item>test3</item>
+    </string-array>
+
 </resources>

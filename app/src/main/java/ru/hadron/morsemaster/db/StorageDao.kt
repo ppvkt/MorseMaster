@@ -12,7 +12,7 @@ interface StorageDao {
     fun getStmCode(symbol: String): String
     @Transaction
      @Query("SELECT symbol, correct, 5*correct/(correct+mistake/2) AS ratio, 100*correct/(correct+mistake/2) AS level FROM stat WHERE NOT (level >= :level AND correct >= 10) ORDER BY lastseen ASC, ratio ASC LIMIT 2")
-    fun getStmNextSymbol(level: Int): List<StatForStmNextSymbol>//LiveData<StatForStmNextSymbol>
+    fun getStmNextSymbol(level: Int): List<StatForStmNextSymbol>
 
 
     @Transaction
@@ -44,13 +44,13 @@ interface StorageDao {
 
     //"INSERT OR IGNORE INTO stat (symbol, correct, mistake, lastseen) VALUES (?, 0, 0, ?)"
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertStat(stat: Stat) //Stat //StatForInsertStat
+    suspend fun insertStat(stat: Stat)
 
-    //"UPDATE stat SET correct = correct + 1, lastseen = ? WHERE symbol = ?"
-    //"UPDATE stat SET mistake = mistake + 1, lastseen = ? WHERE symbol = ?"
     @Update
     suspend fun updateStat(stat: Stat)
 
+    //"UPDATE stat SET correct = correct + 1, lastseen = ? WHERE symbol = ?"
+    //"UPDATE stat SET mistake = mistake + 1, lastseen = ? WHERE symbol = ?"
     @Query("UPDATE stat SET correct = correct + 1, lastseen = :lastseen WHERE symbol = :symbol")
     suspend fun updateStatIfCorrectAnswer(lastseen: Long, symbol: String)
 
@@ -60,27 +60,3 @@ interface StorageDao {
     @Query("SELECT info FROM lesson")
     fun getInfoFromLesson(): LiveData<String>
 }
-
-
-//--------------
-/*
-class AdvItem (
-    var initSymbol: String
-) {
-    var symbol: String
-    var  shuffle: Double
-
-    init {
-        this.symbol = initSymbol
-        this.shuffle = Math.random()
-    }
-}
-
-private class AdvItemShuffle
-    : Comparator<AdvItem>
-{
-    override fun compare(a: AdvItem, b: AdvItem): Int {
-        return if (a.shuffle < b.shuffle) 1
-        else -1
-    }
-}*/

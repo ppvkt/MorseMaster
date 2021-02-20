@@ -14,10 +14,9 @@ data class Stat(
     @ColumnInfo(name = "mistake") var mistake: Int ,
     @ColumnInfo(name = "lastseen") var lastseen: Long,
 
-   // @ColumnInfo(name = "ratio") var ratio: Int,
- //   @ColumnInfo(name = "level") var level: Int,
-
- //   @ColumnInfo(name = "count") var count: Int
+   //  @ColumnInfo(name = "ratio") var ratio: Int,
+   //  @ColumnInfo(name = "level") var level: Int,
+   //  @ColumnInfo(name = "count") var count: Int
 )
 
 
@@ -42,12 +41,3 @@ data class StatForUpdateStat(
     @ColumnInfo(name = "symbol") var symbol: String,
     @ColumnInfo(name = "correct") var correct:Int
 )
-
-
-/*
-data class StatForInsertStat (
-    @ColumnInfo(name = "symbol") var symbol: String,
-    @ColumnInfo(name = "correct") var correct: Int = 0,
-    @ColumnInfo(name = "mistake") var mistake: Int = 0,
-    @ColumnInfo(name = "lastseen") var lastseen: Long = 0L
-)*/

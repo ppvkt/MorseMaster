@@ -9,48 +9,43 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
-import dagger.hilt.EntryPoint
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.android.synthetic.main.fragment_settings.*
 import ru.hadron.morsemaster.R
 import ru.hadron.morsemaster.ui.viewmodels.MainViewModel
-import ru.hadron.morsemaster.ui.viewmodels.SettingsViewModel
 import ru.hadron.morsemaster.util.Constants.KEY_ANSWER_TIMEOUT
 import ru.hadron.morsemaster.util.Constants.KEY_LESSON
 import ru.hadron.morsemaster.util.Constants.KEY_LEVEL
 import ru.hadron.morsemaster.util.Constants.KEY_MAX_CHAR
 import ru.hadron.morsemaster.util.Constants.KEY_REPEAT
 import ru.hadron.morsemaster.util.Constants.KEY_SPEED
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
-    private val viewModel: SettingsViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels()
 
     @Inject
     lateinit var sharedPref: SharedPreferences
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         btnRun.setOnClickListener { view ->
             this.writeDataToSharedPref()
-            val info = spLesson.getItemAtPosition(posSelectedLessonInSpinner).toString()
-
-            Timber.e("--------${viewModel.initStat(arrayOf("a")).hashCode()}")
-
-            viewModel.clearStat()
-
             view.findNavController().navigate(R.id.action_settingsFragment_to_morseFragment)
         }
+
+        btClearStatistic.setOnClickListener {
+            viewModel.clearStat()
+            setDefaultSpinnersPosition()
+
+            Toast.makeText(activity, "Your statistic is cleared!", Toast.LENGTH_SHORT).show()
+        }
+
         this.setSpinnersAdapters()
         this.setAllSpinnerListeners()
-
     }
-
     //------
     private var posSelectedLessonInSpinner = 0
     private var posSelectedSpeedInSpinner = 0
@@ -199,6 +194,15 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 posSelectedRepeatInSpinner = pos
             }
         }
+    }
+
+    fun setDefaultSpinnersPosition() {
+        spLesson.setSelection(0)
+        spSpeed.setSelection(0)
+        spAnswerTimeout.setSelection(0)
+        spLevel.setSelection(0)
+        spMaxChar.setSelection(0)
+        spRepeat.setSelection(0)
     }
 
 }

@@ -26,6 +26,7 @@ interface StorageDao {
  @Transaction
  @Query("SELECT min(100*correct/(correct+mistake/2)) AS worst FROM stat")
  fun getStmWorst(): LiveData<Int>
+
  @Transaction
  @Query("SELECT value FROM opts WHERE name = :name")
  fun getStmOpt(name: String): LiveData<String>

@@ -36,9 +36,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     @ExperimentalStdlibApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        isCvsLoaded = sharedPref.getBoolean(KEY_ISCVSLOADED, false)
         if (!isCvsLoaded) {
-            this.importAllCvsInDb()
+            this.importAllCvsInDbIfNeed()
         }
 
         btnRun.setOnClickListener { view ->
@@ -64,8 +64,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private var posSelectedLevelInSpinner = 0
     private var posSelectedMaxCharInSpinner = 0
     private var posSelectedRepeatInSpinner = 0
-
-    private var isCvsLoaded = false
 
     fun setSpinnersAdapters() {
         ArrayAdapter.createFromResource(
@@ -238,16 +236,20 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     //----------
+    private var isCvsLoaded = false
 
     @RequiresApi(Build.VERSION_CODES.N)
-    private fun importAllCvsInDb() {
-        viewModel.apply {
-            importCvsLesson()
-            importCvsCodes()
-            importCvsCodesGroup()
+    private fun importAllCvsInDbIfNeed() {
+        isCvsLoaded = sharedPref.getBoolean(KEY_ISCVSLOADED, false)
+        if (!isCvsLoaded) {
+            viewModel.apply {
+                importCvsLesson()
+                importCvsCodes()
+                importCvsCodesGroup()
+            }
+            sharedPref.edit().putBoolean(KEY_ISCVSLOADED, true).apply()
+            Toast.makeText(activity, "all cvs downloaded!", Toast.LENGTH_SHORT).show()
         }
-        sharedPref.edit().putBoolean(KEY_ISCVSLOADED, true)
-        Toast.makeText(activity, "all cvs downloaded!", Toast.LENGTH_SHORT).show()
     }
 }
 

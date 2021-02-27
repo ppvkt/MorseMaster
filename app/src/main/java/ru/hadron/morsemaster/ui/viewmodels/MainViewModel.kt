@@ -248,7 +248,7 @@ class MainViewModel @ViewModelInject constructor(
 
     ///----import cvcs files--------////
     private val tsvReader = csvReader {
-        charset = "ISO_8859_1"
+      //  charset = "ISO_8859_1"
         quoteChar = '\t'
         delimiter = '\t'
         escapeChar = '\\'

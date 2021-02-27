@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "codes")
 data class Codes(
-    val group_id: Int,
+    val group_id: String, //Int
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "symbol") val symbol: String,
     @ColumnInfo(name = "code") val code: String

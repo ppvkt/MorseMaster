@@ -3,6 +3,8 @@ package ru.hadron.morsemaster.di
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,11 +23,14 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideMorseDatabase(@ApplicationContext app: Context) = Room.databaseBuilder(
-        app,
-        MorseDatabase::class.java,
-        MORSE_DATABASE_NAME
-    ).build()
+    fun provideMorseDatabase(@ApplicationContext app: Context) =
+        Room.databaseBuilder(
+            app,
+            MorseDatabase::class.java,
+            MORSE_DATABASE_NAME
+        )
+            .build()
+
 
 
     @Singleton

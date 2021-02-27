@@ -2,6 +2,7 @@ package ru.hadron.morsemaster.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import androidx.sqlite.db.SupportSQLiteQuery
 import ru.hadron.morsemaster.db.entity.*
 
 @Dao
@@ -24,12 +25,13 @@ interface StorageDao {
  suspend  fun getStmCountAdv(ratio: Int): List<StatForStmCountAdv>
 
  @Transaction
- @Query("SELECT min(100*correct/(correct+mistake/2)) AS worst FROM stat")
- fun getStmWorst(): LiveData<Int>
+ //@Query("SELECT min(100*correct/(correct+mistake/2)) AS worst FROM stat")
+ @Query("SELECT min(100*correct/(correct+mistake/2)) FROM stat")
+ fun getStmWorst(): LiveData<Int>?
 
  @Transaction
  @Query("SELECT value FROM opts WHERE name = :name")
- fun getStmOpt(name: String): LiveData<String>
+ fun getStmOpt(name: String): LiveData<String>?
 
  @Insert(onConflict = OnConflictStrategy.REPLACE)
  suspend fun setStmOpt(opts: Opts)
@@ -60,4 +62,15 @@ interface StorageDao {
 
  @Query("SELECT info FROM lesson")
  fun getInfoFromLesson(): LiveData<String>
+
+
+ ////----
+ @Insert(onConflict = OnConflictStrategy.REPLACE)
+ suspend fun insertCvsLesson(lesson: Lesson)
+
+ @Insert(onConflict = OnConflictStrategy.REPLACE)
+ suspend fun insertCvsCodes(codes: Codes)
+
+ @Insert(onConflict = OnConflictStrategy.REPLACE)
+ suspend fun insertCvsCodesGroup(codesGroup: CodesGroup)
 }

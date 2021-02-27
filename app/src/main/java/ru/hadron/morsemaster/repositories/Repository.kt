@@ -4,7 +4,7 @@ import ru.hadron.morsemaster.db.entity.Opts
 import ru.hadron.morsemaster.db.entity.Stat
 
 interface Repository {
-   suspend fun getStmCode(symbol: String): String
+  // suspend fun getStmCode(symbol: String): String?
    /* fun getStmNextSymbol(level: Int)
 
     fun getStmNextAdv(ratio: Int)

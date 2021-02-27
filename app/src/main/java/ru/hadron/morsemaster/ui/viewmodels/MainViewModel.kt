@@ -1,24 +1,30 @@
 package ru.hadron.morsemaster.ui.viewmodels
 
+import android.app.Application
+import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import ru.hadron.morsemaster.db.entity.Lesson
-import ru.hadron.morsemaster.db.entity.Stat
-import ru.hadron.morsemaster.db.entity.StatForStmCountAdv
-import ru.hadron.morsemaster.db.entity.StatForStmNextSymbol
+import ru.hadron.morsemaster.db.entity.*
 import ru.hadron.morsemaster.repositories.DefaultRepository
 import ru.hadron.morsemaster.util.Question
 import timber.log.Timber
+import java.io.File
+import java.io.IOException
 import java.util.*
 
 class MainViewModel @ViewModelInject constructor(
-    val repository: DefaultRepository
-) : ViewModel() {
+    val repository: DefaultRepository,
+    application: Application
+) : AndroidViewModel(application) {
+
+    private val context = getApplication<Application>().applicationContext
 
     private val adv_level = 75
     private val adv_max = 3
@@ -83,9 +89,10 @@ class MainViewModel @ViewModelInject constructor(
     }
 
     fun initStat(symbols: Array<String>) {
+
         for (symbol in symbols) {
             var stat: Stat  = Stat(
-                symbol = symbol, 0, 0,
+                symbol = symbol, 1, 1,
                 lastseen = System.currentTimeMillis() / (30 * 1000)
             )
 
@@ -115,12 +122,12 @@ class MainViewModel @ViewModelInject constructor(
             }
         }
     }
-
+    @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
     fun getNextSymbol(remain: Int): Question {
         var rs: List<StatForStmNextSymbol> =
-        viewModelScope.async(Dispatchers.IO) {
-           repository.getStmNextSymbol(adv_level)
-        }.getCompleted()
+            viewModelScope.async(Dispatchers.IO) {
+                repository.getStmNextSymbol(adv_level)
+            }.getCompleted()
 
         if (remain > 1 && Math.random() > 0.5) {
             //rs.next
@@ -137,15 +144,16 @@ class MainViewModel @ViewModelInject constructor(
         val stm =  viewModelScope.async(Dispatchers.IO) {
             repository.getStmCountAdv(ratio = adv_level)
         }
-        stm_count_adv = stm.getCompleted()
-        return stm_count_adv.indexOf(0)  //?
+        // stm_count_adv = stm.getCompleted()
+        // return stm_count_adv.indexOf(0)  //?
+        return 10
     }
-
+    @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
     fun getNextAdv(adv: Int): Question {
         val rs =
-             viewModelScope.async(Dispatchers.IO) {
-                 repository.getStmNextAdv(adv_level)
-             }.getCompleted()
+            viewModelScope.async(Dispatchers.IO) {
+                repository.getStmNextAdv(adv_level)
+            }.getCompleted()
         var items: Vector<AdvItem> = Vector<AdvItem>()
         var question = ""
         var min_ratio = 99
@@ -213,6 +221,101 @@ class MainViewModel @ViewModelInject constructor(
 
     //-----
     val worth = repository.getStmWorth()
+
+    fun insertStat(stat: Stat){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insertStat(stat)
+        }
+    }
+
+    //----
+
+     fun insertLesson(lesson: Lesson) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insertCvsLesson(lesson)
+        }
+    }
+    fun insertCodes(codes: Codes) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insertCvsCodes(codes)
+        }
+    }
+    fun insertCodesGroup(codesGroup: CodesGroup) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insertCvsCodesGroup(codesGroup)
+        }
+    }
+
+    ///----import cvcs files--------////
+    private val tsvReader = csvReader {
+        charset = "ISO_8859_1"
+        quoteChar = '\t'
+        delimiter = '\t'
+        escapeChar = '\\'
+        skipEmptyLine = true
+    }
+
+    @Throws(IOException::class)
+    private fun getFileFromAssets(context: Context, fileName: String): File =
+        File(context.cacheDir, fileName)
+            .also {
+                if (!it.exists()) {
+                    it.outputStream().use { cache ->
+                        context.assets.open(fileName).use { inputStream ->
+                            inputStream.copyTo(cache)
+                        }
+                    }
+                }
+            }
+
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun importCvsLesson() {
+        val filePath = getFileFromAssets(context, "lesson.cvs").absolutePath
+
+        tsvReader.open(filePath) {
+            readAllWithHeaderAsSequence().forEach { row: Map<String, String> ->
+                Timber.e("row  = ${row}  ")
+                val lesson = Lesson(info = row.getOrDefault("info", ""), symbols = row.getOrDefault("symbols", ""))
+                Timber.e("======${lesson.hashCode()}")
+                insertLesson(lesson)
+
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun importCvsCodes() {
+        val filePath = getFileFromAssets(context, "codes.cvs").absolutePath
+        tsvReader.open(filePath) {
+            readAllWithHeaderAsSequence().forEach { row: Map<String, String> ->
+                Timber.e("row  = ${row}  ")
+                val codes = Codes(group_id = row.getOrDefault("group_id",""), symbol = row.getOrDefault("symbol", ""), code = row.getOrDefault("code", ""))
+                Timber.e("======${codes.hashCode()}")
+                insertCodes(codes)
+
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun importCvsCodesGroup() {
+        val filePath = getFileFromAssets(context, "codes_group.cvs").absolutePath
+
+        tsvReader.open(filePath) {
+            readAllWithHeaderAsSequence().forEach { row: Map<String, String> ->
+                Timber.e("row  = ${row}  ")
+                val codesGroup = CodesGroup(id = row.getOrDefault("id",""), info = row.getOrDefault("info", ""))
+                Timber.e("======${codesGroup.hashCode()}")
+                insertCodesGroup(codesGroup)
+
+            }
+        }
+    }
+
+/*    fun importCvsOpts() {
+        val filePath = getFileFromAssets(context, "opts.cvs").absolutePath
+    }*/
 
 }
 

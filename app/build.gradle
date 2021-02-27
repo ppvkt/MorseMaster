@@ -17,6 +17,13 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+
     }
 
     buildTypes {
@@ -67,6 +74,8 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.2.5'
     kapt 'androidx.room:room-compiler:2.2.5'
     implementation 'androidx.room:room-ktx:2.2.5'
+    //
+    kapt "android.arch.persistence.room:compiler:2.2.5"
     //
 
 
@@ -126,4 +135,10 @@ dependencies {
 //
     testImplementation "com.google.truth:truth:1.0.1"
     androidTestImplementation "com.google.truth:truth:1.0.1"
+
+
+
+    //doyaaaaaken's kotlin-csv
+    implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.15.0")
+
 }

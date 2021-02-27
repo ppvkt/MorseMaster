@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class CodesGroup(
     @PrimaryKey(autoGenerate = false)
     @NonNull
-    val id: Int,
+    val id: String, //Int
 
     val info: String
 

@@ -13,7 +13,8 @@ import ru.hadron.morsemaster.db.entity.relations.CodesAndCodesGroup
         Opts::class,
         Lesson::class
     ],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 abstract class MorseDatabase : RoomDatabase() {
     abstract fun getStorageDao(): StorageDao

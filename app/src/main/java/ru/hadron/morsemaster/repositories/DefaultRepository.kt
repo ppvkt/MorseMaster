@@ -1,14 +1,13 @@
 package ru.hadron.morsemaster.repositories
 
 import ru.hadron.morsemaster.db.StorageDao
-import ru.hadron.morsemaster.db.entity.Opts
-import ru.hadron.morsemaster.db.entity.Stat
+import ru.hadron.morsemaster.db.entity.*
 import javax.inject.Inject
 
 class DefaultRepository @Inject constructor(
     val dao: StorageDao
 ): Repository {
-    override suspend fun getStmCode(symbol: String) = dao.getStmCode(symbol)
+    suspend fun getStmCode(symbol: String): String = dao.getStmCode(symbol)
    suspend fun getStmNextSymbol(level: Int) = dao.getStmNextSymbol(level)
 
    suspend fun getStmNextAdv(ratio: Int) = dao.getStmNextAdv(ratio)
@@ -27,4 +26,9 @@ class DefaultRepository @Inject constructor(
     suspend fun updateStatIfAnswerNotCorrect(lastseen: Long, symbol: String) = dao.updateStatIfNotCorrectAnswer(lastseen, symbol)
 
     fun getInfoFromLesson() = dao.getInfoFromLesson()
+
+    //---
+    suspend fun insertCvsLesson(lesson: Lesson) = dao.insertCvsLesson(lesson)
+    suspend fun insertCvsCodes(codes: Codes) = dao.insertCvsCodes(codes)
+    suspend fun insertCvsCodesGroup(codesGroup: CodesGroup) = dao.insertCvsCodesGroup(codesGroup)
 }

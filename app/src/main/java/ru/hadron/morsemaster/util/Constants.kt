@@ -10,4 +10,6 @@ object Constants {
     const val KEY_LEVEL = "KEY_FIRST_LEVEL"
     const val KEY_MAX_CHAR = "KEY_MAX_CHAR"
     const val KEY_REPEAT = "KEY_REPEAT"
+
+    const val KEY_ISCVSLOADED = "KEY_ISCVSLOADED"
 }

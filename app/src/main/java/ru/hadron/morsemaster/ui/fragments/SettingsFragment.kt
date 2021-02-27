@@ -1,19 +1,23 @@
 package ru.hadron.morsemaster.ui.fragments
 
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_settings.*
 import ru.hadron.morsemaster.R
 import ru.hadron.morsemaster.ui.viewmodels.MainViewModel
 import ru.hadron.morsemaster.util.Constants.KEY_ANSWER_TIMEOUT
+import ru.hadron.morsemaster.util.Constants.KEY_ISCVSLOADED
 import ru.hadron.morsemaster.util.Constants.KEY_LESSON
 import ru.hadron.morsemaster.util.Constants.KEY_LEVEL
 import ru.hadron.morsemaster.util.Constants.KEY_MAX_CHAR
@@ -28,8 +32,14 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     @Inject
     lateinit var sharedPref: SharedPreferences
 
+    @RequiresApi(Build.VERSION_CODES.N)
+    @ExperimentalStdlibApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (!isCvsLoaded) {
+            this.importAllCvsInDb()
+        }
 
         btnRun.setOnClickListener { view ->
             this.writeDataToSharedPref()
@@ -46,6 +56,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         this.setSpinnersAdapters()
         this.setAllSpinnerListeners()
     }
+
     //------
     private var posSelectedLessonInSpinner = 0
     private var posSelectedSpeedInSpinner = 0
@@ -53,6 +64,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private var posSelectedLevelInSpinner = 0
     private var posSelectedMaxCharInSpinner = 0
     private var posSelectedRepeatInSpinner = 0
+
+    private var isCvsLoaded = false
 
     fun setSpinnersAdapters() {
         ArrayAdapter.createFromResource(
@@ -128,7 +141,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     fun setAllSpinnerListeners() {
         spLesson.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(p0: AdapterView<*>?) { /*NO-OP*/ }
+            override fun onNothingSelected(p0: AdapterView<*>?) { /*NO-OP*/
+            }
+
             override fun onItemSelected(
                 adapterView: AdapterView<*>?,
                 view: View?,
@@ -140,7 +155,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
 
         spSpeed.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(p0: AdapterView<*>?) { /*NO-OP*/ }
+            override fun onNothingSelected(p0: AdapterView<*>?) { /*NO-OP*/
+            }
+
             override fun onItemSelected(
                 adapterView: AdapterView<*>?,
                 view: View?,
@@ -151,7 +168,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             }
         }
         spAnswerTimeout.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(p0: AdapterView<*>?) { /*NO-OP*/ }
+            override fun onNothingSelected(p0: AdapterView<*>?) { /*NO-OP*/
+            }
+
             override fun onItemSelected(
                 adapterView: AdapterView<*>?,
                 view: View?,
@@ -162,7 +181,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             }
         }
         spLevel.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(p0: AdapterView<*>?) { /*NO-OP*/ }
+            override fun onNothingSelected(p0: AdapterView<*>?) { /*NO-OP*/
+            }
+
             override fun onItemSelected(
                 adapterView: AdapterView<*>?,
                 view: View?,
@@ -173,7 +194,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             }
         }
         spMaxChar.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(p0: AdapterView<*>?) { /*NO-OP*/ }
+            override fun onNothingSelected(p0: AdapterView<*>?) { /*NO-OP*/
+            }
+
             override fun onItemSelected(
                 adapterView: AdapterView<*>?,
                 view: View?,
@@ -184,7 +207,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             }
         }
         spRepeat.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(p0: AdapterView<*>?) { /*NO-OP*/ }
+            override fun onNothingSelected(p0: AdapterView<*>?) { /*NO-OP*/
+            }
+
             override fun onItemSelected(
                 adapterView: AdapterView<*>?,
                 view: View?,
@@ -203,6 +228,26 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         spLevel.setSelection(0)
         spMaxChar.setSelection(0)
         spRepeat.setSelection(0)
+
+        //wpm	18
+        //adv_max	2
+        //adv_level	75
+        //adv_repeat	2
+        //lession	Koch 1 (K M)
+        //timeout	0
     }
 
+    //----------
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun importAllCvsInDb() {
+        viewModel.apply {
+            importCvsLesson()
+            importCvsCodes()
+            importCvsCodesGroup()
+        }
+        sharedPref.edit().putBoolean(KEY_ISCVSLOADED, true)
+        Toast.makeText(activity, "all cvs downloaded!", Toast.LENGTH_SHORT).show()
+    }
 }
+

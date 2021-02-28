@@ -3,12 +3,9 @@ package ru.hadron.morsemaster.ui.fragments
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.CursorAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
@@ -27,7 +24,6 @@ import ru.hadron.morsemaster.util.Constants.KEY_LEVEL
 import ru.hadron.morsemaster.util.Constants.KEY_MAX_CHAR
 import ru.hadron.morsemaster.util.Constants.KEY_REPEAT
 import ru.hadron.morsemaster.util.Constants.KEY_SPEED
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -36,6 +32,20 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     @Inject
     lateinit var sharedPref: SharedPreferences
+
+    private var posSelectedLessonInSpinner = 0
+    private var posSelectedSpeedInSpinner = 0
+    private var posSelectedAnswerTimeoutInSpinner = 0
+    private var posSelectedLevelInSpinner = 0
+    private var posSelectedMaxCharInSpinner = 0
+    private var posSelectedRepeatInSpinner = 0
+
+    private var itemSelectedLessonInSpinner = ""
+    private var itemSelectedSpeedInSpinner = ""
+    private var itemSelectedAnswerTimeoutInSpinner = ""
+    private var itemSelectedLevelInSpinner = 0
+    private var itemSelectedMaxCharInSpinner = 0
+    private var itemSelectedRepeatInSpinner = 0
 
     @RequiresApi(Build.VERSION_CODES.N)
     @ExperimentalStdlibApi
@@ -46,7 +56,19 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
         btnRun.setOnClickListener { view ->
             this.writeDataToSharedPref()
-            view.findNavController().navigate(R.id.action_settingsFragment_to_morseFragment)
+            this.setItemSelected()
+            val bundle = Bundle().apply {
+                putString("lessonName", itemSelectedLessonInSpinner)
+                putString("speedName", itemSelectedSpeedInSpinner)
+                putString("timeoutName", itemSelectedAnswerTimeoutInSpinner)
+                putInt("levelName", itemSelectedLevelInSpinner)
+                putInt("maxcharName", itemSelectedMaxCharInSpinner)
+                putInt("repeatName", itemSelectedRepeatInSpinner)
+            }
+
+            view.findNavController().navigate(
+                R.id.action_settingsFragment_to_morseFragment,
+                bundle)
         }
 
         btClearStatistic.setOnClickListener {
@@ -61,15 +83,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     //------
-
-    private var posSelectedLessonInSpinner = 0
-    private var posSelectedSpeedInSpinner = 0
-    private var posSelectedAnswerTimeoutInSpinner = 0
-    private var posSelectedLevelInSpinner = 0
-    private var posSelectedMaxCharInSpinner = 0
-    private var posSelectedRepeatInSpinner = 0
-
-
     fun setSpinnersAdapters() {
 
         viewModel.lessons.observe(viewLifecycleOwner, Observer {spinnerData ->
@@ -94,6 +107,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             // adapter.setDropDownViewResource(android.R.)
             spSpeed.adapter = adapter
             spSpeed.setSelection(sharedPref.getInt(KEY_SPEED, 0))
+
         }
 
         ArrayAdapter.createFromResource(
@@ -166,6 +180,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 id: Long
             ) {
                 posSelectedLessonInSpinner = pos
+
             }
         }
 
@@ -236,20 +251,30 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
     }
 
+    private  fun setItemSelected() {
+        itemSelectedLessonInSpinner = spLesson.selectedItem.toString()
+        itemSelectedSpeedInSpinner = spSpeed.selectedItem.toString()
+        itemSelectedAnswerTimeoutInSpinner =spAnswerTimeout.selectedItem.toString()
+        itemSelectedLevelInSpinner = spLevel.selectedItem.toString().toInt()
+        itemSelectedMaxCharInSpinner = spMaxChar.selectedItem.toString().toInt()
+        itemSelectedRepeatInSpinner = spRepeat.selectedItem.toString().toInt()
+    }
+
+    /**
+     * wpm	18
+     * adv_max	2
+     * adv_level	75
+     * adv_repeat	2
+     * lession	Koch 1 (K M)
+     * timeout	0
+     */
     fun setDefaultSpinnersPosition() {
         spLesson.setSelection(0)
-        spSpeed.setSelection(0)
+        spSpeed.setSelection(17)
         spAnswerTimeout.setSelection(0)
-        spLevel.setSelection(0)
-        spMaxChar.setSelection(0)
-        spRepeat.setSelection(0)
-
-        //wpm	18
-        //adv_max	2
-        //adv_level	75
-        //adv_repeat	2
-        //lession	Koch 1 (K M)
-        //timeout	0
+        spLevel.setSelection(30)
+        spMaxChar.setSelection(1)
+        spRepeat.setSelection(1)
     }
 
     //----------

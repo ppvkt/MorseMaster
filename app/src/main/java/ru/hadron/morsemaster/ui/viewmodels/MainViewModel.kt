@@ -7,12 +7,12 @@ import androidx.annotation.RequiresApi
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import ru.hadron.morsemaster.db.entity.*
 import ru.hadron.morsemaster.repositories.DefaultRepository
 import ru.hadron.morsemaster.util.Question
@@ -152,26 +152,37 @@ class MainViewModel @ViewModelInject constructor(
     }
     @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
     fun getNextAdv(adv: Int): Question {
-        val rs =
-            viewModelScope.async(Dispatchers.IO) {
-                repository.getStmNextAdv(adv_level)
-            }.getCompleted()
+        var rs = StatForStmNextAdv("x", 0)
+
+        runBlocking {
+            val stm_next_adv =
+                viewModelScope.async(Dispatchers.IO) {
+                    repository.getStmNextAdv(adv_level)
+                }
+            runBlocking { rs = stm_next_adv.await() }
+        }
+
+        Timber.e("======>>> ${rs.symbol}")
+
         var items: Vector<AdvItem> = Vector<AdvItem>()
         var question = ""
         var min_ratio = 99
 
-        //while ()
-        min_ratio = Math.min(min_ratio, rs.ratio)
-        items.add(AdvItem(rs.symbol))
+        rs.symbol.forEach {
+            min_ratio = Math.min(min_ratio, rs.ratio)
+            items.add(AdvItem(rs.symbol))
+        }
 
         val count = 2 + (adv_max - 1) * (min_ratio - adv_level) / (100 - adv_level)
 
         if (items.size > count) {
             items = Vector(items.subList(0, count))
         } else {
-            for (i in items.size until count) {
-                val item = items[i % adv]
+            var ii = items.size - 1
+            while (ii < count) {
+                val item = items[ii % adv]
                 items.add(AdvItem(item.symbol))
+                ii++
             }
         }
 
@@ -185,12 +196,11 @@ class MainViewModel @ViewModelInject constructor(
     private val _lessons  = repository.getInfoFromLesson()//MutableLiveData<List<String>>()
     val lessons: LiveData<List<String>> get() = _lessons
 
-
     //------from ex lesson class --------------
 
-    lateinit var symbols: Array<String>
+    private var symbols = mutableListOf<String>()
     private var count = 0
-    private var question: Question = Question("", 0)
+    private var question: Question = Question("x", 0)
 
     fun getQuestion(): Question {
         val adv = this.getCountAdv()
@@ -198,8 +208,10 @@ class MainViewModel @ViewModelInject constructor(
 
         if (adv > 0 && (remain == 0 || count++ % (remain + 1) == 0)) {
             question = getNextAdv(adv)
+            Timber.e("====question = getNextAdv(adv)=====$question")
         } else {
-            question= getNextSymbol(remain)
+            question = getNextSymbol(remain)
+            Timber.e("=====question = getNextSymbol(remain)=====$question")
         }
         return question
     }

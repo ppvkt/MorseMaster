@@ -2,8 +2,9 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: "androidx.navigation.safeargs.kotlin"
+
 apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'androidx.navigation.safeargs'
 
 android {
     compileSdkVersion 30
@@ -43,8 +44,6 @@ android {
     }
 
     kapt { arguments { arg("micronaut.processing.incremental", true) } }
-
-
 
 }
 
@@ -140,5 +139,7 @@ dependencies {
 
     //doyaaaaaken's kotlin-csv
     implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.15.0")
+
+
 
 }

@@ -29,9 +29,10 @@
     </string-array>
 
     <string-array name="answer_timeout_array">
-        <item>test1</item>
-        <item>test2</item>
-        <item>test3</item>
+        <item>Forever</item>
+        <item>1 sec</item>
+        <item>2 sec</item>
+        <item>3 sec</item>
     </string-array>
     <string-array name="level_array">
         <item>test1</item>
@@ -39,14 +40,18 @@
         <item>test3</item>
     </string-array>
     <string-array name="max_char_array">
-        <item>test1</item>
-        <item>test2</item>
-        <item>test3</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
     </string-array>
     <string-array name="repeat_array">
-        <item>test1</item>
-        <item>test2</item>
-        <item>test3</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
     </string-array>
 
 </resources>

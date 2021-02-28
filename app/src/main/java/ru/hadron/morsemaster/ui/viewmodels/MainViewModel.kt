@@ -6,6 +6,8 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import kotlinx.coroutines.Dispatchers
@@ -180,9 +182,9 @@ class MainViewModel @ViewModelInject constructor(
         return Question(question, 999)
     }
 
-    fun getLessons(): String? {           //?
-        return repository.getInfoFromLesson().value
-    }
+    private val _lessons  = repository.getInfoFromLesson()//MutableLiveData<List<String>>()
+    val lessons: LiveData<List<String>> get() = _lessons
+
 
     //------from ex lesson class --------------
 
@@ -228,9 +230,8 @@ class MainViewModel @ViewModelInject constructor(
         }
     }
 
-    //----
-
-     fun insertLesson(lesson: Lesson) {
+    ///----import cvcs files--------////
+    fun insertLesson(lesson: Lesson) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.insertCvsLesson(lesson)
         }
@@ -246,9 +247,8 @@ class MainViewModel @ViewModelInject constructor(
         }
     }
 
-    ///----import cvcs files--------////
     private val tsvReader = csvReader {
-      //  charset = "ISO_8859_1"
+        //  charset = "ISO_8859_1"
         quoteChar = '\t'
         delimiter = '\t'
         escapeChar = '\\'

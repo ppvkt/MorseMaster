@@ -25,7 +25,7 @@ class DefaultRepository @Inject constructor(
     suspend fun updateStatIfAnswerCorrect(lastseen: Long, symbol: String) = dao.updateStatIfCorrectAnswer(lastseen, symbol)
     suspend fun updateStatIfAnswerNotCorrect(lastseen: Long, symbol: String) = dao.updateStatIfNotCorrectAnswer(lastseen, symbol)
 
-    fun getInfoFromLesson() = dao.getInfoFromLesson()
+   fun getInfoFromLesson() = dao.getInfoFromLesson()
 
     //---
     suspend fun insertCvsLesson(lesson: Lesson) = dao.insertCvsLesson(lesson)

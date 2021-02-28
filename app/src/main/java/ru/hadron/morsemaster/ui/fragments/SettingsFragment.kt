@@ -3,13 +3,17 @@ package ru.hadron.morsemaster.ui.fragments
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.CursorAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,6 +27,7 @@ import ru.hadron.morsemaster.util.Constants.KEY_LEVEL
 import ru.hadron.morsemaster.util.Constants.KEY_MAX_CHAR
 import ru.hadron.morsemaster.util.Constants.KEY_REPEAT
 import ru.hadron.morsemaster.util.Constants.KEY_SPEED
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -35,11 +40,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     @RequiresApi(Build.VERSION_CODES.N)
     @ExperimentalStdlibApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
-        isCvsLoaded = sharedPref.getBoolean(KEY_ISCVSLOADED, false)
-        if (!isCvsLoaded) {
-            this.importAllCvsInDbIfNeed()
-        }
+        importAllCvsInDbIfNeed()
 
         btnRun.setOnClickListener { view ->
             this.writeDataToSharedPref()
@@ -58,6 +61,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     //------
+
     private var posSelectedLessonInSpinner = 0
     private var posSelectedSpeedInSpinner = 0
     private var posSelectedAnswerTimeoutInSpinner = 0
@@ -65,21 +69,27 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private var posSelectedMaxCharInSpinner = 0
     private var posSelectedRepeatInSpinner = 0
 
-    fun setSpinnersAdapters() {
-        ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.lesson_array,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            // adapter.setDropDownViewResource(android.R.)
-            spLesson.adapter = adapter
-            spLesson.setSelection(sharedPref.getInt(KEY_LESSON, 0))
-        }
 
-        ArrayAdapter.createFromResource(
+    fun setSpinnersAdapters() {
+
+        viewModel.lessons.observe(viewLifecycleOwner, Observer {spinnerData ->
+            ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                spinnerData
+            )
+                .also { adapter ->
+                    // adapter.setDropDownViewResource(android.R.)
+                    spLesson.adapter = adapter
+                    spLesson.setSelection(sharedPref.getInt(KEY_LESSON, 0))
+                }
+        })
+
+        val speedSpinnerData = Array(40) { i -> i + 1 }
+        ArrayAdapter(
             requireContext(),
-            R.array.speed_array,
-            android.R.layout.simple_spinner_item
+            android.R.layout.simple_spinner_item,
+            speedSpinnerData
         ).also { adapter ->
             // adapter.setDropDownViewResource(android.R.)
             spSpeed.adapter = adapter
@@ -93,12 +103,19 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         ).also { adapter ->
             // adapter.setDropDownViewResource(android.R.)
             spAnswerTimeout.adapter = adapter
+            spAnswerTimeout.setSelection(sharedPref.getInt(KEY_ANSWER_TIMEOUT, 0))
         }
 
-        ArrayAdapter.createFromResource(
+        val levelSpinnerData = arrayOfNulls<Int>(51)
+        var ii = 45
+        for (i in levelSpinnerData.indices) {
+            levelSpinnerData[i] = ii
+            ii++
+        }
+        ArrayAdapter(
             requireContext(),
-            R.array.level_array,
-            android.R.layout.simple_spinner_item
+            android.R.layout.simple_spinner_item,
+            levelSpinnerData
         ).also { adapter ->
             // adapter.setDropDownViewResource(android.R.)
             spLevel.adapter = adapter

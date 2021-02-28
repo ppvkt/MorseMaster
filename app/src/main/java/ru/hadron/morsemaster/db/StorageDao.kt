@@ -11,10 +11,10 @@ interface StorageDao {
  @Transaction
  @Query("SELECT code FROM codes WHERE symbol = :symbol")
  suspend fun getStmCode(symbol: String): String
+
  @Transaction
  @Query("SELECT symbol, correct, 5*correct/(correct+mistake/2) AS ratio, 100*correct/(correct+mistake/2) AS level FROM stat WHERE NOT (level >= :level AND correct >= 10) ORDER BY lastseen ASC, ratio ASC LIMIT 2")
  suspend fun getStmNextSymbol(level: Int): List<StatForStmNextSymbol>
-
 
  @Transaction
  @Query("SELECT symbol, 100*correct/(correct+mistake/2) AS ratio FROM stat WHERE ratio >= :ratio AND correct >= 10 ORDER BY lastseen, ratio")
@@ -25,8 +25,7 @@ interface StorageDao {
  suspend  fun getStmCountAdv(ratio: Int): List<StatForStmCountAdv>
 
  @Transaction
- //@Query("SELECT min(100*correct/(correct+mistake/2)) AS worst FROM stat")
- @Query("SELECT min(100*correct/(correct+mistake/2)) FROM stat")
+ @Query("SELECT min(100*correct/(correct+mistake/2)) AS worst FROM stat")
  fun getStmWorst(): LiveData<Int>?
 
  @Transaction
@@ -61,8 +60,7 @@ interface StorageDao {
  suspend fun updateStatIfNotCorrectAnswer(lastseen: Long, symbol: String)
 
  @Query("SELECT info FROM lesson")
- fun getInfoFromLesson(): LiveData<String>
-
+ fun getInfoFromLesson(): LiveData<List<String>>
 
  ////----
  @Insert(onConflict = OnConflictStrategy.REPLACE)

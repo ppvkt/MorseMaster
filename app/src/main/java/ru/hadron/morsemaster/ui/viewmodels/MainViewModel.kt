@@ -19,10 +19,11 @@ import ru.hadron.morsemaster.util.Question
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
+import java.sql.SQLException
 import java.util.*
 
-class MainViewModel @ViewModelInject constructor(
-    val repository: DefaultRepository,
+open class MainViewModel @ViewModelInject constructor(
+    open val repository: DefaultRepository,
     application: Application
 ) : AndroidViewModel(application) {
 
@@ -71,14 +72,19 @@ class MainViewModel @ViewModelInject constructor(
 
     fun loadLesson(info: String): Lesson? {
         var s: String? = null
-        viewModelScope.launch(Dispatchers.IO) {
-            s = repository.getStmSymbolsFromLesson(info = info)
-            Timber.e("--------------------------------$s")
+        runBlocking {
+            viewModelScope.launch(Dispatchers.IO) {
+                s = repository.getStmSymbolsFromLesson(info = info)
+                Timber.e("--------load lesson info------------------------$s")
+            }
         }
-        return if (symbols.isNotEmpty()) {
+
+        return if (s != null) {
             Lesson(info = info, symbols = s?.split(" ").toString())
         } else {
+            Timber.e("-----return null!!!!----")
             null
+
         }
 
 
@@ -89,22 +95,32 @@ class MainViewModel @ViewModelInject constructor(
             repository.deleteStat()
         }
     }
-
-    fun initStat(symbols: Array<String>) {
-
-        for (symbol in symbols) {
-            var stat: Stat  = Stat(
-                symbol = symbol, 1, 1,
-                lastseen = System.currentTimeMillis() / (30 * 1000)
-            )
-
-            stat.symbol = symbol
-            stat.lastseen = System.currentTimeMillis() / (30 * 1000)
-
-            viewModelScope.launch(Dispatchers.IO) {
-                repository.insertStat(stat = stat)
-            }
+    fun insertStat(stat: Stat) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insertStat(stat)
         }
+    }
+    fun insertOrIgnoreStat(symbol: String, lastseen: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insertOrIgnoreStat(symbol, lastseen)
+        }
+    }
+
+    fun initStat(symbols: String) {
+        if (symbols != null) {
+            for (symbol in symbols) {
+              /*  var stat: Stat  = Stat(
+                    symbol = symbol.toString(), 0, 0,
+                    lastseen = System.currentTimeMillis() / (30 * 1000)
+                )
+                insertStat(stat)*/
+                insertOrIgnoreStat(symbol = symbol.toString(), lastseen = System.currentTimeMillis() / (30 * 1000) )
+            }
+        } else {
+            Timber.e("-------symbols didnt loaded (:")
+        }
+
+
     }
 
     fun updateStat(symbol: String, correct: Boolean) {
@@ -196,53 +212,11 @@ class MainViewModel @ViewModelInject constructor(
     private val _lessons  = repository.getInfoFromLesson()//MutableLiveData<List<String>>()
     val lessons: LiveData<List<String>> get() = _lessons
 
-    //------from ex lesson class --------------
-
-    private var symbols = mutableListOf<String>()
-    private var count = 0
-    private var question: Question = Question("x", 0)
-
-    fun getQuestion(): Question {
-        val adv = this.getCountAdv()
-        val remain = symbols.size - adv
-
-        if (adv > 0 && (remain == 0 || count++ % (remain + 1) == 0)) {
-            question = getNextAdv(adv)
-            Timber.e("====question = getNextAdv(adv)=====$question")
-        } else {
-            question = getNextSymbol(remain)
-            Timber.e("=====question = getNextSymbol(remain)=====$question")
-        }
-        return question
-    }
-
-    fun setAnswer(answer: String): Boolean {
-        var correct = true
-        for (i in 0 until Math.min(answer.length, question.length())) {
-            val a = answer[i]
-            val q = question.symbol[i]
-
-            if (a == q) {
-                this.updateStat(symbol = q.toString(), correct = true)
-
-            } else {
-                correct = false
-                this.updateStat(symbol = a.toString(), correct = false)
-            }
-        }
-        return correct
-    }
 
     //-----
     val worth = repository.getStmWorth()
 
-    fun insertStat(stat: Stat){
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.insertStat(stat)
-        }
-    }
-
-    ///----import cvcs files--------////
+    ///----import cvcs files--------//// это остается во VM
     fun insertLesson(lesson: Lesson) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.insertCvsLesson(lesson)
@@ -324,10 +298,6 @@ class MainViewModel @ViewModelInject constructor(
             }
         }
     }
-
-/*    fun importCvsOpts() {
-        val filePath = getFileFromAssets(context, "opts.cvs").absolutePath
-    }*/
 
 }
 

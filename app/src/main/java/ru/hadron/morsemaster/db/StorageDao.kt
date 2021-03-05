@@ -28,13 +28,12 @@ interface StorageDao {
  @Query("SELECT min(100*correct/(correct+mistake/2)) AS worst FROM stat")
  fun getStmWorst(): LiveData<Int>?
 
- @Transaction
+/* @Transaction
  @Query("SELECT value FROM opts WHERE name = :name")
- fun getStmOpt(name: String): LiveData<String>?
-
+ fun getStmOpt(name: String): LiveData<String>?*/
+/*
  @Insert(onConflict = OnConflictStrategy.REPLACE)
- suspend fun setStmOpt(opts: Opts)
-
+ suspend fun setStmOpt(opts: Opts)*/
  //---
 
  @Transaction
@@ -47,6 +46,9 @@ interface StorageDao {
  //"INSERT OR IGNORE INTO stat (symbol, correct, mistake, lastseen) VALUES (?, 0, 0, ?)"
  @Insert(onConflict = OnConflictStrategy.REPLACE)
  suspend fun insertStat(stat: Stat)
+
+ @Query("INSERT OR IGNORE INTO stat (symbol, correct, mistake, lastseen) VALUES (:symbol, 0, 0, :lastseen)")
+ suspend fun insertOrIgnoreStat(symbol: String, lastseen: Long)
 
  @Update
  suspend fun updateStat(stat: Stat)

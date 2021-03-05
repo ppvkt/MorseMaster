@@ -1,6 +1,6 @@
 package ru.hadron.morsemaster.util
 
-class Question(
+class Question (
     var symbol: String,
     var correct: Int
 ) {

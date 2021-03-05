@@ -1,17 +1,14 @@
 package ru.hadron.morsemaster.db.entity
 
-import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import javax.annotation.Generated
 
 @Entity (tableName = "stat")
 data class Stat(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "symbol") var symbol: String,
-    @ColumnInfo(name = "correct") var correct: Int = 100,
+    @ColumnInfo(name = "correct") var correct: Int = 0,
 
     @ColumnInfo(name = "mistake") var mistake: Int = 0,
     @ColumnInfo(name = "lastseen") var lastseen: Long

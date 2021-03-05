@@ -72,7 +72,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
 
         btClearStatistic.setOnClickListener {
-            viewModel.clearStat()
+           // viewModel.clearStat()
             setDefaultSpinnersPosition()
 
             Toast.makeText(activity, "Your statistic is cleared!", Toast.LENGTH_SHORT).show()

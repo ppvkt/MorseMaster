@@ -1,7 +1,5 @@
 package ru.hadron.morsemaster.repositories
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import ru.hadron.morsemaster.db.entity.*
 
@@ -204,5 +202,24 @@ class Storage @Inject constructor(
     fun setAdvLevel(value: Int) { adv_level = value }
     fun setAdvMax(value: Int) {adv_max = value }
 
+    //-------
 
+    fun getInfoFromLesson()  = repository.getInfoFromLesson()
+    fun insertCvsLesson(lesson: Lesson) {
+        GlobalScope.launch(Dispatchers.IO) {
+            repository.insertCvsLesson(lesson)
+        }
+    }
+
+
+   fun insertCvsCodes(codes: Codes) {
+       GlobalScope.launch(Dispatchers.IO) {
+           repository.insertCvsCodes(codes)
+       }
+   }
+   fun insertCvsCodesGroup(codesGroup: CodesGroup) {
+       GlobalScope.launch(Dispatchers.IO) {
+           repository.insertCvsCodesGroup(codesGroup)
+       }
+   }
 }

@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import ru.hadron.morsemaster.db.entity.*
 import ru.hadron.morsemaster.repositories.DefaultRepository
+import ru.hadron.morsemaster.repositories.Storage
 import ru.hadron.morsemaster.util.Question
 import timber.log.Timber
 import java.io.File
@@ -23,215 +24,27 @@ import java.sql.SQLException
 import java.util.*
 
 open class MainViewModel @ViewModelInject constructor(
-    open val repository: DefaultRepository,
+
+   val  storage: Storage,
     application: Application
 ) : AndroidViewModel(application) {
 
     private val context = getApplication<Application>().applicationContext
 
-    private val adv_level = 75
-    private val adv_max = 3
-
-    class AdvItem(
-        var initSymbol: String
-    ) {
-        var symbol: String
-        var shuffle: Double
-
-        init {
-            this.symbol = initSymbol
-            this.shuffle = Math.random()
-        }
-    }
-
-    private class AdvItemShuffle
-        : Comparator<AdvItem> {
-        override fun compare(a: AdvItem, b: AdvItem): Int {
-            return if (a.shuffle < b.shuffle) 1
-            else -1
-        }
-    }
-
-    fun getCode(text: String): String {
-        var res = ""
-        for (c: Char in text.toCharArray()) {
-            if (c.equals(" ")) {
-                res += "|"
-            } else {
-                viewModelScope.launch(Dispatchers.IO) {
-                    val code = repository.getStmCode(symbol = c.toString())
-                    if (code.isNotEmpty()) {
-                        res += "$code "
-                    }
-                }
-
-            }
-        }
-        return res
-    }
-
-    fun loadLesson(info: String): Lesson? {
-        var s: String? = null
-        runBlocking {
-            viewModelScope.launch(Dispatchers.IO) {
-                s = repository.getStmSymbolsFromLesson(info = info)
-                Timber.e("--------load lesson info------------------------$s")
-            }
-        }
-
-        return if (s != null) {
-            Lesson(info = info, symbols = s?.split(" ").toString())
-        } else {
-            Timber.e("-----return null!!!!----")
-            null
-
-        }
 
 
-    }
-
-    fun clearStat() {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteStat()
-        }
-    }
-    fun insertStat(stat: Stat) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.insertStat(stat)
-        }
-    }
-    fun insertOrIgnoreStat(symbol: String, lastseen: Long) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.insertOrIgnoreStat(symbol, lastseen)
-        }
-    }
-
-    fun initStat(symbols: String) {
-        if (symbols != null) {
-            for (symbol in symbols) {
-              /*  var stat: Stat  = Stat(
-                    symbol = symbol.toString(), 0, 0,
-                    lastseen = System.currentTimeMillis() / (30 * 1000)
-                )
-                insertStat(stat)*/
-                insertOrIgnoreStat(symbol = symbol.toString(), lastseen = System.currentTimeMillis() / (30 * 1000) )
-            }
-        } else {
-            Timber.e("-------symbols didnt loaded (:")
-        }
-
-
-    }
-
-    fun updateStat(symbol: String, correct: Boolean) {
-        if (correct) {
-            viewModelScope.launch(Dispatchers.IO) {
-                repository.updateStatIfAnswerCorrect(
-                    lastseen = System.currentTimeMillis() / (30*1000) - (Math.random() * 3.0f).toInt(), //?
-                    symbol = symbol
-                )
-            }
-        } else {
-            viewModelScope.launch(Dispatchers.IO) {
-                repository.updateStatIfAnswerNotCorrect(
-                    lastseen = System.currentTimeMillis() / (30*1000) - (Math.random() * 3.0f).toInt(),
-                    symbol = symbol
-                )
-            }
-        }
-    }
-    @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
-    fun getNextSymbol(remain: Int): Question {
-        var rs: List<StatForStmNextSymbol> =
-            viewModelScope.async(Dispatchers.IO) {
-                repository.getStmNextSymbol(adv_level)
-            }.getCompleted()
-
-        if (remain > 1 && Math.random() > 0.5) {
-            //rs.next
-            //rs.next
-            // to do smth
-        }
-        return Question(symbol = rs[0].symbol, correct = rs[0].correct) //?
-        //return Question(symbol = "", correct = 1) //test
-    }
-
-
-    fun getCountAdv(): Int {
-        val stm_count_adv: List<StatForStmCountAdv>
-        val stm =  viewModelScope.async(Dispatchers.IO) {
-            repository.getStmCountAdv(ratio = adv_level)
-        }
-        // stm_count_adv = stm.getCompleted()
-        // return stm_count_adv.indexOf(0)  //?
-        return 10
-    }
-    @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
-    fun getNextAdv(adv: Int): Question {
-        var rs = StatForStmNextAdv("x", 0)
-
-        runBlocking {
-            val stm_next_adv =
-                viewModelScope.async(Dispatchers.IO) {
-                    repository.getStmNextAdv(adv_level)
-                }
-            runBlocking { rs = stm_next_adv.await() }
-        }
-
-        Timber.e("======>>> ${rs.symbol}")
-
-        var items: Vector<AdvItem> = Vector<AdvItem>()
-        var question = ""
-        var min_ratio = 99
-
-        rs.symbol.forEach {
-            min_ratio = Math.min(min_ratio, rs.ratio)
-            items.add(AdvItem(rs.symbol))
-        }
-
-        val count = 2 + (adv_max - 1) * (min_ratio - adv_level) / (100 - adv_level)
-
-        if (items.size > count) {
-            items = Vector(items.subList(0, count))
-        } else {
-            var ii = items.size - 1
-            while (ii < count) {
-                val item = items[ii % adv]
-                items.add(AdvItem(item.symbol))
-                ii++
-            }
-        }
-
-        items.sortWith(AdvItemShuffle())
-
-        for (i in 0 until count) question += items[i].symbol
-
-        return Question(question, 999)
-    }
-
-    private val _lessons  = repository.getInfoFromLesson()//MutableLiveData<List<String>>()
+    private val _lessons  = storage.getInfoFromLesson()//MutableLiveData<List<String>>()
     val lessons: LiveData<List<String>> get() = _lessons
 
-
+    val worth = storage.worth
+    fun insertStat(stat: Stat) = storage.insertStat(stat = stat)
     //-----
-    val worth = repository.getStmWorth()
+
 
     ///----import cvcs files--------//// это остается во VM
-    fun insertLesson(lesson: Lesson) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.insertCvsLesson(lesson)
-        }
-    }
-    fun insertCodes(codes: Codes) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.insertCvsCodes(codes)
-        }
-    }
-    fun insertCodesGroup(codesGroup: CodesGroup) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.insertCvsCodesGroup(codesGroup)
-        }
-    }
+    fun insertLesson(lesson: Lesson) = storage.insertCvsLesson(lesson)
+    fun insertCodes(codes: Codes) = storage.insertCvsCodes(codes)
+    fun insertCodesGroup(codesGroup: CodesGroup) = storage.insertCvsCodesGroup(codesGroup)
 
     private val tsvReader = csvReader {
         //  charset = "ISO_8859_1"
@@ -253,7 +66,6 @@ open class MainViewModel @ViewModelInject constructor(
                     }
                 }
             }
-
 
     @RequiresApi(Build.VERSION_CODES.N)
     fun importCvsLesson() {
@@ -298,6 +110,5 @@ open class MainViewModel @ViewModelInject constructor(
             }
         }
     }
-
 }
 

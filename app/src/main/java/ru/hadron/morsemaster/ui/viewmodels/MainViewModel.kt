@@ -7,25 +7,20 @@ import androidx.annotation.RequiresApi
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.MutableLiveData
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import ru.hadron.morsemaster.db.entity.*
-import ru.hadron.morsemaster.repositories.DefaultRepository
 import ru.hadron.morsemaster.repositories.Storage
+import ru.hadron.morsemaster.util.CurrentLesson
 import ru.hadron.morsemaster.util.Question
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
-import java.sql.SQLException
 import java.util.*
 
 open class MainViewModel @ViewModelInject constructor(
 
-   val  storage: Storage,
+    val  storage: Storage,
     application: Application
 ) : AndroidViewModel(application) {
 
@@ -39,6 +34,7 @@ open class MainViewModel @ViewModelInject constructor(
     val worth = storage.worth
     fun insertStat(stat: Stat) = storage.insertStat(stat = stat)
     //-----
+
 
 
     ///----import cvcs files--------//// это остается во VM
@@ -110,5 +106,108 @@ open class MainViewModel @ViewModelInject constructor(
             }
         }
     }
+
+    //-------
+/*    fun startLessonTask() {
+        viewModelScope.launch {
+            Timber.e(" ----------------------------")
+            while (true) {
+                LessonTask().run()
+            }
+        }
+    }*/
+    //---------
+
+    lateinit var question: Question
+    lateinit var currentLesson: CurrentLesson
+    lateinit var answer_buf: String
+    private val help_wait = 3000L
+    private var question_wait = 0
+
+    val questionSymbol: MutableLiveData<String> = MutableLiveData()
+    val isBackgroundChange: MutableLiveData<Boolean> = MutableLiveData()
+
+    init {
+        questionSymbol.postValue("start")
+        isBackgroundChange.postValue(false)
+    }
+
+
+//mappingLessonToCurrentLesson
+    fun loadLesson() {
+        Timber.e(" ==============current _lesson name is ... $_lessonName ==========")
+        val lesson = storage.loadLesson(_lessonName)
+
+        currentLesson = CurrentLesson(storage = storage, lesson?.symbols)
+        Timber.e(" ==============current lesson hashe in view model===> ${currentLesson.hashCode()}")
+        if (currentLesson != null) {
+            currentLesson.initStat()
+        }
+    }
+
+
+    private var _lessonName: String = ""
+    private var _speedName: String = ""
+    private var _timeoutName: String = ""
+    private var _levelName: Int = 40
+    private var _maxcharName: Int = 1
+    private var _repeatName: Int = 1
+    //public
+    fun  setDataName (lessonName: String,
+                      speedName: String,
+                      timeoutName: String,
+                      levelName: Int,
+                      maxcharName: Int,
+                      repeatName: Int
+    ) {
+        _lessonName = lessonName
+        _speedName = speedName
+        _timeoutName = timeoutName
+        _levelName = levelName
+        _maxcharName = maxcharName
+        _repeatName = repeatName
+    }
+
+//---------------------------------------
+
+/*    inner class LessonTask : TimerTask() {
+        override fun run() {
+            Timber.e("inside run!!!!")
+            question = currentLesson.getQuestion()
+            answer_buf = ""
+            var help: Boolean = question.correct <= 3
+
+            isBackgroundChange.postValue(true)
+            Timber.e(" -----question symbol---------${questionSymbol.value}")
+
+            var ms = 2000L
+            if (help) {
+                //change text???  question.symbol put in livedata
+                questionSymbol.postValue(question.symbol)
+
+                startTimer(ms + help_wait)
+            } else {
+                //getsecret
+                questionSymbol.postValue(question.getSecret(""))
+
+                if (question_wait > 0) {
+                    startTimer(ms + question_wait)
+                }
+            }
+        }
+    }
+
+    lateinit var timer: Timer
+    fun startTimer(currDelay: Long) {
+        timer = Timer()
+        timer.schedule(LessonTask(), currDelay)
+    }
+
+    fun stopTimer() {
+        if (timer != null) {
+            timer.cancel()
+        }
+    }*/
+
 }
 

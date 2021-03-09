@@ -1,8 +1,8 @@
 package ru.hadron.morsemaster.ui.fragments
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -25,12 +25,14 @@ class MorseFragment : Fragment(R.layout.fragment_morse) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Timber.e("lesson name ====> ${args.lessonName}")
-
-        //viewModel.insertStat(Stat("q", 10, 1, 2131232))
-      viewModel.insertStat(Stat("asdfasd", 100, 1, 21345646532))
-
         this.subscribeToObservers()
+
+        sendDataInViewModel()
+
+
+        viewModel.loadLesson()
+
+        // viewModel.startLessonTask()
 
         btnStop.setOnClickListener {
             //todo
@@ -40,12 +42,41 @@ class MorseFragment : Fragment(R.layout.fragment_morse) {
         }
     }
 
+
     fun subscribeToObservers() {
         viewModel.worth?.observe(viewLifecycleOwner, Observer {
             it.let {
                 tvWorth.text = "worth : $it %"
             }
         })
+
+        viewModel.isBackgroundChange?.observe(viewLifecycleOwner, Observer {
+            it.let {if (it == true) {
+                tvShowingChar.setBackgroundColor(Color.WHITE)
+            } else {
+                tvShowingChar.setBackgroundColor(Color.RED)
+            }
+            }
+        })
+
+        viewModel.questionSymbol?.observe(viewLifecycleOwner, Observer {
+            it.let {
+                tvShowingChar.text = it
+            }
+        })
+    }
+
+    private fun sendDataInViewModel() {
+        viewModel.setDataName(
+            lessonName = args.lessonName,
+            speedName = args.speedName,
+            timeoutName = args.timeoutName,
+            levelName = args.levelName,
+            maxcharName = args.maxcharName,
+            repeatName = args.repeatName
+        )
+
+        Timber.e("send data in view model...")
     }
 }
 

@@ -56,16 +56,16 @@ class Storage @Inject constructor(
     fun loadLesson(info: String): Lesson? {
         var s: String? = null
         runBlocking {
-            GlobalScope.launch(Dispatchers.IO) {
+            GlobalScope.async(Dispatchers.IO) {
                 s = repository.getStmSymbolsFromLesson(info = info)
-                Timber.e("--------load lesson info------------------------$s")
-            }
+            }.await()
         }
 
-        return if (s != null) {
-            Lesson(info = info, symbols = s?.split(" ").toString())
+        return if (s!!.isNotEmpty()) {
+            Timber.e("-load lesson--return--${Lesson(info = info, symbols = s?.split(" ").toString())}----")
+          Lesson(info = info, symbols = s?.split(" ").toString())
         } else {
-            Timber.e("-----return null!!!!----")
+            Timber.e("-load lesson----return null!!!!----")
             null
         }
     }

@@ -3,16 +3,16 @@ package ru.hadron.morsemaster.util
 import ru.hadron.morsemaster.repositories.Storage
 import timber.log.Timber
 
-class CurrentLesson (
+class CurrentLesson(
     storage: Storage,
-    currsymbols: String,
+   currsymbols: String?,
 ) {
     private var storage: Storage = storage
-    private var symbols = currsymbols
+    private var symbols: String = currsymbols.toString()
     lateinit var currentquestion: Question
     private var count = 0
 
-    fun initStat() = storage.initStat(symbols = symbols)
+    fun initStat() = symbols.let { storage.initStat(symbols = it) }
 
 
     fun getQuestion(): Question {

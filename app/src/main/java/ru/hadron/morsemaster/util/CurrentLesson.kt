@@ -8,7 +8,7 @@ class CurrentLesson(
    currsymbols: String?,
 ) {
     private var storage: Storage = storage
-    private var symbols: String = currsymbols.toString()
+     var symbols: String = currsymbols.toString()
     lateinit var currentquestion: Question
     private var count = 0
 
@@ -19,13 +19,17 @@ class CurrentLesson(
         val adv = storage.getCountAdv()
         val remain = symbols.length - adv
 
-        var question: Question
+        var question = Question("test", 0)
 
         if (adv > 0 && (remain == 0 || count++ % (remain + 1) == 0)) {
             question = storage.getNextAdv(adv)
+           // question.symbol = storage.getNextAdv(adv).symbol
+           // question.correct = storage.getNextAdv(adv).correct
             Timber.e("====question = getNextAdv(adv)=====$question")
         } else {
             question = storage.getNextSymbol(remain)
+          //  question.symbol = storage.getNextSymbol(remain).symbol
+           // question.correct = storage.getNextSymbol(remain).correct
             Timber.e("=====question = getNextSymbol(remain)=====$question")
         }
         currentquestion = question

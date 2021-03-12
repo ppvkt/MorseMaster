@@ -21,8 +21,10 @@ interface StorageDao {
  suspend  fun getStmNextAdv(ratio: Int): StatForStmNextAdv
 
  @Transaction
- @Query("SELECT count(*) as count, 100*correct/(correct+mistake/2) AS ratio FROM stat WHERE ratio >= :ratio AND correct >= 10")
- suspend  fun getStmCountAdv(ratio: Int): List<StatForStmCountAdv>
+ @Query("SELECT count(*) as _count, 100*correct/(correct+mistake/2) AS ratio FROM stat WHERE ratio >= :ratio AND correct >= 10")
+ //suspend  fun getStmCountAdv(ratio: Int): List<StatForStmCountAdv>
+// suspend  fun getStmCountAdv(ratio: Int): Int
+ suspend  fun getStmCountAdv(ratio: Int): StatForStmCountAdv
 
  @Transaction
  @Query("SELECT min(100*correct/(correct+mistake/2)) AS worst FROM stat")

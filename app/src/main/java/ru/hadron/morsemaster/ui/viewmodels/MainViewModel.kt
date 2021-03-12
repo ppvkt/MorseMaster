@@ -33,6 +33,7 @@ open class MainViewModel @ViewModelInject constructor(
 
     val worth = storage.worth
     fun insertStat(stat: Stat) = storage.insertStat(stat = stat)
+    fun clearStat() = storage.clearStat()
     //-----
 
 
@@ -108,14 +109,15 @@ open class MainViewModel @ViewModelInject constructor(
     }
 
     //-------
-/*    fun startLessonTask() {
-        viewModelScope.launch {
+    fun startLessonTask() {
+/*        viewModelScope.launch {
             Timber.e(" ----------------------------")
             while (true) {
                 LessonTask().run()
             }
-        }
-    }*/
+        }*/
+        LessonTask().run()
+    }
     //---------
 
     lateinit var question: Question
@@ -128,7 +130,7 @@ open class MainViewModel @ViewModelInject constructor(
     val isBackgroundChange: MutableLiveData<Boolean> = MutableLiveData()
 
     init {
-        questionSymbol.postValue("start")
+       // questionSymbol.postValue("start")
         isBackgroundChange.postValue(false)
     }
 
@@ -170,21 +172,29 @@ open class MainViewModel @ViewModelInject constructor(
 
 //---------------------------------------
 
-/*    inner class LessonTask : TimerTask() {
+    private var ms = _repeatName * 1000L
+    inner class LessonTask : TimerTask() {
         override fun run() {
+
             Timber.e("inside run!!!!")
             question = currentLesson.getQuestion()
             answer_buf = ""
+
             var help: Boolean = question.correct <= 3
 
-            isBackgroundChange.postValue(true)
-            Timber.e(" -----question symbol---------${questionSymbol.value}")
+            Timber.e("---help ---- > $help")
 
-            var ms = 2000L
+            isBackgroundChange.postValue(true)
+
+//
+          //  var ms = _repeatName * 1000L
+
+            Timber.e("---ms ---- > $ms")
+
             if (help) {
                 //change text???  question.symbol put in livedata
                 questionSymbol.postValue(question.symbol)
-
+                Timber.e(" -----question symbol----live data-----> ${questionSymbol.value}")
                 startTimer(ms + help_wait)
             } else {
                 //getsecret
@@ -197,17 +207,44 @@ open class MainViewModel @ViewModelInject constructor(
         }
     }
 
-    lateinit var timer: Timer
-    fun startTimer(currDelay: Long) {
-        timer = Timer()
+    private var timer: Timer = Timer()
+   private fun startTimer(currDelay: Long) {
+        //timer = Timer()
         timer.schedule(LessonTask(), currDelay)
     }
+    fun startTimerFromFragment() {
+        //info_label.setText("Get ready!");
+        //int ms = sound.code("...- ...- ...-");
+        startTimer(ms + 1000L)
+    }
+
 
     fun stopTimer() {
         if (timer != null) {
             timer.cancel()
         }
-    }*/
+    }
+
+    fun playQuestion(x: Int): Int {
+        var q = storage.getCode(question.symbol)
+        var code = q
+        if (question.length() > 1) {
+            for (i in 1 until x step 1) {
+                code+="|" + q
+            }
+        }
+        return 100  //sound.code(code)
+    }
+    fun keyTyped() {
+        if (question == null) return
+
+        //		if (key == ' ') {
+        //			playQuestion(1);
+        //			return;
+        //		}
+
+
+    }
 
 }
 

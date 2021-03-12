@@ -2,6 +2,7 @@ package ru.hadron.morsemaster.repositories
 
 import kotlinx.coroutines.*
 import ru.hadron.morsemaster.db.entity.*
+import ru.hadron.morsemaster.util.CurrentLesson
 
 import ru.hadron.morsemaster.util.Question
 import timber.log.Timber
@@ -41,29 +42,35 @@ class Storage @Inject constructor(
             if (c.equals(" ")) {
                 res += "|"
             } else {
-                GlobalScope.launch(Dispatchers.IO) {
-                    val code = repository.getStmCode(symbol = c.toString())
-                    if (code.isNotEmpty()) {
-                        res += "$code "
-                    }
+                runBlocking {
+                    GlobalScope.async(Dispatchers.IO) {
+                        val code = repository.getStmCode(symbol = c.toString())
+                        if (code.isNotEmpty()) {
+                            res += "$code "
+                        }
+                    }.await()
                 }
-
             }
         }
         return res
     }
 
-    fun loadLesson(info: String): Lesson? {
-        var s: String? = null
+    fun loadLesson(info: String): CurrentLesson? {
+        var symbols: String? = null
         runBlocking {
             GlobalScope.async(Dispatchers.IO) {
-                s = repository.getStmSymbolsFromLesson(info = info)
+                symbols = repository.getStmSymbolsFromLesson(info = info)
             }.await()
         }
 
-        return if (s!!.isNotEmpty()) {
-            Timber.e("-load lesson--return--${Lesson(info = info, symbols = s?.split(" ").toString())}----")
-          Lesson(info = info, symbols = s?.split(" ").toString())
+        return if (symbols!!.isNotEmpty()) {
+           // Timber.e("-load lesson--return--${Lesson(info = info, symbols = symbols?.split(" ").toString())}----")
+            Timber.e("-load lesson--return info--${info}----")
+
+var s = symbols?.split(" ").toString().drop(1).dropLast(1)   // [ ..... ]
+            Timber.e("-load lesson--return symbols--${s}----")
+           // Lesson(info = info, symbols = s)
+            CurrentLesson(this, currsymbols = s)
         } else {
             Timber.e("-load lesson----return null!!!!----")
             null
@@ -89,18 +96,11 @@ class Storage @Inject constructor(
     fun initStat(symbols: String) {
         if (symbols != null) {
             for (symbol in symbols) {
-                /*  var stat: Stat  = Stat(
-                      symbol = symbol.toString(), 0, 0,
-                      lastseen = System.currentTimeMillis() / (30 * 1000)
-                  )
-                  insertStat(stat)*/
                 insertOrIgnoreStat(symbol = symbol.toString(), lastseen = System.currentTimeMillis() / (30 * 1000) )
             }
         } else {
             Timber.e("-------symbols didnt loaded (:")
         }
-
-
     }
 
     fun updateStat(symbol: String, correct: Boolean) {
@@ -122,51 +122,60 @@ class Storage @Inject constructor(
     }
 
     fun getNextSymbol(remain: Int): Question {
-        var rs: List<StatForStmNextSymbol> ? = null
-        GlobalScope.launch(Dispatchers.IO) {
-            rs = repository.getStmNextSymbol(adv_level)
+        var rs: List<StatForStmNextSymbol> = mutableListOf()
+
+        runBlocking {
+            GlobalScope.async(Dispatchers.IO) {
+                rs = repository.getStmNextSymbol(adv_level)
+            }.await()
         }
+        Timber.e("============getNextSymbol====remain=======> ${remain} ")
+
+          var symbol = rs.first().symbol
+          var correct = rs.first().correct
+
         if (remain > 1 && Math.random() > 0.5) {
-            //rs.next
-            //rs.next
-            // to do smth
+            symbol = rs.last().symbol
+            correct = rs.last().correct
         }
-        val symbol = rs?.get(0)?.symbol!!
-        val correct = rs?.get(0)?.correct!!
-       // return Question(symbol = symbol, correct = correct) //?
-        return Question(symbol = "", correct = 1) //test
+
+        Timber.e("getNextSymbol===========> ${symbol} ")
+      return Question(symbol = symbol, correct = correct) //test
     }
 
     fun getCountAdv(): Int {
-        var stm_count_adv: List<StatForStmCountAdv>? = null
-        GlobalScope.launch(Dispatchers.IO) {
-            stm_count_adv = repository.getStmCountAdv(ratio = adv_level)
+
+        var result: Int = 0
+        runBlocking {
+            GlobalScope.async(Dispatchers.IO) {
+                var test = repository.getStmCountAdv(ratio = adv_level)
+                result = test._count
+            }.await()
         }
-        // stm_count_adv = stm.getCompleted()
-        // return stm_count_adv.indexOf(0)  //?
-        return stm_count_adv!!.indexOf(0)
+        Timber.e("stmcountadv count======>>> ${result}")
+        return result
     }
 
     fun getNextAdv(adv: Int): Question {
         var rs = StatForStmNextAdv("x", 0)
 
         runBlocking {
-            val stm_next_adv =
+
                 GlobalScope.async(Dispatchers.IO) {
-                    repository.getStmNextAdv(adv_level)
-                }
-            runBlocking { rs = stm_next_adv.await() }
-        }
+                    var stm_next_adv= repository.getStmNextAdv(adv_level)
+                    rs = stm_next_adv
+                }.await()
+             }
 
-        Timber.e("======>>> ${rs.symbol}")
+        Timber.e("===StatForStmNextAdv== symbol=>>> ${rs.symbol}")
 
-        var items: Vector<Storage.AdvItem> = Vector<Storage.AdvItem>()
+        var items: Vector<AdvItem> = Vector<AdvItem>()
         var question = ""
         var min_ratio = 99
 
         rs.symbol.forEach {
             min_ratio = Math.min(min_ratio, rs.ratio)
-            items.add(Storage.AdvItem(rs.symbol))
+            items.add(AdvItem(rs.symbol))
         }
 
         val count = 2 + (adv_max - 1) * (min_ratio - adv_level) / (100 - adv_level)
@@ -177,25 +186,27 @@ class Storage @Inject constructor(
             var ii = items.size - 1
             while (ii < count) {
                 val item = items[ii % adv]
-                items.add(Storage.AdvItem(item.symbol))
+                items.add(AdvItem(item.symbol))
                 ii++
             }
         }
 
-        items.sortWith(Storage.AdvItemShuffle())
+        items.sortWith(AdvItemShuffle())
 
         for (i in 0 until count) question += items[i].symbol
 
         return Question(question, 999)
     }
 
-    fun getLessons(): List<String>? {
+/*    fun getLessons(): List<String>? {
         var items : List<String>? = null
-        GlobalScope.launch(Dispatchers.IO) {
-            items = repository.getInfoFromLesson().value
+        runBlocking {
+            GlobalScope.async(Dispatchers.IO) {
+                items = repository.getInfoFromLesson().value
+            }.await()
         }
         return items
-    }
+    }*/
 
     val worth = repository.getStmWorth()
 

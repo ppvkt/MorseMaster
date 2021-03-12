@@ -31,12 +31,13 @@ class MorseFragment : Fragment(R.layout.fragment_morse) {
 
 
         viewModel.loadLesson()
-
-        // viewModel.startLessonTask()
+     //   viewModel.startTimerFromFragment()
+        viewModel.startLessonTask()
 
         btnStop.setOnClickListener {
             //todo
             // stopTimer()
+            viewModel.stopTimer()
 
             findNavController().navigate(R.id.action_morseFragment_to_settingsFragment)
         }
@@ -47,12 +48,15 @@ class MorseFragment : Fragment(R.layout.fragment_morse) {
         viewModel.worth?.observe(viewLifecycleOwner, Observer {
             it.let {
                 tvWorth.text = "worth : $it %"
+                if (it == null) {
+                    tvWorth.text = "worth : 0 %"
+                }
             }
         })
 
         viewModel.isBackgroundChange?.observe(viewLifecycleOwner, Observer {
             it.let {if (it == true) {
-                tvShowingChar.setBackgroundColor(Color.WHITE)
+                tvShowingChar.setBackgroundColor(Color.DKGRAY)
             } else {
                 tvShowingChar.setBackgroundColor(Color.RED)
             }
@@ -62,6 +66,9 @@ class MorseFragment : Fragment(R.layout.fragment_morse) {
         viewModel.questionSymbol?.observe(viewLifecycleOwner, Observer {
             it.let {
                 tvShowingChar.text = it
+                if (it == null) {
+                    tvShowingChar.text = "--null--"
+                }
             }
         })
     }

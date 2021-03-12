@@ -12,21 +12,8 @@ data class Stat(
 
     @ColumnInfo(name = "mistake") var mistake: Int = 0,
     @ColumnInfo(name = "lastseen") var lastseen: Long
-
-/*    @ColumnInfo(name = "ratio") var ratio: Int,
-    @ColumnInfo(name = "level") var level: Int,
-
-    @ColumnInfo(name = "count") var count: Int,
-    @ColumnInfo(name = "worst") var worst: Int*/
 )
 
-/*@Entity (tableName = "statWithWorst")
-data class StatWithWorst(
-    @PrimaryKey(autoGenerate = false)
-    @Embedded var stat: Stat,
-
-    @ColumnInfo(name = "worst") var worst: Int //= 100*stat.correct/(stat.correct+stat.mistake/2)
-)*/
 //----------------------
 
 data class StatForStmNextSymbol (
@@ -37,7 +24,7 @@ data class StatForStmNextSymbol (
 )
 
 data class StatForStmCountAdv (
-    @ColumnInfo(name = "count") var count: Int,
+    @ColumnInfo(name = "_count") var _count: Int,
     @ColumnInfo(name = "ratio") var ratio: Int
 )
 

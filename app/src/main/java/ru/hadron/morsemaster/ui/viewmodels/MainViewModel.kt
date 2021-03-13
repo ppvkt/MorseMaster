@@ -242,8 +242,11 @@ open class MainViewModel @ViewModelInject constructor(
         //			playQuestion(1);
         //			return;
         //		}
+    }
 
-
+    lateinit var curranswer: String
+    fun setAnswer(answer: String) {
+        curranswer = answer
     }
 
 }

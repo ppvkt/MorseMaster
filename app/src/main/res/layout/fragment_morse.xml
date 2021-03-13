@@ -127,7 +127,7 @@
             android:layout_margin="2dp"/>
 
         <Button
-            android:id="@+id/btnChar0"
+            android:id="@+id/btnCharNull"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:text="0"
@@ -148,91 +148,91 @@
         app:layout_constraintTop_toBottomOf="@+id/llrow1">
 
         <Button
-            android:id="@+id/r2btnChar1"
+            android:id="@+id/btnCharQ"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="1"
+            android:text="Q"
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>
 
         <Button
-            android:id="@+id/r2btnChar2"
+            android:id="@+id/btnCharW"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="2"
+            android:text="W"
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>
 
         <Button
-            android:id="@+id/r2btnChar3"
+            android:id="@+id/btnCharE"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="3"
+            android:text="E"
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>
 
         <Button
-            android:id="@+id/r2btnChar4"
+            android:id="@+id/btnCharR"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="4"
+            android:text="R"
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>
 
         <Button
-            android:id="@+id/r2btnChar5"
+            android:id="@+id/btnCharT"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="5"
+            android:text="T"
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>
 
         <Button
-            android:id="@+id/r2btnChar6"
+            android:id="@+id/btnCharY"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="6"
+            android:text="Y"
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>
 
         <Button
-            android:id="@+id/r2btnChar7"
+            android:id="@+id/btnCharU"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="7"
+            android:text="U"
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>
 
         <Button
-            android:id="@+id/r2btnChar8"
+            android:id="@+id/btnCharI"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="8"
+            android:text="I"
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>
 
         <Button
-            android:id="@+id/r2btnChar9"
+            android:id="@+id/btnCharO"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="9"
+            android:text="O"
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>
 
         <Button
-            android:id="@+id/r2btnChar0"
+            android:id="@+id/btnCharP"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="0"
+            android:text="P"
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>
@@ -250,91 +250,91 @@
         app:layout_constraintTop_toBottomOf="@+id/llrow2">
 
         <Button
-            android:id="@+id/r3btnChar1"
+            android:id="@+id/btnCharA"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="1"
+            android:text="A"
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>
 
         <Button
-            android:id="@+id/r3btnChar2"
+            android:id="@+id/btnCharS"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="2"
+            android:text="S"
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>
 
         <Button
-            android:id="@+id/r3btnChar3"
+            android:id="@+id/btnCharD"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="3"
+            android:text="D"
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>
 
         <Button
-            android:id="@+id/r3btnChar4"
+            android:id="@+id/btnCharF"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="4"
+            android:text="F"
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>
 
         <Button
-            android:id="@+id/r3btnChar5"
+            android:id="@+id/btnCharG"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="5"
+            android:text="G"
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>
 
         <Button
-            android:id="@+id/r3btnChar6"
+            android:id="@+id/btnCharH"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="6"
+            android:text="H"
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>
 
         <Button
-            android:id="@+id/r3btnChar7"
+            android:id="@+id/btnCharJ"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="7"
+            android:text="J"
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>
 
         <Button
-            android:id="@+id/r3btnChar8"
+            android:id="@+id/btnCharK"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="8"
+            android:text="K"
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>
 
         <Button
-            android:id="@+id/r3btnChar9"
+            android:id="@+id/btnCharL"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="9"
+            android:text="L"
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>
 
         <Button
-            android:id="@+id/r3btnChar0"
+            android:id="@+id/btnCharEqually"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="0"
+            android:text="="
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>
@@ -352,92 +352,92 @@
         app:layout_constraintTop_toBottomOf="@+id/llrow3">
 
         <Button
-            android:id="@+id/r4btnChar1"
+            android:id="@+id/btnCharZ"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="1"
+            android:text="Z"
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"
             />
 
         <Button
-            android:id="@+id/r4btnChar2"
+            android:id="@+id/btnCharX"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="2"
+            android:text="X"
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>
 
         <Button
-            android:id="@+id/r4btnChar3"
+            android:id="@+id/btnCharC"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="3"
+            android:text="C"
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>
 
         <Button
-            android:id="@+id/r4btnChar4"
+            android:id="@+id/btnCharV"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="4"
+            android:text="V"
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>
 
         <Button
-            android:id="@+id/r4btnChar5"
+            android:id="@+id/btnCharB"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="5"
+            android:text="B"
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>
 
         <Button
-            android:id="@+id/r4btnChar6"
+            android:id="@+id/btnCharN"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="6"
+            android:text="N"
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>
 
         <Button
-            android:id="@+id/r4btnChar7"
+            android:id="@+id/btnCharM"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="7"
+            android:text="M"
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>
 
         <Button
-            android:id="@+id/r4btnChar8"
+            android:id="@+id/btnCharComma"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="8"
+            android:text=","
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>
 
         <Button
-            android:id="@+id/r4btnChar9"
+            android:id="@+id/btnCharDot"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="9"
+            android:text="."
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>
 
         <Button
-            android:id="@+id/r4btnChar0"
+            android:id="@+id/btnCharQuestionMark"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:text="0"
+            android:text=" ?"
             android:textSize="10sp"
             android:background="@drawable/roundedbutton"
             android:layout_margin="2dp"/>

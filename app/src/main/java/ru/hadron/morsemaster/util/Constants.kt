@@ -12,4 +12,6 @@ object Constants {
     const val KEY_REPEAT = "KEY_REPEAT"
 
     const val KEY_ISCVSLOADED = "KEY_ISCVSLOADED"
+
+    const val SAMPLE_RATE: Int = 8000
 }

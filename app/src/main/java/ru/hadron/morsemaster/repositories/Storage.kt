@@ -64,12 +64,14 @@ class Storage @Inject constructor(
         }
 
         return if (symbols!!.isNotEmpty()) {
-           // Timber.e("-load lesson--return--${Lesson(info = info, symbols = symbols?.split(" ").toString())}----")
+            // Timber.e("-load lesson--return--${Lesson(info = info, symbols = symbols?.split(" ").toString())}----")
             Timber.e("-load lesson--return info--${info}----")
 
-var s = symbols?.split(" ").toString().drop(1).dropLast(1)   // [ ..... ]
+           // var s = symbols?.split(" ").toString().drop(1).dropLast(1)   // [ ..... ]
+          //  var s = symbols?.split("").toString().drop(1).dropLast(1)   // [ ..... ] space
+            var s = symbols?.replace(" ", "")?.replace(",", "")
             Timber.e("-load lesson--return symbols--${s}----")
-           // Lesson(info = info, symbols = s)
+            // Lesson(info = info, symbols = s)
             CurrentLesson(this, currsymbols = s)
         } else {
             Timber.e("-load lesson----return null!!!!----")
@@ -129,10 +131,9 @@ var s = symbols?.split(" ").toString().drop(1).dropLast(1)   // [ ..... ]
                 rs = repository.getStmNextSymbol(adv_level)
             }.await()
         }
-        Timber.e("============getNextSymbol====remain=======> ${remain} ")
 
-          var symbol = rs.first().symbol
-          var correct = rs.first().correct
+        var symbol = rs.first().symbol
+        var correct = rs.first().correct
 
         if (remain > 1 && Math.random() > 0.5) {
             symbol = rs.last().symbol
@@ -140,7 +141,7 @@ var s = symbols?.split(" ").toString().drop(1).dropLast(1)   // [ ..... ]
         }
 
         Timber.e("getNextSymbol===========> ${symbol} ")
-      return Question(symbol = symbol, correct = correct) //test
+        return Question(symbol = symbol, correct = correct) //test
     }
 
     fun getCountAdv(): Int {
@@ -161,11 +162,11 @@ var s = symbols?.split(" ").toString().drop(1).dropLast(1)   // [ ..... ]
 
         runBlocking {
 
-                GlobalScope.async(Dispatchers.IO) {
-                    var stm_next_adv= repository.getStmNextAdv(adv_level)
-                    rs = stm_next_adv
-                }.await()
-             }
+            GlobalScope.async(Dispatchers.IO) {
+                var stm_next_adv= repository.getStmNextAdv(adv_level)
+                rs = stm_next_adv
+            }.await()
+        }
 
         Timber.e("===StatForStmNextAdv== symbol=>>> ${rs.symbol}")
 
@@ -223,14 +224,14 @@ var s = symbols?.split(" ").toString().drop(1).dropLast(1)   // [ ..... ]
     }
 
 
-   fun insertCvsCodes(codes: Codes) {
-       GlobalScope.launch(Dispatchers.IO) {
-           repository.insertCvsCodes(codes)
-       }
-   }
-   fun insertCvsCodesGroup(codesGroup: CodesGroup) {
-       GlobalScope.launch(Dispatchers.IO) {
-           repository.insertCvsCodesGroup(codesGroup)
-       }
-   }
+    fun insertCvsCodes(codes: Codes) {
+        GlobalScope.launch(Dispatchers.IO) {
+            repository.insertCvsCodes(codes)
+        }
+    }
+    fun insertCvsCodesGroup(codesGroup: CodesGroup) {
+        GlobalScope.launch(Dispatchers.IO) {
+            repository.insertCvsCodesGroup(codesGroup)
+        }
+    }
 }

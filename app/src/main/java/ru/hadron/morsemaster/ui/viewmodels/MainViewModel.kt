@@ -13,6 +13,7 @@ import ru.hadron.morsemaster.db.entity.*
 import ru.hadron.morsemaster.repositories.Storage
 import ru.hadron.morsemaster.util.CurrentLesson
 import ru.hadron.morsemaster.util.Question
+import ru.hadron.morsemaster.util.Sound
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
@@ -26,8 +27,6 @@ open class MainViewModel @ViewModelInject constructor(
 
     private val context = getApplication<Application>().applicationContext
 
-
-
     private val _lessons  = storage.getInfoFromLesson()//MutableLiveData<List<String>>()
     val lessons: LiveData<List<String>> get() = _lessons
 
@@ -36,7 +35,18 @@ open class MainViewModel @ViewModelInject constructor(
     fun clearStat() = storage.clearStat()
     //-----
 
+    private val sound: Sound = Sound()
 
+    fun getHelloSoundCode() {
+        questionSymbol.postValue("get ready!")
+        seconds = sound.code("...-...-...-")
+    }
+
+
+    private fun setWpmValue () {
+        sound.wpm(_speedName.toInt())
+        Timber.e("speed namem to int = = = = = ${_speedName.toInt()}")
+    }
 
     ///----import cvcs files--------//// это остается во VM
     fun insertLesson(lesson: Lesson) = storage.insertCvsLesson(lesson)
@@ -85,10 +95,12 @@ open class MainViewModel @ViewModelInject constructor(
         tsvReader.open(filePath) {
             readAllWithHeaderAsSequence().forEach { row: Map<String, String> ->
                 Timber.e("row  = ${row}  ")
-                val codes = Codes(group_id = row.getOrDefault("group_id",""), symbol = row.getOrDefault("symbol", ""), code = row.getOrDefault("code", ""))
-                Timber.e("======${codes.hashCode()}")
-                insertCodes(codes)
+                val codes = Codes(
+                    group_id = row.getOrDefault("group_id",""),
+                    symbol = row.getOrDefault("symbol", ""),
+                    code = row.getOrDefault("code", ""))
 
+                insertCodes(codes)
             }
         }
     }
@@ -123,20 +135,25 @@ open class MainViewModel @ViewModelInject constructor(
     lateinit var question: Question
     lateinit var currentLesson: CurrentLesson
     lateinit var answer_buf: String
-    private val help_wait = 3000L
-    private var question_wait = 0
+    private val help_wait = 3
+    private var question_wait = 1  //0
 
     val questionSymbol: MutableLiveData<String> = MutableLiveData()
     val isBackgroundChange: MutableLiveData<Boolean> = MutableLiveData()
 
     init {
-       // questionSymbol.postValue("start")
         isBackgroundChange.postValue(false)
+
+        questionSymbol.postValue("get ready!")
+       sound.code("...-...-...-")
     }
 
 
-//mappingLessonToCurrentLesson
+    //mappingLessonToCurrentLesson
     fun loadLesson() {
+        storage.setAdvLevel(_levelName)
+        storage.setAdvMax(_maxcharName)
+
         Timber.e(" ==============current _lesson name is ... $_lessonName ==========")
         val lesson = storage.loadLesson(_lessonName)
 
@@ -172,82 +189,101 @@ open class MainViewModel @ViewModelInject constructor(
 
 //---------------------------------------
 
-    private var ms = _repeatName * 1000L
+    private var seconds = _repeatName * 1
     inner class LessonTask : TimerTask() {
         override fun run() {
-
             Timber.e("inside run!!!!")
             question = currentLesson.getQuestion()
             answer_buf = ""
 
-            var help: Boolean = question.correct <= 3
+            var help = false
+            if (question._correct <= 3) { help = true }
 
             Timber.e("---help ---- > $help")
 
             isBackgroundChange.postValue(true)
 
-//
-          //  var ms = _repeatName * 1000L
-
-            Timber.e("---ms ---- > $ms")
+            seconds = playQuestion(_repeatName)
 
             if (help) {
-                //change text???  question.symbol put in livedata
-                questionSymbol.postValue(question.symbol)
+                questionSymbol.postValue(question._symbol)
                 Timber.e(" -----question symbol----live data-----> ${questionSymbol.value}")
-                startTimer(ms + help_wait)
+                startTimer((seconds + help_wait)*1000.toLong())
             } else {
-                //getsecret
                 questionSymbol.postValue(question.getSecret(""))
-
                 if (question_wait > 0) {
-                    startTimer(ms + question_wait)
+                    startTimer((seconds + question_wait) * 1000.toLong())
                 }
             }
         }
     }
 
-    private var timer: Timer = Timer()
-   private fun startTimer(currDelay: Long) {
-        //timer = Timer()
+
+    lateinit var timer: Timer
+    private var isTimerRun: Boolean = false
+
+    private fun startTimer(currDelay: Long) {
+        timer  = Timer()
         timer.schedule(LessonTask(), currDelay)
+        isTimerRun = true
     }
     fun startTimerFromFragment() {
-        //info_label.setText("Get ready!");
-        //int ms = sound.code("...- ...- ...-");
-        startTimer(ms + 1000L)
+        setWpmValue()
+        startTimer((seconds*1000 + 1000).toLong())
+      //
+       // getHelloSoundCode()
+
     }
 
+    fun stopTimerFromFragment() {
+        stopTimer()
+        timer.purge()
+    }
 
-    fun stopTimer() {
-        if (timer != null) {
-            timer.cancel()
-        }
+    private fun stopTimer() {
+        timer.cancel()
+        isTimerRun = false
     }
 
     fun playQuestion(x: Int): Int {
         var q = storage.getCode(question.symbol)
+
+        Timber.e("   var q = storage.getCode(question.symbol) =====> ${q}")
         var code = q
         if (question.length() > 1) {
             for (i in 1 until x step 1) {
                 code+="|" + q
             }
         }
-        return 100  //sound.code(code)
+        return sound.code(code)
     }
-    fun keyTyped() {
-        if (question == null) return
 
-        //		if (key == ' ') {
-        //			playQuestion(1);
-        //			return;
-        //		}
+    ///----
+    private fun keyTyped() {
+        if (question == null) return
+        var key = curranswer
+        answer_buf += key
+        questionSymbol.postValue(question.getSecret(answer_buf))   // typed?
+        Timber.e("----question.getSecret(answer_buf)----- ${question.getSecret(answer_buf)}")
+
+        if (answer_buf.length == question.length()) {
+            timer.cancel()
+
+            if (currentLesson.setAnswer(answer_buf)) {
+                startTimer(100)
+            } else {
+                questionSymbol.postValue(question.symbol)
+                isBackgroundChange.postValue(false)
+                sound.alarm()
+                startTimer((help_wait * 1000).toLong())
+            }
+        }
     }
 
     lateinit var curranswer: String
     fun setAnswer(answer: String) {
         curranswer = answer
+        keyTyped()
     }
-
 }
 

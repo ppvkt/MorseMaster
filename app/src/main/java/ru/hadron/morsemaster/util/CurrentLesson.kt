@@ -19,17 +19,13 @@ class CurrentLesson(
         val adv = storage.getCountAdv()
         val remain = symbols.length - adv
 
-        var question = Question("test", 0)
+        var question: Question
 
         if (adv > 0 && (remain == 0 || count++ % (remain + 1) == 0)) {
             question = storage.getNextAdv(adv)
-           // question.symbol = storage.getNextAdv(adv).symbol
-           // question.correct = storage.getNextAdv(adv).correct
             Timber.e("====question = getNextAdv(adv)=====$question")
         } else {
             question = storage.getNextSymbol(remain)
-          //  question.symbol = storage.getNextSymbol(remain).symbol
-           // question.correct = storage.getNextSymbol(remain).correct
             Timber.e("=====question = getNextSymbol(remain)=====$question")
         }
         currentquestion = question
@@ -44,10 +40,12 @@ class CurrentLesson(
 
             if (a == q) {
                 storage.updateStat(symbol = q.toString(), correct = true)
+                Timber.e("  a == q !!!")
 
             } else {
                 correct = false
                 storage.updateStat(symbol = a.toString(), correct = false)
+                Timber.e("  a != q !!!")
             }
         }
         return correct

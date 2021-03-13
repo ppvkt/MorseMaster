@@ -1,5 +1,7 @@
 package ru.hadron.morsemaster.util
 
+import timber.log.Timber
+
 class Question (
     var symbol: String,
     var correct: Int
@@ -13,7 +15,11 @@ class Question (
 
     fun getSecret(prefix: String): String {
         var res = prefix
-        for (i in prefix.length until _symbol.length step 1) res += "*"
+        //for (i in prefix.length until _symbol.length) res += "*"
+        for ( i in prefix.length .._symbol.length - 1) {  // -1?
+            res += "*"
+        }
+        Timber.e("  **res ===> $res")
         return res
     }
 }

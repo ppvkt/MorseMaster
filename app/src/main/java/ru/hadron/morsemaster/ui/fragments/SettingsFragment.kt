@@ -3,7 +3,9 @@ package ru.hadron.morsemaster.ui.fragments
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -47,14 +49,20 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private var itemSelectedMaxCharInSpinner = 0
     private var itemSelectedRepeatInSpinner = 0
 
+
     @RequiresApi(Build.VERSION_CODES.N)
     @ExperimentalStdlibApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+
         super.onViewCreated(view, savedInstanceState)
+        hideProgressBar()
         importAllCvsInDbIfNeed()
 
         btnRun.setOnClickListener { view ->
+
+           showProgressBar()
+
             this.writeDataToSharedPref()
             this.setItemSelected()
             val bundle = Bundle().apply {
@@ -293,5 +301,15 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             Toast.makeText(activity, "all cvs downloaded!", Toast.LENGTH_SHORT).show()
         }
     }
+
+
+    private fun hideProgressBar() {
+        paginationProgressBar.visibility = View.INVISIBLE
+    }
+
+    private fun showProgressBar() {
+        paginationProgressBar.visibility = View.VISIBLE
+    }
+
 }
 

@@ -19,7 +19,7 @@ class Sound {
     private var dah = 300 //ms
     private var symbol_pause = 3 // dits
     private var word_pause = 7 // dits
-    lateinit var buf: ByteArray
+    var buf: ByteArray? = null
 
    fun wpm(x: Int) {
        dit = Math.round(60.0 / (attr.x * 50.0) * 1000.0).toInt()
@@ -30,8 +30,8 @@ class Sound {
     }
 
     fun tone(ms: Int, freq: Int, from: Int): Int {
-        val length: Int = SAMPLE_RATE * ms / 1000   /// 1000
-        val a: Int = SAMPLE_RATE * attack / 1000 /// 1000
+        val length: Int = SAMPLE_RATE * ms / 1000
+        val a: Int = SAMPLE_RATE * attack / 1000
         val r = length - a
         for (i in 0 until length) {
             val period = SAMPLE_RATE / freq
@@ -42,7 +42,8 @@ class Sound {
             } else if (i > r) {
                 amp = 1.0f - (i - r).toDouble() / a
             }
-            buf[from + i] = (Math.sin(angle) * amp * 127f).toInt().toByte()
+            buf?.set(from + i, (Math.sin(angle) * amp * 127f).toInt().toByte())
+            Timber.e("buf [i] = $buf")
         }
         return from + length
     }
@@ -50,7 +51,7 @@ class Sound {
     fun pause(ms: Int, from: Int): Int {
         val length: Int = SAMPLE_RATE * ms / 1000
         for (i in 0 until length) {
-            buf[from + i] = 0
+            buf?.set(from + i, 0)
         }
         return from + length
     }
@@ -68,7 +69,8 @@ class Sound {
             }
         }
         buf = ByteArray(SAMPLE_RATE * length / 1000)
-        Timber.e("code from sound buf.size === ${buf.size}")
+        Timber.e("buf [i] = $buf")
+        Timber.e("code from sound buf.size === ${buf!!.size}")
         runBlocking {
             GlobalScope.async(Dispatchers.IO) {
                 var from: Int
@@ -96,11 +98,11 @@ class Sound {
                 var   audioTrack = AudioTrack(
                     AudioManager.STREAM_MUSIC,
                     SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO,
-                    AudioFormat.ENCODING_PCM_16BIT, buf.size,
+                    AudioFormat.ENCODING_PCM_16BIT, buf!!.size,
                     AudioTrack.MODE_STATIC
                 )
 
-                audioTrack.write(buf, 0, buf.size);
+                audioTrack.write(buf!!, 0, buf!!.size)
                 audioTrack.play()
                 Timber.e("code from sound")
             }.await()
@@ -123,11 +125,10 @@ class Sound {
                 var  audioTrack = AudioTrack(
                     AudioManager.STREAM_MUSIC,
                     SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO,
-                    AudioFormat.ENCODING_PCM_16BIT, buf.size,
+                    AudioFormat.ENCODING_PCM_16BIT, buf!!.size,
                     AudioTrack.MODE_STATIC
                 )
-
-                audioTrack.write(buf, 0, buf.size);
+                audioTrack.write(buf!!, 0, buf!!.size)
                 audioTrack.play()
                 Timber.e("alarm from sound")
             }.await()

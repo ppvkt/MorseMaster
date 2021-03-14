@@ -2,9 +2,7 @@ package ru.hadron.morsemaster.ui.fragments
 
 import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -14,7 +12,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_morse.*
 import ru.hadron.morsemaster.R
 import ru.hadron.morsemaster.ui.viewmodels.MainViewModel
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
@@ -32,19 +29,20 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
 
 
         viewModel.loadLesson()
-        viewModel.startTimerFromFragment()
+
         viewModel.startLessonTask()
 
         this.setOnClickListenersToAllBtnChar()
 
-
+        viewModel.startTimerFromFragment()
 
         btnStop.setOnClickListener {
             //todo
             // stopTimer()
-            viewModel.stopTimerFromFragment()
+            //  viewModel.stopTimerFromFragment()
+            viewModel.whenStopBtnClickedPassTrue()
             findNavController().navigate(R.id.action_morseFragment_to_settingsFragment)
-
+            onDestroy()
         }
     }
 
@@ -88,8 +86,6 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
             maxcharName = args.maxcharName,
             repeatName = args.repeatName
         )
-
-        Timber.e("send data in view model...")
     }
 
     lateinit var answer: String
@@ -262,7 +258,7 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
         }
     }
 
-  private  fun setOnClickListenersToAllBtnChar() {
+    private  fun setOnClickListenersToAllBtnChar() {
         btnChar1.setOnClickListener(this)
         btnChar2.setOnClickListener(this)
         btnChar3.setOnClickListener(this)

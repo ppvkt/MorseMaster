@@ -37,16 +37,15 @@ open class MainViewModel @ViewModelInject constructor(
 
     private val sound: Sound = Sound()
 
+/*
     fun getHelloSoundCode() {
         questionSymbol.postValue("get ready!")
-        seconds = sound.code("...-...-...-")
+        ms = sound.code("...-...-...-")
     }
+*/
 
 
-    private fun setWpmValue () {
-        sound.wpm(_speedName.toInt())
-        Timber.e("speed namem to int = = = = = ${_speedName.toInt()}")
-    }
+
 
     ///----import cvcs files--------//// это остается во VM
     fun insertLesson(lesson: Lesson) = storage.insertCvsLesson(lesson)
@@ -122,12 +121,7 @@ open class MainViewModel @ViewModelInject constructor(
 
     //-------
     fun startLessonTask() {
-/*        viewModelScope.launch {
-            Timber.e(" ----------------------------")
-            while (true) {
-                LessonTask().run()
-            }
-        }*/
+
         LessonTask().run()
     }
     //---------
@@ -135,35 +129,29 @@ open class MainViewModel @ViewModelInject constructor(
     lateinit var question: Question
     lateinit var currentLesson: CurrentLesson
     lateinit var answer_buf: String
-    private val help_wait = 3
-    private var question_wait = 1  //0
+    private val help_wait = 3000 //ms
+    private var question_wait = 0 //ms
 
     val questionSymbol: MutableLiveData<String> = MutableLiveData()
     val isBackgroundChange: MutableLiveData<Boolean> = MutableLiveData()
 
     init {
         isBackgroundChange.postValue(false)
-
-        questionSymbol.postValue("get ready!")
-       sound.code("...-...-...-")
     }
-
 
     //mappingLessonToCurrentLesson
     fun loadLesson() {
         storage.setAdvLevel(_levelName)
         storage.setAdvMax(_maxcharName)
 
-        Timber.e(" ==============current _lesson name is ... $_lessonName ==========")
-        val lesson = storage.loadLesson(_lessonName)
 
+        val lesson = storage.loadLesson(_lessonName)
         currentLesson = CurrentLesson(storage = storage, lesson?.symbols)
-        Timber.e(" ==============current lesson hashe in view model===> ${currentLesson.hashCode()}")
+
         if (currentLesson != null) {
             currentLesson.initStat()
         }
     }
-
 
     private var _lessonName: String = ""
     private var _speedName: String = ""
@@ -189,93 +177,92 @@ open class MainViewModel @ViewModelInject constructor(
 
 //---------------------------------------
 
-    private var seconds = _repeatName * 1
     inner class LessonTask : TimerTask() {
         override fun run() {
-            Timber.e("inside run!!!!")
             question = currentLesson.getQuestion()
             answer_buf = ""
 
             var help = false
             if (question._correct <= 3) { help = true }
 
-            Timber.e("---help ---- > $help")
-
             isBackgroundChange.postValue(true)
 
-            seconds = playQuestion(_repeatName)
+            var  ms = playQuestion(_repeatName)
 
             if (help) {
                 questionSymbol.postValue(question._symbol)
                 Timber.e(" -----question symbol----live data-----> ${questionSymbol.value}")
-                startTimer((seconds + help_wait)*1000.toLong())
+                startTimer(ms + help_wait)
             } else {
                 questionSymbol.postValue(question.getSecret(""))
                 if (question_wait > 0) {
-                    startTimer((seconds + question_wait) * 1000.toLong())
+                    startTimer(ms + question_wait)
                 }
+            }
+
+            if (isStopButtonClicked) {
+                timer.cancel()
+                timer.purge()
+                return
             }
         }
     }
-
 
     lateinit var timer: Timer
     private var isTimerRun: Boolean = false
 
-    private fun startTimer(currDelay: Long) {
+    private fun startTimer(currDelay: Int) {
         timer  = Timer()
-        timer.schedule(LessonTask(), currDelay)
+        timer.schedule(LessonTask(), currDelay.toLong())
         isTimerRun = true
     }
     fun startTimerFromFragment() {
-        setWpmValue()
-        startTimer((seconds*1000 + 1000).toLong())
-      //
-       // getHelloSoundCode()
+        questionSymbol.postValue("get ready!")
+        var ms = sound.code("...-...-...-")
 
-    }
+        // sound.wpm(_speedName.toInt()*1000)
 
-    fun stopTimerFromFragment() {
-        stopTimer()
-        timer.purge()
+        startTimer(ms + 1000)
     }
 
     private fun stopTimer() {
         timer.cancel()
+        timer.purge()
         isTimerRun = false
     }
 
     fun playQuestion(x: Int): Int {
-        var q = storage.getCode(question.symbol)
-
-        Timber.e("   var q = storage.getCode(question.symbol) =====> ${q}")
+        var q = storage.getCode(question._symbol)
         var code = q
-        if (question.length() > 1) {
+        if (question.length() > 0) {
             for (i in 1 until x step 1) {
-                code+="|" + q
+                //code += "|" + q
+                val prepended = "|${q}"
+                code += prepended
             }
         }
+        Timber.e("   ==================code q =====>${code}")
         return sound.code(code)
     }
 
     ///----
-    private fun keyTyped() {
-        if (question == null) return
+    private fun keyTyped(): Unit {
+        if (question.equals(null)) return
+        if (isStopButtonClicked) return
+
         var key = curranswer
         answer_buf += key
         questionSymbol.postValue(question.getSecret(answer_buf))   // typed?
-        Timber.e("----question.getSecret(answer_buf)----- ${question.getSecret(answer_buf)}")
 
         if (answer_buf.length == question.length()) {
-            timer.cancel()
-
+            stopTimer()
             if (currentLesson.setAnswer(answer_buf)) {
                 startTimer(100)
             } else {
                 questionSymbol.postValue(question.symbol)
                 isBackgroundChange.postValue(false)
                 sound.alarm()
-                startTimer((help_wait * 1000).toLong())
+                startTimer(help_wait)
             }
         }
     }
@@ -285,5 +272,8 @@ open class MainViewModel @ViewModelInject constructor(
         curranswer = answer
         keyTyped()
     }
+    var isStopButtonClicked = false
+    fun whenStopBtnClickedPassTrue( ) {
+        this.isStopButtonClicked = true
+    }
 }
-

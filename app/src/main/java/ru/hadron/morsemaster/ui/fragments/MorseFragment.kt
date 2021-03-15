@@ -3,6 +3,8 @@ package ru.hadron.morsemaster.ui.fragments
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isNotEmpty
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -22,18 +24,26 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
 
     val args: MorseFragmentArgs by navArgs()
 
-
+    lateinit var clQewry: ConstraintLayout
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        clQewry = view.findViewById(R.id.cl_qwery)
+
         this.subscribeToObservers()
-
-        if (!isHelloShowedFlag) {
-            viewModel.startTimerFromFragment()
-            view.postDelayed({cl_qwery.visibility = View.VISIBLE}, 3000L)
-        }
-
         this.setOnClickListenersToAllBtnChar()
+
+        clQewry.visibility = View.INVISIBLE
+        if (!isHelloShowedFlag) {
+            view.postDelayed(
+                {
+                    clQewry.visibility = View.VISIBLE
+                    isHelloShowedFlag = true
+                },
+                3000L
+            )
+            viewModel.startTimerFromFragment()
+        }
 
         btnStop.setOnClickListener {
             //todo
@@ -51,6 +61,7 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
     private var isCurrentDataLoadedFlag =  false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         if (savedInstanceState != null) {
             isHelloShowedFlag = savedInstanceState.getBoolean("isHelloShowedFlag")
             isCurrentDataLoadedFlag = savedInstanceState.getBoolean("isCurrentDataLoadedFlag")

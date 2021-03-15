@@ -57,8 +57,9 @@
             android:layout_margin="16dp"
             android:gravity="center"
             android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="11dp"
             tools:ignore="MissingConstraints">
 
             <Button
@@ -159,8 +160,9 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/llrow3"
-            tools:layout_editor_absoluteX="11dp"
             tools:ignore="MissingConstraints">
 
             <Button
@@ -261,8 +263,9 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/llrow2"
-            tools:layout_editor_absoluteX="11dp"
             tools:ignore="MissingConstraints">
 
             <Button
@@ -363,8 +366,9 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/llrow1"
-            tools:layout_editor_absoluteX="11dp"
             tools:ignore="MissingConstraints">
 
             <Button

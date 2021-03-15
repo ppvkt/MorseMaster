@@ -4,12 +4,11 @@ import android.R.attr
 import android.media.AudioFormat
 import android.media.AudioManager
 import android.media.AudioTrack
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import ru.hadron.morsemaster.util.Constants.SAMPLE_RATE
 import timber.log.Timber
+import java.lang.Thread.getAllStackTraces
+import java.lang.Thread.sleep
 
 
 class Sound {
@@ -21,8 +20,8 @@ class Sound {
     private var word_pause = 7 // dits
     var buf: ByteArray? = null
 
-   fun wpm(x: Int) {
-       dit = Math.round(60.0 / (attr.x * 50.0) * 1000.0).toInt()
+    fun wpm(x: Int) {
+        dit = Math.round(60.0 / (attr.x * 50.0) * 1000.0).toInt()
         dah = dit * 3
 
         dit += attack
@@ -33,24 +32,25 @@ class Sound {
         val length: Int = SAMPLE_RATE * ms / 1000
         val a: Int = SAMPLE_RATE * attack / 1000
         val r = length - a
-        for (i in 0 until length) {
+        Timber.e("-------------------------------lenght = $length")
+        for (i in 0 .. length - 1) { // -1
             val period = SAMPLE_RATE / freq
             val angle = 2.0 * Math.PI * i / period
             var amp = 1.0
             if (i < a) {
-                amp = i.toDouble() / a
+                amp = i.toDouble() / a.toDouble()
             } else if (i > r) {
-                amp = 1.0f - (i - r).toDouble() / a
+                amp = 1.0f - (i - r).toDouble() / a.toDouble()
             }
-            buf?.set(from + i, (Math.sin(angle) * amp * 127f).toInt().toByte())
-            Timber.e("buf [i] = $buf")
+            buf!![from + i] = (Math.sin(angle) * amp * 127f).toByte()
         }
+        Timber.e("buf = ${buf!!.size}")
         return from + length
     }
 
     fun pause(ms: Int, from: Int): Int {
         val length: Int = SAMPLE_RATE * ms / 1000
-        for (i in 0 until length) {
+        for (i in 0 until length - 1) { // -1
             buf?.set(from + i, 0)
         }
         return from + length
@@ -71,8 +71,10 @@ class Sound {
         buf = ByteArray(SAMPLE_RATE * length / 1000)
         Timber.e("buf [i] = $buf")
         Timber.e("code from sound buf.size === ${buf!!.size}")
-        runBlocking {
-            GlobalScope.async(Dispatchers.IO) {
+
+        GlobalScope.launch(Dispatchers.Default) {
+
+            try {
                 var from: Int
 
                 from = pause(100, 0)
@@ -89,9 +91,6 @@ class Sound {
                         }
                         ' ' -> from = pause(dit * (symbol_pause - 1), from)
                         '|' -> from = pause(dit * (word_pause - 1), from)
-
-
-                        ',' -> Timber.e (" -----------------------------fuck comma!!!!")
                     }
                 }
                 // line.write(buf, 0, buf.length)
@@ -102,24 +101,34 @@ class Sound {
                     AudioTrack.MODE_STATIC
                 )
 
+
+                Timber.e("--------audioTrack.state-------${audioTrack.state}")
                 audioTrack.write(buf!!, 0, buf!!.size)
                 audioTrack.play()
-                Timber.e("code from sound")
-            }.await()
-        }
+                counttest++
+                sleep(length.toLong())
+                audioTrack.stop()
+                audioTrack.release()
 
+                Timber.e("code from sound $counttest")
+
+            } catch (t: Throwable) {
+                Timber.e("playback failed")
+            }
+
+        }
         return length
     }
-
+    private var counttest = 0
     fun alarm() {
-        runBlocking {
-            GlobalScope.async(Dispatchers.IO) {
+        GlobalScope.launch(Dispatchers.Default) {
+            try {
                 var from = 0
                 val length = (50 + 50) * 3
                 buf = ByteArray(SAMPLE_RATE * length / 1000)
                 for (i in 0..2) {
                     from = tone(50, 220, from)
-                    from = tone(50, 440, from)  //??
+                    from = tone(50, 440, from)
                 }
                 //  line.write(buf, 0, buf.length)
                 var  audioTrack = AudioTrack(
@@ -128,10 +137,18 @@ class Sound {
                     AudioFormat.ENCODING_PCM_16BIT, buf!!.size,
                     AudioTrack.MODE_STATIC
                 )
+
                 audioTrack.write(buf!!, 0, buf!!.size)
                 audioTrack.play()
-                Timber.e("alarm from sound")
-            }.await()
+                counttest++
+                sleep(length.toLong())
+                audioTrack.stop()
+                audioTrack.release()
+                Timber.e("alarm from sound $counttest")
+
+            }catch (t: Throwable) {
+                Timber.e("playback failed")
+            }
         }
     }
 }

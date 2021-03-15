@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import ru.hadron.morsemaster.db.entity.*
@@ -19,7 +20,9 @@ import ru.hadron.morsemaster.util.Question
 import ru.hadron.morsemaster.util.Sound
 import timber.log.Timber
 import java.io.File
+import java.io.IOError
 import java.io.IOException
+import java.lang.Thread.sleep
 import java.util.*
 
 open class MainViewModel @ViewModelInject constructor(
@@ -113,17 +116,10 @@ open class MainViewModel @ViewModelInject constructor(
     }
 
     //-------
-    var lessonTask = LessonTask()
-
-    fun startLessonTask() {
-if(!isStopButtonClicked) lessonTask.run()
-       // startLessonTaskInCoroutine()
-    }
-    //---------
 
     lateinit var question: Question
     lateinit var currentLesson: CurrentLesson
-    lateinit var answer_buf: String
+    var answer_buf: String = ""
     private val help_wait = 3000 //ms
     private var question_wait = 0 //ms
 
@@ -131,7 +127,8 @@ if(!isStopButtonClicked) lessonTask.run()
     val isBackgroundChange: MutableLiveData<Boolean> = MutableLiveData()
 
     init {
-        isBackgroundChange.postValue(false)
+        isBackgroundChange.postValue(true)
+
     }
 
     //mappingLessonToCurrentLesson
@@ -182,7 +179,7 @@ if(!isStopButtonClicked) lessonTask.run()
             }
 
             question = currentLesson.getQuestion()
-            answer_buf = ""
+           answer_buf = ""
 
             var help = false
             if (question._correct <= 3) { help = true }
@@ -206,54 +203,21 @@ if(!isStopButtonClicked) lessonTask.run()
         }
     }
 
-    fun startLessonTaskInCoroutine() {
-        runBlocking {
-            viewModelScope.launch {
-                while (!isStopButtonClicked) {
-                    question = currentLesson.getQuestion()
-                    answer_buf = ""
-
-                    var help = false
-                    if (question._correct <= 3) { help = true }
-
-                    isBackgroundChange.postValue(true)
-
-                    var  ms = playQuestion(_repeatName)
-
-                    if (help) {
-                        questionSymbol.postValue(question.symbol)
-                        Timber.e(" -----question symbol----live data-----> ${questionSymbol.value}")
-                        startTimer(ms + help_wait)
-                    } else {
-                        questionSymbol.postValue(question.getSecret(""))
-                        if (question_wait > 0) {
-                            startTimer(ms + question_wait)
-                        }
-                    }
-                }
-                timer.cancel()
-                timer.purge()
-            }
-
-        }
-
-    }
-
     lateinit var timer: Timer
     private var isTimerRun: Boolean = false
 
-    private fun startTimer(currDelay: Int) {
+   fun startTimer(currDelay: Int) {
         timer  = Timer()
         timer.schedule(LessonTask(), currDelay.toLong())
         isTimerRun = true
     }
     fun startTimerFromFragment() {
         questionSymbol.postValue("get ready!")
+
         var ms = sound.code("...-...-...-")
 
-        // sound.wpm(_speedName.toInt()*1000)
+       // sound.wpm(_speedName.toInt()*1000)
 
-        startTimer(ms + 1000)
     }
 
     private fun stopTimer() {
@@ -278,7 +242,7 @@ if(!isStopButtonClicked) lessonTask.run()
 
     ///----
     private fun keyTyped(): Unit {
-        if (question.equals(null)) return
+        //if (question.equals(null)) return
         if (isStopButtonClicked) return
 
         var key = curranswer
@@ -293,13 +257,12 @@ if(!isStopButtonClicked) lessonTask.run()
                 questionSymbol.postValue(question.symbol)
                 isBackgroundChange.postValue(false)
                 sound.alarm()
-              //  isBackgroundChange.postValue(true) //
                 startTimer(help_wait)
             }
         }
     }
 
-    lateinit var curranswer: String
+    var curranswer: String = ""
     fun setAnswer(answer: String) {
         curranswer = answer
         keyTyped()

@@ -10,8 +10,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_morse.*
+import kotlinx.coroutines.*
 import ru.hadron.morsemaster.R
 import ru.hadron.morsemaster.ui.viewmodels.MainViewModel
+import java.lang.Thread.sleep
 
 @AndroidEntryPoint
 class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
@@ -25,22 +27,20 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         this.subscribeToObservers()
-        sendDataInViewModel()
-        this.setOnClickListenersToAllBtnChar()
-        viewModel.loadLesson()
-
-        viewModel.startLessonTask()
 
         if (!isHelloShowedFlag) {
-            isHelloShowedFlag = true
             viewModel.startTimerFromFragment()
+            view.postDelayed({cl_qwery.visibility = View.VISIBLE}, 3000L)
         }
+
+        this.setOnClickListenersToAllBtnChar()
 
         btnStop.setOnClickListener {
             //todo
             // stopTimer()
             //  viewModel.stopTimerFromFragment()
             isHelloShowedFlag = false
+            isCurrentDataLoadedFlag = false
             viewModel.whenStopBtnClickedPassTrue()
             findNavController().navigate(R.id.action_morseFragment_to_settingsFragment)
 
@@ -48,19 +48,27 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
     }
 
     private var isHelloShowedFlag = false
+    private var isCurrentDataLoadedFlag =  false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState != null) {
-            isHelloShowedFlag = savedInstanceState.getBoolean("flag")
+            isHelloShowedFlag = savedInstanceState.getBoolean("isHelloShowedFlag")
+            isCurrentDataLoadedFlag = savedInstanceState.getBoolean("isCurrentDataLoadedFlag")
+        }
+
+        if (!isCurrentDataLoadedFlag) {
+            sendDataInViewModel()
+            viewModel.loadLesson()
+            viewModel.startTimer(3000)
+            isCurrentDataLoadedFlag = true
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putBoolean("flag", isHelloShowedFlag)
+        outState.putBoolean("isHelloShowedFlag", isHelloShowedFlag)
+        outState.putBoolean("isCurrentDataLoadedFlag", isCurrentDataLoadedFlag)
         super.onSaveInstanceState(outState)
     }
-
-
 
     fun subscribeToObservers() {
         viewModel.worth?.observe(viewLifecycleOwner, Observer {

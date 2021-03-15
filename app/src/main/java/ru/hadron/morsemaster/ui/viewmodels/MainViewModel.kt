@@ -245,6 +245,11 @@ open class MainViewModel @ViewModelInject constructor(
         //if (question.equals(null)) return
         if (isStopButtonClicked) return
 
+        if(curranswer == "repeat question") {
+            playQuestion(1)
+            return
+        }
+
         var key = curranswer
         answer_buf += key
         questionSymbol.postValue(question.getSecret(answer_buf))   // typed?

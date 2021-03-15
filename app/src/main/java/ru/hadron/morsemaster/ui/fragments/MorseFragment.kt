@@ -292,6 +292,15 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
                 answer = btnCharQuestionMark.text.toString()
                 viewModel.setAnswer(answer = answer)
             }
+            R.id.btnCharSlash -> {
+                answer = btnCharSlash.text.toString()
+                viewModel.setAnswer(answer = answer)
+            }
+
+            R.id.btnRepeat -> {
+                answer = btnRepeat.text.toString()
+                viewModel.setAnswer(answer = answer)
+            }
         }
     }
 
@@ -339,6 +348,9 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
         btnCharComma.setOnClickListener(this)
         btnCharDot.setOnClickListener(this)
         btnCharQuestionMark.setOnClickListener(this)
+
+        btnCharSlash.setOnClickListener(this)
+        btnRepeat.setOnClickListener(this)
     }
 }
 

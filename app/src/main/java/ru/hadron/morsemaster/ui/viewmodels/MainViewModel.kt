@@ -8,7 +8,10 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import ru.hadron.morsemaster.db.entity.*
 import ru.hadron.morsemaster.repositories.Storage
 import ru.hadron.morsemaster.util.CurrentLesson
@@ -27,7 +30,7 @@ open class MainViewModel @ViewModelInject constructor(
 
     private val context = getApplication<Application>().applicationContext
 
-    private val _lessons  = storage.getInfoFromLesson()//MutableLiveData<List<String>>()
+    private val _lessons  = storage.getInfoFromLesson()
     val lessons: LiveData<List<String>> get() = _lessons
 
     val worth = storage.worth
@@ -36,16 +39,6 @@ open class MainViewModel @ViewModelInject constructor(
     //-----
 
     private val sound: Sound = Sound()
-
-/*
-    fun getHelloSoundCode() {
-        questionSymbol.postValue("get ready!")
-        ms = sound.code("...-...-...-")
-    }
-*/
-
-
-
 
     ///----import cvcs files--------//// это остается во VM
     fun insertLesson(lesson: Lesson) = storage.insertCvsLesson(lesson)
@@ -120,9 +113,11 @@ open class MainViewModel @ViewModelInject constructor(
     }
 
     //-------
-    fun startLessonTask() {
+    var lessonTask = LessonTask()
 
-        LessonTask().run()
+    fun startLessonTask() {
+if(!isStopButtonClicked) lessonTask.run()
+       // startLessonTaskInCoroutine()
     }
     //---------
 
@@ -143,7 +138,6 @@ open class MainViewModel @ViewModelInject constructor(
     fun loadLesson() {
         storage.setAdvLevel(_levelName)
         storage.setAdvMax(_maxcharName)
-
 
         val lesson = storage.loadLesson(_lessonName)
         currentLesson = CurrentLesson(storage = storage, lesson?.symbols)
@@ -179,6 +173,14 @@ open class MainViewModel @ViewModelInject constructor(
 
     inner class LessonTask : TimerTask() {
         override fun run() {
+
+            if (isStopButtonClicked) {
+                timer.cancel()
+                timer.purge()
+                Timber.e(" if (isStopButtonClicked) return.....")
+                return
+            }
+
             question = currentLesson.getQuestion()
             answer_buf = ""
 
@@ -200,12 +202,41 @@ open class MainViewModel @ViewModelInject constructor(
                 }
             }
 
-            if (isStopButtonClicked) {
+
+        }
+    }
+
+    fun startLessonTaskInCoroutine() {
+        runBlocking {
+            viewModelScope.launch {
+                while (!isStopButtonClicked) {
+                    question = currentLesson.getQuestion()
+                    answer_buf = ""
+
+                    var help = false
+                    if (question._correct <= 3) { help = true }
+
+                    isBackgroundChange.postValue(true)
+
+                    var  ms = playQuestion(_repeatName)
+
+                    if (help) {
+                        questionSymbol.postValue(question.symbol)
+                        Timber.e(" -----question symbol----live data-----> ${questionSymbol.value}")
+                        startTimer(ms + help_wait)
+                    } else {
+                        questionSymbol.postValue(question.getSecret(""))
+                        if (question_wait > 0) {
+                            startTimer(ms + question_wait)
+                        }
+                    }
+                }
                 timer.cancel()
                 timer.purge()
-                return
             }
+
         }
+
     }
 
     lateinit var timer: Timer
@@ -262,6 +293,7 @@ open class MainViewModel @ViewModelInject constructor(
                 questionSymbol.postValue(question.symbol)
                 isBackgroundChange.postValue(false)
                 sound.alarm()
+              //  isBackgroundChange.postValue(true) //
                 startTimer(help_wait)
             }
         }
@@ -272,6 +304,7 @@ open class MainViewModel @ViewModelInject constructor(
         curranswer = answer
         keyTyped()
     }
+
     var isStopButtonClicked = false
     fun whenStopBtnClickedPassTrue( ) {
         this.isStopButtonClicked = true

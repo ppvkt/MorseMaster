@@ -50,19 +50,20 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private var itemSelectedRepeatInSpinner = 0
 
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+    }
     @RequiresApi(Build.VERSION_CODES.N)
     @ExperimentalStdlibApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-
         super.onViewCreated(view, savedInstanceState)
         hideProgressBar()
-        importAllCvsInDbIfNeed()
 
+        importAllCvsInDbIfNeed()
         btnRun.setOnClickListener { view ->
 
-           showProgressBar()
-
+            showProgressBar()
             this.writeDataToSharedPref()
             this.setItemSelected()
             val bundle = Bundle().apply {

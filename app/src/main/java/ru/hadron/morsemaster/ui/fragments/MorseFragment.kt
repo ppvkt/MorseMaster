@@ -20,31 +20,46 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
 
     val args: MorseFragmentArgs by navArgs()
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         this.subscribeToObservers()
-
         sendDataInViewModel()
-
-
+        this.setOnClickListenersToAllBtnChar()
         viewModel.loadLesson()
 
         viewModel.startLessonTask()
 
-        this.setOnClickListenersToAllBtnChar()
-
-        viewModel.startTimerFromFragment()
+        if (!isHelloShowedFlag) {
+            isHelloShowedFlag = true
+            viewModel.startTimerFromFragment()
+        }
 
         btnStop.setOnClickListener {
             //todo
             // stopTimer()
             //  viewModel.stopTimerFromFragment()
+            isHelloShowedFlag = false
             viewModel.whenStopBtnClickedPassTrue()
             findNavController().navigate(R.id.action_morseFragment_to_settingsFragment)
-            onDestroy()
+
         }
     }
+
+    private var isHelloShowedFlag = false
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (savedInstanceState != null) {
+            isHelloShowedFlag = savedInstanceState.getBoolean("flag")
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean("flag", isHelloShowedFlag)
+        super.onSaveInstanceState(outState)
+    }
+
 
 
     fun subscribeToObservers() {

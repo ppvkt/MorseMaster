@@ -253,7 +253,7 @@
                 android:layout_height="32dp"
                 android:layout_margin="2dp"
                 android:background="@drawable/roundedbutton"
-                android:text=" ?"
+                android:text="@string/questionMark"
                 android:textSize="10sp" />
 
         </LinearLayout>

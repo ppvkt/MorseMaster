@@ -16,6 +16,7 @@ import kotlinx.coroutines.*
 import ru.hadron.morsemaster.R
 import ru.hadron.morsemaster.ui.viewmodels.MainViewModel
 import java.lang.Thread.sleep
+import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
@@ -33,8 +34,8 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
         this.subscribeToObservers()
         this.setOnClickListenersToAllBtnChar()
 
-        clQewry.visibility = View.INVISIBLE
         if (!isHelloShowedFlag) {
+            viewModel.startTimerFromFragment()
             view.postDelayed(
                 {
                     clQewry.visibility = View.VISIBLE
@@ -42,7 +43,9 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
                 },
                 3000L
             )
-            viewModel.startTimerFromFragment()
+        } else {
+            clQewry.visibility = View.VISIBLE
+            isHelloShowedFlag = true
         }
 
         btnStop.setOnClickListener {
@@ -57,7 +60,7 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
         }
     }
 
-    private var isHelloShowedFlag = false
+    var isHelloShowedFlag  = false
     private var isCurrentDataLoadedFlag =  false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

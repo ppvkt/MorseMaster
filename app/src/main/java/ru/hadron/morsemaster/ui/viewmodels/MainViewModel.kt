@@ -110,7 +110,6 @@ open class MainViewModel @ViewModelInject constructor(
                 val codesGroup = CodesGroup(id = row.getOrDefault("id",""), info = row.getOrDefault("info", ""))
                 Timber.e("======${codesGroup.hashCode()}")
                 insertCodesGroup(codesGroup)
-
             }
         }
     }
@@ -122,20 +121,17 @@ open class MainViewModel @ViewModelInject constructor(
     var answer_buf: String = ""
     private val help_wait = 3000 //ms
     private var question_wait = 0 //ms
+    private var timeout_items = arrayOf(0, 1000, 2000, 3000)
 
     val questionSymbol: MutableLiveData<String> = MutableLiveData()
     val isBackgroundChange: MutableLiveData<Boolean> = MutableLiveData()
 
     init {
         isBackgroundChange.postValue(true)
-
     }
 
     //mappingLessonToCurrentLesson
     fun loadLesson() {
-        storage.setAdvLevel(_levelName)
-        storage.setAdvMax(_maxcharName)
-
         val lesson = storage.loadLesson(_lessonName)
         currentLesson = CurrentLesson(storage = storage, lesson?.symbols)
 
@@ -164,6 +160,21 @@ open class MainViewModel @ViewModelInject constructor(
         _levelName = levelName
         _maxcharName = maxcharName
         _repeatName = repeatName
+
+        storage.setAdvLevel(_levelName)
+        storage.setAdvMax(_maxcharName)
+
+        var index = 0
+        when (_timeoutName) {
+            "Forever" -> index = 0
+            "1 sec" -> index = 1
+            "2 sec" -> index = 2
+            "3 sec" -> index = 3
+        }
+        question_wait = timeout_items[index]
+Timber.e("---------------------------question_wait----------------------$question_wait")
+        sound.wpm(_speedName.toInt())
+
     }
 
 //---------------------------------------
@@ -179,7 +190,7 @@ open class MainViewModel @ViewModelInject constructor(
             }
 
             question = currentLesson.getQuestion()
-           answer_buf = ""
+            answer_buf = ""
 
             var help = false
             if (question._correct <= 3) { help = true }
@@ -206,18 +217,14 @@ open class MainViewModel @ViewModelInject constructor(
     lateinit var timer: Timer
     private var isTimerRun: Boolean = false
 
-   fun startTimer(currDelay: Int) {
+    fun startTimer(currDelay: Int) {
         timer  = Timer()
         timer.schedule(LessonTask(), currDelay.toLong())
         isTimerRun = true
     }
     fun startTimerFromFragment() {
         questionSymbol.postValue("get ready!")
-
-        var ms = sound.code("...-...-...-")
-
-       // sound.wpm(_speedName.toInt()*1000)
-
+        helloMs = sound.code("...-...-...-")
     }
 
     private fun stopTimer() {
@@ -251,7 +258,9 @@ open class MainViewModel @ViewModelInject constructor(
         }
 
         var key = curranswer
-        answer_buf += key
+        if (isBackgroundChange.value == true) {
+            answer_buf += key
+        }
         questionSymbol.postValue(question.getSecret(answer_buf))   // typed?
 
         if (answer_buf.length == question.length()) {
@@ -277,4 +286,6 @@ open class MainViewModel @ViewModelInject constructor(
     fun whenStopBtnClickedPassTrue( ) {
         this.isStopButtonClicked = true
     }
+
+    var helloMs = 0
 }

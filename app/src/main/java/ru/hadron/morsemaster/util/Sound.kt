@@ -21,7 +21,8 @@ class Sound {
     var buf: ByteArray? = null
 
     fun wpm(x: Int) {
-        dit = Math.round(60.0 / (attr.x * 50.0) * 1000.0).toInt()
+        dit = Math.round(60.0 / (x * 50.0) * 1000.0).toInt()
+        Timber.e("-------------------------------------------------------------dit = $dit")
         dah = dit * 3
 
         dit += attack

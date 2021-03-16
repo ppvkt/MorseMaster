@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.isNotEmpty
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -12,11 +11,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_morse.*
-import kotlinx.coroutines.*
 import ru.hadron.morsemaster.R
 import ru.hadron.morsemaster.ui.viewmodels.MainViewModel
-import java.lang.Thread.sleep
-import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
@@ -33,7 +29,7 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
 
         this.subscribeToObservers()
         this.setOnClickListenersToAllBtnChar()
-
+        sendDataInViewModel()
         if (!isHelloShowedFlag) {
             viewModel.startTimerFromFragment()
             view.postDelayed(
@@ -41,11 +37,17 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
                     clQewry.visibility = View.VISIBLE
                     isHelloShowedFlag = true
                 },
-                3000L
+                (viewModel.helloMs + 1000).toLong()
             )
         } else {
             clQewry.visibility = View.VISIBLE
             isHelloShowedFlag = true
+        }
+
+        if (!isCurrentDataLoadedFlag) {
+            viewModel.loadLesson()
+            viewModel.startTimer(viewModel.helloMs + 1000)
+            isCurrentDataLoadedFlag = true
         }
 
         btnStop.setOnClickListener {
@@ -56,8 +58,8 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
             isCurrentDataLoadedFlag = false
             viewModel.whenStopBtnClickedPassTrue()
             findNavController().navigate(R.id.action_morseFragment_to_settingsFragment)
-
         }
+
     }
 
     var isHelloShowedFlag  = false
@@ -68,13 +70,6 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
         if (savedInstanceState != null) {
             isHelloShowedFlag = savedInstanceState.getBoolean("isHelloShowedFlag")
             isCurrentDataLoadedFlag = savedInstanceState.getBoolean("isCurrentDataLoadedFlag")
-        }
-
-        if (!isCurrentDataLoadedFlag) {
-            sendDataInViewModel()
-            viewModel.loadLesson()
-            viewModel.startTimer(3000)
-            isCurrentDataLoadedFlag = true
         }
     }
 
@@ -99,7 +94,6 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
                 tvShowingChar.setBackgroundColor(Color.DKGRAY)
             } else {
                 tvShowingChar.setBackgroundColor(Color.RED)
-                //block typed
             }
             }
         })

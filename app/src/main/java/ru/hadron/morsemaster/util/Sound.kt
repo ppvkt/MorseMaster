@@ -35,15 +35,15 @@ class Sound {
         val r = length - a
         Timber.e("-------------------------------lenght = $length")
         for (i in 0 .. length - 1) { // -1
-            val period = SAMPLE_RATE / freq
+            val period = SAMPLE_RATE.toDouble() / freq
             val angle = 2.0 * Math.PI * i / period
-            var amp = 1.0
+            var amp: Double = 1.0   //f?
             if (i < a) {
-                amp = i.toDouble() / a.toDouble()
+                amp = i.toDouble() / a
             } else if (i > r) {
-                amp = 1.0f - (i - r).toDouble() / a.toDouble()
+                amp = 1.0f - (i - r).toDouble() / a
             }
-            buf!![from + i] = (Math.sin(angle) * amp * 127f).toByte()
+            buf!![from + i] = (Math.sin(angle) * amp * 127f).toInt().toByte()
         }
         Timber.e("buf = ${buf!!.size}")
         return from + length
@@ -51,7 +51,7 @@ class Sound {
 
     fun pause(ms: Int, from: Int): Int {
         val length: Int = SAMPLE_RATE * ms / 1000
-        for (i in 0 until length - 1) { // -1
+        for (i in 0 .. length - 1) { // -1
             buf?.set(from + i, 0)
         }
         return from + length
@@ -74,7 +74,6 @@ class Sound {
         Timber.e("code from sound buf.size === ${buf!!.size}")
 
         GlobalScope.launch(Dispatchers.Default) {
-
             try {
                 var from: Int
 
@@ -102,7 +101,6 @@ class Sound {
                     AudioTrack.MODE_STATIC
                 )
 
-
                 Timber.e("--------audioTrack.state-------${audioTrack.state}")
                 audioTrack.write(buf!!, 0, buf!!.size)
                 audioTrack.play()
@@ -116,7 +114,6 @@ class Sound {
             } catch (t: Throwable) {
                 Timber.e("playback failed")
             }
-
         }
         return length
     }

@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "ru.hadron.morsemaster"
-        minSdkVersion 16
+        minSdkVersion 24
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -140,8 +140,4 @@ dependencies {
     //doyaaaaaken's kotlin-csv
     implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.15.0")
 //------
-    implementation "android.arch.lifecycle:extensions:1.1.1"
-//-----
-
-
 }

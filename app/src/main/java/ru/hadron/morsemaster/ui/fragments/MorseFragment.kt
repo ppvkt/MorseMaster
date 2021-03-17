@@ -29,8 +29,10 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
 
         this.subscribeToObservers()
         this.setOnClickListenersToAllBtnChar()
+
         sendDataInViewModel()
         if (!isHelloShowedFlag) {
+            isHelloShowedFlag = true
             viewModel.startTimerFromFragment()
             view.postDelayed(
                 {
@@ -40,8 +42,8 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
                 (viewModel.helloMs + 1000).toLong()
             )
         } else {
-            clQewry.visibility = View.VISIBLE
             isHelloShowedFlag = true
+            clQewry.visibility = View.VISIBLE
         }
 
         if (!isCurrentDataLoadedFlag) {

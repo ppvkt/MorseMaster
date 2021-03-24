@@ -3,6 +3,8 @@ package ru.hadron.morsemaster.ui.fragments
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
+import androidx.gridlayout.widget.GridLayout
 import androidx.annotation.ColorRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -26,11 +28,106 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
 
     val args: MorseFragmentArgs by navArgs()
 
-    lateinit var clQewry: ConstraintLayout
+    private lateinit var btnChar1: Button
+    private lateinit var btnChar2: Button
+    private lateinit var btnChar3: Button
+    private lateinit var btnChar4: Button
+    private lateinit var btnChar5: Button
+    private lateinit var btnChar6: Button
+    private lateinit var btnChar7: Button
+    private lateinit var btnChar8: Button
+    private lateinit var btnChar9: Button
+    private lateinit var btnCharNull: Button
+
+    private lateinit var btnCharQ: Button
+    private lateinit var btnCharW: Button
+    private lateinit var btnCharE: Button
+    private lateinit var btnCharR: Button
+    private lateinit var btnCharT: Button
+    private lateinit var btnCharY: Button
+    private lateinit var btnCharU: Button
+    private lateinit var btnCharI: Button
+    private lateinit var btnCharO: Button
+    private lateinit var btnCharP: Button
+
+    private lateinit var btnCharA: Button
+    private lateinit var btnCharS: Button
+    private lateinit var btnCharD: Button
+    private lateinit var btnCharF: Button
+    private lateinit var btnCharG: Button
+    private lateinit var btnCharH: Button
+    private lateinit var btnCharJ: Button
+    private lateinit var btnCharK: Button
+    private lateinit var btnCharL: Button
+    private lateinit var btnCharEqually: Button
+
+    private lateinit var btnCharZ: Button
+    private lateinit var btnCharX: Button
+    private lateinit var btnCharC: Button
+    private lateinit var btnCharV: Button
+    private lateinit var btnCharB: Button
+    private lateinit var btnCharN: Button
+    private lateinit var btnCharM: Button
+    private lateinit var btnCharComma: Button
+    private lateinit var btnCharDot: Button
+    private lateinit var btnCharQuestionMark: Button
+
+    private lateinit var btnRepeat: Button
+    private lateinit var btnCharSlash: Button
+
+    lateinit var clQewry: GridLayout
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         clQewry = view.findViewById(R.id.cl_qwery)
+
+        btnChar1 = view.findViewById(R.id.btnChar1)
+        btnChar2 = view.findViewById(R.id.btnChar2)
+        btnChar3 = view.findViewById(R.id.btnChar3)
+        btnChar4 = view.findViewById(R.id.btnChar4)
+        btnChar5 = view.findViewById(R.id.btnChar5)
+        btnChar6 = view.findViewById(R.id.btnChar6)
+        btnChar7 = view.findViewById(R.id.btnChar7)
+        btnChar8 = view.findViewById(R.id.btnChar8)
+        btnChar9 = view.findViewById(R.id.btnChar9)
+        btnCharNull = view.findViewById(R.id.btnCharNull)
+
+        btnCharQ = view.findViewById(R.id.btnCharQ)
+        btnCharW = view.findViewById(R.id.btnCharW)
+        btnCharE = view.findViewById(R.id.btnCharE)
+        btnCharR = view.findViewById(R.id.btnCharR)
+        btnCharT = view.findViewById(R.id.btnCharT)
+        btnCharY = view.findViewById(R.id.btnCharY)
+        btnCharU = view.findViewById(R.id.btnCharU)
+        btnCharI = view.findViewById(R.id.btnCharI)
+        btnCharO = view.findViewById(R.id.btnCharO)
+        btnCharP = view.findViewById(R.id.btnCharP)
+
+        btnCharA = view.findViewById(R.id.btnCharA)
+        btnCharS = view.findViewById(R.id.btnCharS)
+        btnCharD = view.findViewById(R.id.btnCharD)
+        btnCharF = view.findViewById(R.id.btnCharF)
+        btnCharG = view.findViewById(R.id.btnCharG)
+        btnCharH = view.findViewById(R.id.btnCharH)
+        btnCharJ = view.findViewById(R.id.btnCharJ)
+        btnCharK = view.findViewById(R.id.btnCharK)
+        btnCharL = view.findViewById(R.id.btnCharL)
+        btnCharEqually= view.findViewById(R.id.btnCharEqually)
+
+        btnCharZ = view.findViewById(R.id.btnCharZ)
+        btnCharX = view.findViewById(R.id.btnCharX)
+        btnCharC = view.findViewById(R.id.btnCharC)
+        btnCharV = view.findViewById(R.id.btnCharV)
+        btnCharB = view.findViewById(R.id.btnCharB)
+        btnCharN = view.findViewById(R.id.btnCharN)
+        btnCharM = view.findViewById(R.id.btnCharM)
+        btnCharComma = view.findViewById(R.id.btnCharComma)
+        btnCharDot = view.findViewById(R.id.btnCharDot)
+        btnCharQuestionMark = view.findViewById(R.id.btnCharQuestionMark)
+
+        btnRepeat= view.findViewById(R.id.btnRepeat)
+        btnCharSlash= view.findViewById(R.id.btnCharSlash)
+
 
         this.subscribeToObservers()
         this.setOnClickListenersToAllBtnChar()

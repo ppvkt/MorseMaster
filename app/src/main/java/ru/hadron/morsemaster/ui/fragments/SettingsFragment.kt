@@ -89,7 +89,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 bundle)
         }
 
-        btClearStatistic.setOnClickListener {
+        btnClearStatistic.setOnClickListener {
             viewModel.clearStat()
             setDefaultSpinnersPosition()
             writeDataToSharedPref()
@@ -113,7 +113,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             writeDataToSharedPref()
         }
 
-        actAnswertimeout.setOnItemClickListener { _, _, position, _ ->
+        actAnswerTimeout.setOnItemClickListener { _, _, position, _ ->
             itemSelectedAnswerTimeoutInSpinner = timeoutAdapter.getItem(position) ?: defaultAnswerTimeout
             writeDataToSharedPref()
         }
@@ -171,7 +171,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             R.array.answer_timeout_array,
             R.layout.dropdown_menu_popup_item
         ) as ArrayAdapter<String>
-        actAnswertimeout.apply {
+        actAnswerTimeout.apply {
             setAdapter(timeoutAdapter)
             setText(sharedPref.getString(KEY_ANSWER_TIMEOUT, ""), false)
         }
@@ -195,11 +195,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         maxcharAdapter =  ArrayAdapter.createFromResource(
             requireContext(),
             R.array.max_char_array,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            // adapter.setDropDownViewResource(android.R.)
-            spMaxChar.adapter = adapter
-            spMaxChar.setSelection(sharedPref.getInt(KEY_MAX_CHAR, 0))
+            R.layout.dropdown_menu_popup_item
+        ) as ArrayAdapter<String>
+        actMaxchar.apply {
+            setAdapter(maxcharAdapter)
+            setText(sharedPref.getString(KEY_MAX_CHAR, ""), false)
         }
 
         repeatAdapter =  ArrayAdapter.createFromResource(
@@ -234,7 +234,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
         actLesson.setText(defaultLesson, false)
         actSpeed.setText(defaultSpeed, false)
-        actAnswertimeout.setText(defaultAnswerTimeout, false)
+        actAnswerTimeout.setText(defaultAnswerTimeout, false)
         actLevel.setText(defaultLevel, false)
         actMaxchar.setText(defaultMaxChar, false)
         actRepeat.setText(defaultRepeat, false)

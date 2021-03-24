@@ -20,9 +20,9 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@android:color/darker_gray"
+        android:gravity="center_vertical|center_horizontal"
         android:text="xxxx"
         android:textSize="50sp"
-      android:gravity="center_vertical|center_horizontal"
 
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -493,17 +493,18 @@
 
 
         </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/tvShowingMorse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
+        android:layout_marginLeft="8dp"
         android:gravity="center"
         android:text="------------------------"
         android:textSize="20dp"
-        android:layout_marginLeft="8dp"
+        android:visibility="invisible"
 
         app:layout_constraintBottom_toBottomOf="@+id/switchNMorse"
         app:layout_constraintStart_toEndOf="@+id/switchNMorse"
@@ -524,7 +525,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-       android:paddingLeft="8dp"
+        android:paddingLeft="8dp"
         android:text="count : 0"
         app:layout_constraintBottom_toTopOf="@+id/switchNMorse"
         app:layout_constraintStart_toEndOf="@+id/tvWorth"
@@ -533,13 +534,21 @@
 
     <Button
         android:id="@+id/btnStop"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        style="?attr/materialButtonOutlinedStyle"
+        android:text="stop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline14"
+        app:layout_constraintTop_toTopOf="@+id/guideline13" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="stop"
-
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="60dp" />
 
     <Switch
         android:id="@+id/switchNMorse"
@@ -549,6 +558,13 @@
         android:text="code"
         app:layout_constraintBottom_toBottomOf="@+id/btnStop"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.7" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

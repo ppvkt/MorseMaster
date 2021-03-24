@@ -42,6 +42,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.7" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline7"
         android:layout_width="wrap_content"
@@ -81,7 +82,9 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayout2"
         app:layout_constraintEnd_toStartOf="@+id/guideline8"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/guideline7"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -100,6 +103,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayout4"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -139,8 +143,10 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-       android:layout_marginRight="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayout6"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
 
@@ -158,7 +164,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-      android:layout_marginLeft="8dp"
+        android:layout_marginLeft="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/textInputLayout4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
@@ -178,6 +184,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout4">

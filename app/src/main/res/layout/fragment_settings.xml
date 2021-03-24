@@ -4,177 +4,157 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".ui.fragments.SettingsFragment">
+    android:padding="16dp">
 
-    <TextView
-        android:id="@+id/tvLesson"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Lesson :"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:padding="16dp"/>
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
-    <Spinner
-        android:id="@+id/spLesson"
-        android:layout_width="150dp"
-        android:layout_height="24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvLesson"
-        app:layout_constraintStart_toEndOf="@+id/tvLesson"
-        app:layout_constraintTop_toTopOf="@+id/tvLesson" />
-
-    <TextView
-        android:id="@+id/tvSpeed"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="Speed(WPM) :"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvLesson" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.9" />
 
-    <Spinner
-        android:id="@+id/spSpeed"
-        android:layout_width="150dp"
-        android:layout_height="24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvSpeed"
-        app:layout_constraintStart_toEndOf="@+id/tvSpeed"
-        app:layout_constraintTop_toTopOf="@+id/tvSpeed" />
-
-    <TextView
-        android:id="@+id/tvAnswerTimeout"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="Answer timeout :"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvSpeed" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.3" />
 
-    <Spinner
-        android:id="@+id/spAnswerTimeout"
-        android:layout_width="150dp"
-        android:layout_height="24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvAnswerTimeout"
-        app:layout_constraintStart_toEndOf="@+id/tvAnswerTimeout"
-        app:layout_constraintTop_toTopOf="@+id/tvAnswerTimeout" />
-
-    <com.google.android.material.internal.BaselineLayout
-        android:id="@+id/baselineLayout"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        app:layout_constraintTop_toBottomOf="@+id/tvAnswerTimeout"
-        tools:layout_editor_absoluteX="16dp"
-        />
-
-    <TextView
-        android:id="@+id/textView2"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="Advanced"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/baselineLayout" />
-
-    <TextView
-        android:id="@+id/tvLevel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="Level (%) :"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <Spinner
-        android:id="@+id/spLevel"
-        android:layout_width="150dp"
-        android:layout_height="24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvLevel"
-        app:layout_constraintStart_toEndOf="@+id/tvLevel"
-        app:layout_constraintTop_toTopOf="@+id/tvLevel" />
-
-    <TextView
-        android:id="@+id/tvMaxChar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="Max (char) :"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvLevel" />
-
-    <Spinner
-        android:id="@+id/spMaxChar"
-        android:layout_width="150dp"
-        android:layout_height="24dp"
-
-        app:layout_constraintBottom_toBottomOf="@+id/tvMaxChar"
-        app:layout_constraintStart_toEndOf="@+id/tvMaxChar"
-        app:layout_constraintTop_toTopOf="@+id/tvMaxChar" />
-
-
-    <TextView
-        android:id="@+id/tvRepeat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="Repeat :"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvMaxChar" />
-
-    <Spinner
-        android:id="@+id/spRepeat"
-        android:layout_width="150dp"
-        android:layout_height="24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvRepeat"
-        app:layout_constraintStart_toEndOf="@+id/tvRepeat"
-        app:layout_constraintTop_toTopOf="@+id/tvRepeat" />
-
-    <com.google.android.material.internal.BaselineLayout
-        android:id="@+id/baselineLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        app:layout_constraintTop_toBottomOf="@+id/tvRepeat"
-        tools:layout_editor_absoluteX="16dp" />
-
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.7" />
 
     <Button
         android:id="@+id/btnRun"
-        android:layout_width="116dp"
-        android:layout_height="58dp"
-        android:text="run"
-        android:textColor="@android:color/white"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/run"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline4" />
 
     <Button
-        android:id="@+id/btClearStatistic"
-        android:layout_width="116dp"
-        android:layout_height="58dp"
-        android:text="clear statistic"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-
-    <ProgressBar
-        android:id="@+id/paginationProgressBar"
-        style="?attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:visibility="invisible"
+        android:id="@+id/btnClearStatistic"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/clear_statistic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toTopOf="@+id/guideline4" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
+        app:layout_constraintTop_toTopOf="parent">
+        <AutoCompleteTextView
+            android:id="@+id/actLesson"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="@string/lesson" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout1">
+
+        <AutoCompleteTextView
+            android:id="@+id/actSpeed"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="@string/speed" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/textInputLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/textInputLayout2">
+        <AutoCompleteTextView
+            android:id="@+id/actLevel"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="@string/level" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
+
+        <AutoCompleteTextView
+            android:id="@+id/actAnswerTimeout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="@string/answer_timeout" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/textInputLayout4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/textInputLayout4">
+        <AutoCompleteTextView
+            android:id="@+id/actMaxchar"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="@string/max_char" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout4">
+
+        <AutoCompleteTextView
+            android:id="@+id/actRepeat"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="@string/repeat" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

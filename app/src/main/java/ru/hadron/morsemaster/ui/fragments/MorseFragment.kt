@@ -3,6 +3,7 @@ package ru.hadron.morsemaster.ui.fragments
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.ColorRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -11,8 +12,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_morse.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import ru.hadron.morsemaster.R
 import ru.hadron.morsemaster.ui.viewmodels.MainViewModel
+import java.lang.Integer.parseInt
+import javax.annotation.Resource
 
 @AndroidEntryPoint
 class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
@@ -30,10 +35,12 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
         this.subscribeToObservers()
         this.setOnClickListenersToAllBtnChar()
 
-        sendDataInViewModel()
         if (!isHelloShowedFlag) {
+            //  viewModel.setHelloSoundWpm(args.speedName.toInt())
+            sendDataInViewModel()
             isHelloShowedFlag = true
             viewModel.startTimerFromFragment()
+
             view.postDelayed(
                 {
                     clQewry.visibility = View.VISIBLE
@@ -62,6 +69,16 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
             findNavController().navigate(R.id.action_morseFragment_to_settingsFragment)
         }
 
+        when(switchNMorse.isChecked) {
+            false ->  tvShowingMorse.visibility = View.INVISIBLE
+            true ->  tvShowingMorse.visibility = View.VISIBLE
+        }
+        switchNMorse.setOnClickListener {
+            when(switchNMorse.isChecked) {
+                false ->  tvShowingMorse.visibility = View.INVISIBLE
+                true ->  tvShowingMorse.visibility = View.VISIBLE
+            }
+        }
     }
 
     var isHelloShowedFlag  = false
@@ -92,11 +109,22 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
         })
 
         viewModel.isBackgroundChange?.observe(viewLifecycleOwner, Observer {
-            it.let {if (it == true) {
-                tvShowingChar.setBackgroundColor(Color.DKGRAY)
-            } else {
-                tvShowingChar.setBackgroundColor(Color.RED)
-            }
+            it.let {
+
+                when (it) {
+                    1 -> {
+                        tvShowingChar.setBackgroundColor(Color.DKGRAY)
+                        tvShowingChar.text = ""
+                    }
+                    2 -> {
+                        tvShowingChar.setBackgroundColor(Color.RED)
+                    }
+                    3 -> {
+                        tvShowingChar.setBackgroundColor(Color.parseColor("#304FFE"))
+                        tvShowingChar.text = ""
+                    }
+                    else -> tvShowingChar.setBackgroundColor(Color.DKGRAY)
+                }
             }
         })
 
@@ -108,6 +136,19 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
                 }
             }
         })
+
+        viewModel.currentMorseCode?.observe(viewLifecycleOwner, Observer {
+            it.let { tvShowingMorse.text = it
+                if (it == null) {
+                    tvShowingMorse.text = ""
+                }}
+        })
+
+        viewModel.coutShowedSymbols?.observe(viewLifecycleOwner, Observer {
+            it.let {
+                tvCountShowedSymbols.text = it
+            }
+        })
     }
 
     private fun sendDataInViewModel() {
@@ -115,9 +156,9 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
             lessonName = args.lessonName,
             speedName = args.speedName,
             timeoutName = args.timeoutName,
-            levelName = args.levelName,
-            maxcharName = args.maxcharName,
-            repeatName = args.repeatName
+            levelName = parseInt(args.levelName),
+            maxcharName = parseInt(args.maxcharName),
+            repeatName = parseInt(args.repeatName)
         )
     }
 

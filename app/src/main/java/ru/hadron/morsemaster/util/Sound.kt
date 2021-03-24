@@ -1,18 +1,16 @@
 package ru.hadron.morsemaster.util
 
-import android.R.attr
 import android.media.AudioFormat
 import android.media.AudioManager
 import android.media.AudioTrack
 import kotlinx.coroutines.*
 import ru.hadron.morsemaster.util.Constants.SAMPLE_RATE
 import timber.log.Timber
-import java.lang.Thread.getAllStackTraces
 import java.lang.Thread.sleep
-
+import kotlin.math.roundToInt
 
 class Sound {
-    private var freq = 700  //Hz
+    private var freq = 700 //Hz 700
     private var attack = 3 //ms
     private var dit = 100 // ms
     private var dah = 300 //ms
@@ -21,8 +19,7 @@ class Sound {
     var buf: ByteArray? = null
 
     fun wpm(x: Int) {
-        dit = Math.round(60.0 / (x * 50.0) * 1000.0).toInt()
-        Timber.e("-------------------------------------------------------------dit = $dit")
+        dit = ((60.0 / (x * 50.0) * 1000.0).roundToInt())
         dah = dit * 3
 
         dit += attack
@@ -33,25 +30,25 @@ class Sound {
         val length: Int = SAMPLE_RATE * ms / 1000
         val a: Int = SAMPLE_RATE * attack / 1000
         val r = length - a
-        Timber.e("-------------------------------lenght = $length")
-        for (i in 0 .. length - 1) { // -1
-            val period = SAMPLE_RATE.toDouble() / freq
-            val angle = 2.0 * Math.PI * i / period
-            var amp: Double = 1.0   //f?
+        for (i in 0 .. length - 1) {
+          val period  = SAMPLE_RATE / freq
+          // val period = SAMPLE_RATE.toDouble() / freq //низкочастотный звук если частота меньше 1000
+
+            val angle = (2.0 * Math.PI * i) / period
+            var amp = 1.0F  //f?
             if (i < a) {
-                amp = i.toDouble() / a
+                amp = (i / a).toFloat()
             } else if (i > r) {
-                amp = 1.0f - (i - r).toDouble() / a
+                amp = (1.0f - (i - r) / a)
             }
-            buf!![from + i] = (Math.sin(angle) * amp * 127f).toInt().toByte()
+            buf!![from + i] = (Math.sin(angle) * amp * 127f).toByte()
         }
-        Timber.e("buf = ${buf!!.size}")
         return from + length
     }
 
     fun pause(ms: Int, from: Int): Int {
         val length: Int = SAMPLE_RATE * ms / 1000
-        for (i in 0 .. length - 1) { // -1
+        for (i in 0 until length) {
             buf?.set(from + i, 0)
         }
         return from + length
@@ -63,20 +60,20 @@ class Sound {
         var length = 100
         for (c in chars) {
             when (c) {
-                '.' -> length += dit + dit
-                '-' -> length += dah + dit
+                '.' ->{
+                    length += dit + dit
+                }
+                '-' -> {length += dah + dit
+                }
                 ' ' -> length += dit * (symbol_pause - 1)
                 '|' -> length += dit * (word_pause - 1)
             }
         }
         buf = ByteArray(SAMPLE_RATE * length / 1000)
-        Timber.e("buf [i] = $buf")
-        Timber.e("code from sound buf.size === ${buf!!.size}")
 
         GlobalScope.launch(Dispatchers.Default) {
             try {
                 var from: Int
-
                 from = pause(100, 0)
 
                 for (c in chars) {
@@ -93,11 +90,10 @@ class Sound {
                         '|' -> from = pause(dit * (word_pause - 1), from)
                     }
                 }
-                // line.write(buf, 0, buf.length)
-                var   audioTrack = AudioTrack(
-                    AudioManager.STREAM_MUSIC,
+                val audioTrack = AudioTrack(
+                       AudioManager.STREAM_MUSIC,
                     SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO,
-                    AudioFormat.ENCODING_PCM_16BIT, buf!!.size,
+                    AudioFormat.ENCODING_PCM_8BIT, buf!!.size,
                     AudioTrack.MODE_STATIC
                 )
 
@@ -117,6 +113,7 @@ class Sound {
         }
         return length
     }
+
     private var counttest = 0
     fun alarm() {
         GlobalScope.launch(Dispatchers.Default) {
@@ -128,8 +125,7 @@ class Sound {
                     from = tone(50, 220, from)
                     from = tone(50, 440, from)
                 }
-                //  line.write(buf, 0, buf.length)
-                var  audioTrack = AudioTrack(
+                val audioTrack = AudioTrack(
                     AudioManager.STREAM_MUSIC,
                     SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO,
                     AudioFormat.ENCODING_PCM_16BIT, buf!!.size,

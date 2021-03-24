@@ -5,7 +5,7 @@ import ru.hadron.morsemaster.db.entity.*
 import javax.inject.Inject
 
 class DefaultRepository @Inject constructor(
-    val dao: StorageDao
+    private val dao: StorageDao
 ) {
     suspend fun getStmCode(symbol: String): String = dao.getStmCode(symbol)
    suspend fun getStmNextSymbol(level: Int) = dao.getStmNextSymbol(level)

@@ -36,7 +36,7 @@ open class MainViewModel @ViewModelInject constructor(
     private val _lessons  = storage.getInfoFromLesson()
     val lessons: LiveData<List<String>> get() = _lessons
 
-    val worth = storage.worth
+    val worth = storage.getWorth()
     fun insertStat(stat: Stat) = storage.insertStat(stat = stat)
     fun clearStat() = storage.clearStat()
     //-----
@@ -124,10 +124,19 @@ open class MainViewModel @ViewModelInject constructor(
     private var timeout_items = arrayOf(0, 1000, 2000, 3000)
 
     val questionSymbol: MutableLiveData<String> = MutableLiveData()
-    val isBackgroundChange: MutableLiveData<Boolean> = MutableLiveData()
+    val isBackgroundChange: MutableLiveData<Int> = MutableLiveData()
+    val currentMorseCode: MutableLiveData<String> = MutableLiveData()
+    val coutShowedSymbols: MutableLiveData<String> = MutableLiveData()
 
+
+    /*
+    1 gray
+    2 red
+    3 green
+     */
     init {
-        isBackgroundChange.postValue(true)
+        isBackgroundChange.postValue(1)
+        currentMorseCode.postValue("...-...-...-")
     }
 
     //mappingLessonToCurrentLesson
@@ -163,7 +172,7 @@ open class MainViewModel @ViewModelInject constructor(
 
         storage.setAdvLevel(_levelName)
         storage.setAdvMax(_maxcharName)
-
+        sound.wpm(_speedName.toInt())
         var index = 0
         when (_timeoutName) {
             "Forever" -> index = 0
@@ -172,14 +181,13 @@ open class MainViewModel @ViewModelInject constructor(
             "3 sec" -> index = 3
         }
         question_wait = timeout_items[index]
-Timber.e("---------------------------question_wait----------------------$question_wait")
-        sound.wpm(_speedName.toInt())
-
+        Timber.e("---------------------------question_wait----------------------$question_wait")
     }
 
-//---------------------------------------
-
+    //---------------------------------------
+    private var count = 1
     inner class LessonTask : TimerTask() {
+
         override fun run() {
 
             if (isStopButtonClicked) {
@@ -189,15 +197,17 @@ Timber.e("---------------------------question_wait----------------------$questio
                 return
             }
 
+
             question = currentLesson.getQuestion()
             answer_buf = ""
 
             var help = false
             if (question._correct <= 3) { help = true }
 
-            isBackgroundChange.postValue(true)
+            isBackgroundChange.postValue(1)
 
             var  ms = playQuestion(_repeatName)
+            currentMorseCode.postValue(storage.getCode(question._symbol))
 
             if (help) {
                 questionSymbol.postValue(question._symbol)
@@ -209,8 +219,8 @@ Timber.e("---------------------------question_wait----------------------$questio
                     startTimer(ms + question_wait)
                 }
             }
-
-
+            coutShowedSymbols.postValue("count : $count")
+            count++
         }
     }
 
@@ -224,6 +234,9 @@ Timber.e("---------------------------question_wait----------------------$questio
     }
     fun startTimerFromFragment() {
         questionSymbol.postValue("get ready!")
+        sound.wpm(_speedName.toInt())
+        //sound.wpm(16)
+        Timber.e("==================_speedName.toInt()======= = ${_speedName.toInt()}")
         helloMs = sound.code("...-...-...-")
     }
 
@@ -258,7 +271,7 @@ Timber.e("---------------------------question_wait----------------------$questio
         }
 
         var key = curranswer
-        if (isBackgroundChange.value == true) {
+        if (isBackgroundChange.value == 1) {
             answer_buf += key
         }
         questionSymbol.postValue(question.getSecret(answer_buf))   // typed?
@@ -266,10 +279,11 @@ Timber.e("---------------------------question_wait----------------------$questio
         if (answer_buf.length == question.length()) {
             stopTimer()
             if (currentLesson.setAnswer(answer_buf)) {
+                isBackgroundChange.postValue(3)
                 startTimer(100)
             } else {
                 questionSymbol.postValue(question.symbol)
-                isBackgroundChange.postValue(false)
+                isBackgroundChange.postValue(2)
                 sound.alarm()
                 startTimer(help_wait)
             }
@@ -288,4 +302,8 @@ Timber.e("---------------------------question_wait----------------------$questio
     }
 
     var helloMs = 0
+
+    fun setHelloSoundWpm(speed: Int) {
+        sound.wpm(speed)
+    }
 }

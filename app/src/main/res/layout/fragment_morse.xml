@@ -12,22 +12,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.4" />
+        app:layout_constraintGuide_percent="0.2" />
 
 
     <TextView
         android:id="@+id/tvShowingChar"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:background="@android:color/darker_gray"
-
         android:text="xxxx"
+        android:textSize="50sp"
       android:gravity="center_vertical|center_horizontal"
-        android:textSize="100sp"
+
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.343"
@@ -500,21 +496,59 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
+        android:id="@+id/tvShowingMorse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:gravity="center"
+        android:text="------------------------"
+        android:textSize="20dp"
+        android:layout_marginLeft="8dp"
+
+        app:layout_constraintBottom_toBottomOf="@+id/switchNMorse"
+        app:layout_constraintStart_toEndOf="@+id/switchNMorse"
+        app:layout_constraintTop_toTopOf="@+id/switchNMorse"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
         android:id="@+id/tvWorth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:text="worth : х%"
-        app:layout_constraintBaseline_toBaselineOf="@+id/btnStop"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvCountShowedSymbols"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvCountShowedSymbols"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+       android:paddingLeft="8dp"
+        android:text="count : 0"
+        app:layout_constraintBottom_toTopOf="@+id/switchNMorse"
+        app:layout_constraintStart_toEndOf="@+id/tvWorth"
+        app:layout_constraintTop_toTopOf="@+id/btnStop" />
+
 
     <Button
         android:id="@+id/btnStop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="stop"
+
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <Switch
+        android:id="@+id/switchNMorse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="code"
+        app:layout_constraintBottom_toBottomOf="@+id/btnStop"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,14 +21,13 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.textview.MaterialTextView
+                style="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
                 android:id="@+id/tvToolbarTitle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Morse Master App"
+                android:text="@string/morse_master"
                 android:textSize="30sp"
-                android:textStyle="bold"
                 android:gravity="center_vertical"
-                android:textColor="@android:color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"

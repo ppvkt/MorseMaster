@@ -33,12 +33,12 @@
             app:argType="string" />
         <argument
             android:name="levelName"
-            app:argType="integer" />
+            app:argType="string" />
         <argument
             android:name="maxcharName"
-            app:argType="integer" />
+            app:argType="string" />
         <argument
             android:name="repeatName"
-            app:argType="integer" />
+            app:argType="string" />
     </fragment>
 </navigation>

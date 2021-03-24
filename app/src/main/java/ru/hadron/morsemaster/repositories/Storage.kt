@@ -6,6 +6,7 @@ import ru.hadron.morsemaster.util.CurrentLesson
 
 import ru.hadron.morsemaster.util.Question
 import timber.log.Timber
+import java.sql.SQLException
 import java.util.*
 import javax.inject.Inject
 
@@ -39,19 +40,26 @@ class Storage @Inject constructor(
     fun getCode(text: String): String {
         var res = ""
         for (c: Char in text.toCharArray()) {
-            if (c.equals(" ")) {
+            if (c.equals(' ')) {
                 res += "|"
             } else {
+                try {
                 runBlocking {
                     GlobalScope.async(Dispatchers.IO) {
                         val code = repository.getStmCode(symbol = c.toString())
-                        if (code.isNotEmpty()) {
+                        if (!code.isEmpty()) {
                             res += "$code "
                         }
                     }.await()
                 }
+            } catch (e: SQLException) {
+                    e.printStackTrace()
+                    return res
+                }
+
             }
         }
+        Timber.e(" get code res>>>>>> $res")
         return res
     }
 
@@ -145,7 +153,6 @@ class Storage @Inject constructor(
     }
 
     fun getCountAdv(): Int {
-
         var result: Int = 0
         runBlocking {
             GlobalScope.async(Dispatchers.IO) {
@@ -209,7 +216,7 @@ class Storage @Inject constructor(
         return items
     }*/
 
-    val worth = repository.getStmWorth()
+    fun getWorth() = repository.getStmWorth()
 
     fun setAdvLevel(value: Int) { adv_level = value }
     fun setAdvMax(value: Int) {adv_max = value }

@@ -2,9 +2,10 @@ package ru.hadron.morsemaster.ui.fragments
 
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Layout
 import android.view.View
 import android.widget.Button
-import androidx.gridlayout.widget.GridLayout
+
 import androidx.annotation.ColorRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -75,7 +76,7 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
     private lateinit var btnRepeat: Button
     private lateinit var btnCharSlash: Button
 
-    lateinit var clQewry: GridLayout
+    lateinit var clQewry: ConstraintLayout
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -133,7 +134,6 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
         this.setOnClickListenersToAllBtnChar()
 
         if (!isHelloShowedFlag) {
-            //  viewModel.setHelloSoundWpm(args.speedName.toInt())
             sendDataInViewModel()
             isHelloShowedFlag = true
             viewModel.startTimerFromFragment()
@@ -166,10 +166,7 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
             findNavController().navigate(R.id.action_morseFragment_to_settingsFragment)
         }
 
-        when(switchNMorse.isChecked) {
-            false ->  tvShowingMorse.visibility = View.INVISIBLE
-            true ->  tvShowingMorse.visibility = View.VISIBLE
-        }
+
         switchNMorse.setOnClickListener {
             when(switchNMorse.isChecked) {
                 false ->  tvShowingMorse.visibility = View.INVISIBLE
@@ -186,6 +183,14 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
         if (savedInstanceState != null) {
             isHelloShowedFlag = savedInstanceState.getBoolean("isHelloShowedFlag")
             isCurrentDataLoadedFlag = savedInstanceState.getBoolean("isCurrentDataLoadedFlag")
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        when(switchNMorse.isChecked) {
+            false ->  tvShowingMorse.visibility = View.INVISIBLE
+            true ->  tvShowingMorse.visibility = View.VISIBLE
         }
     }
 

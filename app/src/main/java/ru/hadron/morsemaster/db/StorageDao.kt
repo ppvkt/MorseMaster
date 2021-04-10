@@ -63,7 +63,7 @@ interface StorageDao {
  @Query("UPDATE stat SET mistake = mistake + 1, lastseen = :lastseen WHERE symbol = :symbol")
  suspend fun updateStatIfNotCorrectAnswer(lastseen: Long, symbol: String)
 
- @Query("SELECT info FROM lesson")
+ @Query("SELECT info FROM lesson ORDER BY ")
  fun getInfoFromLesson(): LiveData<List<String>>
 
  ////----

@@ -5,12 +5,14 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
+
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.ListAdapter
 
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_settings.*
@@ -25,6 +27,7 @@ import ru.hadron.morsemaster.util.Constants.KEY_REPEAT
 import ru.hadron.morsemaster.util.Constants.KEY_SPEED
 import timber.log.Timber
 import javax.inject.Inject
+import android.widget.Adapter as Adapter1
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
@@ -47,16 +50,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private var itemSelectedMaxCharInSpinner: String = ""
     private var itemSelectedRepeatInSpinner: String = ""
 
- /*   init {
-       // defaultLesson = viewModel.lessons.value!![0]
-        itemSelectedLessonInSpinner = defaultLesson
-        itemSelectedSpeedInSpinner = defaultSpeed
-        itemSelectedAnswerTimeoutInSpinner = defaultAnswerTimeout
-        itemSelectedLevelInSpinner = defaultLevel
-        itemSelectedMaxCharInSpinner = defaultMaxChar
-        itemSelectedRepeatInSpinner = defaultRepeat
-    }*/
-
     private lateinit var lessonAdapter: ArrayAdapter<String>
     private lateinit var speedAdapter: ArrayAdapter<String>
     private lateinit var timeoutAdapter: ArrayAdapter<String>
@@ -71,11 +64,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
         hideProgressBar()
         importAllCvsInDbIfNeedAndInitSpinners()
-        showCurrentDataInSpinner()
-        setAllSpinnerListeners()
-        setSpinnersAdapters()
 
-        Timber.e("onViewCreated  sharedPref    ===== ${ sharedPref.getString(KEY_LESSON, "")} ====================== itemSelectedLessonInSpinner $itemSelectedLessonInSpinner")
+        setSpinnersAdapters()
+        setAllSpinnerListeners()
 
         btnRun.setOnClickListener { view ->
             showProgressBar()
@@ -101,18 +92,23 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        setSpinnersAdapters()
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        itemSelectedLessonInSpinner = sharedPref.getString(KEY_LESSON, defaultLesson).toString()
+        itemSelectedSpeedInSpinner = sharedPref.getString(KEY_SPEED, defaultSpeed).toString()
+        itemSelectedAnswerTimeoutInSpinner = sharedPref.getString(KEY_ANSWER_TIMEOUT, defaultAnswerTimeout). toString()
+        itemSelectedLevelInSpinner = sharedPref.getString(KEY_LEVEL, defaultLevel). toString()
+        itemSelectedMaxCharInSpinner = sharedPref.getString(KEY_MAX_CHAR, defaultMaxChar). toString()
+        itemSelectedRepeatInSpinner = sharedPref.getString(KEY_REPEAT, defaultRepeat). toString()
     }
+
     fun showCurrentDataInSpinner() {
-        actLesson.setText(sharedPref.getString(KEY_LESSON, defaultLesson), false)
-        actSpeed.setText(sharedPref.getString(KEY_SPEED, defaultSpeed), false)
-        actAnswerTimeout.setText(sharedPref.getString(KEY_ANSWER_TIMEOUT, defaultAnswerTimeout), false)
-        actLevel.setText(sharedPref.getString(KEY_LEVEL, defaultLevel), false)
-        actMaxchar.setText(sharedPref.getString(KEY_MAX_CHAR, defaultLevel), false)
-        actRepeat.setText(sharedPref.getString(KEY_REPEAT, defaultRepeat), false)
+        actLesson.setText(itemSelectedLessonInSpinner, false)
+        actSpeed.setText(itemSelectedSpeedInSpinner, false)
+        actAnswerTimeout.setText(itemSelectedAnswerTimeoutInSpinner, false)
+        actLevel.setText(itemSelectedLevelInSpinner, false)
+        actMaxchar.setText(itemSelectedMaxCharInSpinner, false)
+        actRepeat.setText(itemSelectedRepeatInSpinner, false)
     }
 
 
@@ -122,7 +118,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             sharedPref.edit()
                 .putString(KEY_LESSON, itemSelectedLessonInSpinner)
                 .apply()
-            Timber.e("setAllSpinnerListeners()  sharedPref    ===== ${ sharedPref.getString(KEY_LESSON, "")} ====================== itemSelectedLessonInSpinner $itemSelectedLessonInSpinner")
         }
 
         actSpeed.setOnItemClickListener { _, _, position, _ ->
@@ -161,24 +156,26 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
     }
 
-    //------
+    override fun onResume() {
+        setSpinnersAdapters()
+        super.onResume()
+    }
 
     fun setSpinnersAdapters() {
-
         viewModel.lessons.observe(viewLifecycleOwner, Observer {spinnerData ->
-            lessonAdapter = ArrayAdapter(
+            lessonAdapter = ArrayAdapter<String>(
                 requireContext(),
                 R.layout.dropdown_menu_popup_item,
                 spinnerData
             )
+
+          Timber.e("=================================$spinnerData")
+
             actLesson.apply {
                 setAdapter(lessonAdapter)
-
-               setText(sharedPref.getString(KEY_LESSON, ""), false)
-                Timber.e("setSpinnersAdapters()  sharedPref    ===== ${ sharedPref.getString(KEY_LESSON, "")} ====================== itemSelectedLessonInSpinner $itemSelectedLessonInSpinner")
+                setText(itemSelectedLessonInSpinner, false)
             }
         })
-
 
         val speedSpinnerData = arrayOfNulls<String>(26)
         var i = 15
@@ -192,7 +189,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         )
         actSpeed.apply {
             setAdapter(speedAdapter)
-            setText(sharedPref.getString(KEY_SPEED, ""), false)
+            setText(itemSelectedSpeedInSpinner, false)
         }
 
         timeoutAdapter = ArrayAdapter.createFromResource(
@@ -202,7 +199,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         ) as ArrayAdapter<String>
         actAnswerTimeout.apply {
             setAdapter(timeoutAdapter)
-            setText(sharedPref.getString(KEY_ANSWER_TIMEOUT, ""), false)
+            setText(itemSelectedAnswerTimeoutInSpinner, false)
         }
 
         val levelSpinnerData = arrayOfNulls<String>(51)
@@ -217,7 +214,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         )
         actLevel.apply {
             setAdapter(levelAdapter)
-            setText(sharedPref.getString(KEY_LEVEL, ""), false)
+            setText(itemSelectedLevelInSpinner, false)
         }
 
         maxcharAdapter =  ArrayAdapter.createFromResource(
@@ -227,7 +224,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         ) as ArrayAdapter<String>
         actMaxchar.apply {
             setAdapter(maxcharAdapter)
-            setText(sharedPref.getString(KEY_MAX_CHAR, ""), false)
+            setText(itemSelectedMaxCharInSpinner, false)
         }
 
         repeatAdapter =  ArrayAdapter.createFromResource(
@@ -237,7 +234,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         ) as ArrayAdapter<String>
         actRepeat.apply {
             setAdapter(repeatAdapter)
-            setText(sharedPref.getString(KEY_REPEAT, ""), false)
+            setText(itemSelectedRepeatInSpinner, false)
         }
     }
 
@@ -259,14 +256,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         itemSelectedLevelInSpinner = defaultLevel
         itemSelectedMaxCharInSpinner = defaultMaxChar
         itemSelectedRepeatInSpinner = defaultRepeat
-       // showCurrentDataInSpinner()
 
-        actLesson.setText(defaultLesson, false)
-        actSpeed.setText(defaultSpeed, false)
-        actAnswerTimeout.setText(defaultAnswerTimeout, false)
-        actLevel.setText(defaultLevel, false)
-        actMaxchar.setText(defaultMaxChar, false)
-        actRepeat.setText(defaultRepeat, false)
+        showCurrentDataInSpinner()
     }
 
     //----------
@@ -283,9 +274,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             }
             sharedPref.edit().putBoolean(KEY_ISCVSLOADED, true).apply()
             Toast.makeText(activity, "all cvs downloaded!", Toast.LENGTH_SHORT).show()
+
+           setDefaultSpinnersPosition()
+           writeDataToSharedPref()
         }
-        setDefaultSpinnersPosition()
-        writeDataToSharedPref()
+
     }
 
     private fun hideProgressBar() {

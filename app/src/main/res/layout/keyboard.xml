@@ -20,7 +20,7 @@
         android:layout_margin="@dimen/margin_keys"
         android:text="1"
         android:textSize="@dimen/textsize_keys"
-
+        android:textColor="@android:color/darker_gray"
         app:layout_constraintBottom_toTopOf="@+id/btnCharQ"
         app:layout_constraintEnd_toStartOf="@+id/btnChar2"
         app:layout_constraintHorizontal_bias="0.5"

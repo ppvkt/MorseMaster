@@ -60,13 +60,18 @@ class Sound {
         var length = 100
         for (c in chars) {
             when (c) {
-                '.' ->{
+                '.' -> {
                     length += dit + dit
                 }
-                '-' -> {length += dah + dit
+                '-' -> {
+                    length += dah + dit
                 }
-                ' ' -> length += dit * (symbol_pause - 1)
-                '|' -> length += dit * (word_pause - 1)
+                ' ' -> {
+                    length += dit * (symbol_pause - 1)
+                }
+                '|' -> {
+                    length += dit * (word_pause - 1)
+                }
             }
         }
         buf = ByteArray(SAMPLE_RATE * length / 1000)
@@ -140,7 +145,7 @@ class Sound {
                 audioTrack.release()
                 Timber.e("alarm from sound $counttest")
 
-            }catch (t: Throwable) {
+            } catch (t: Throwable) {
                 Timber.e("playback failed")
             }
         }

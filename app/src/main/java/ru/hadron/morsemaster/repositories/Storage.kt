@@ -38,7 +38,7 @@ class Storage @Inject constructor(
         var res = ""
         for (c: Char in text.toCharArray()) {
             if (c.equals(' ')) {
-                res += "|"
+               res += "|"
             } else {
                 try {
                     runBlocking {
@@ -56,7 +56,7 @@ class Storage @Inject constructor(
 
             }
         }
-        Timber.e(" get code res>>>>>> $res")
+        Timber.e("========================================= get code res>>>>>> $res")
         return res
     }
 
@@ -69,11 +69,6 @@ class Storage @Inject constructor(
         }
 
         return if (symbols!!.isNotEmpty()) {
-            // Timber.e("-load lesson--return--${Lesson(info = info, symbols = symbols?.split(" ").toString())}----")
-            Timber.e("-load lesson--return info--${info}----")
-
-            // var s = symbols?.split(" ").toString().drop(1).dropLast(1)   // [ ..... ]
-            //  var s = symbols?.split("").toString().drop(1).dropLast(1)   // [ ..... ] space
             var s = symbols?.replace(" ", "")?.replace(",", "")
             Timber.e("-load lesson--return symbols--${s}----")
             // Lesson(info = info, symbols = s)
@@ -133,7 +128,8 @@ class Storage @Inject constructor(
 
         runBlocking {
             GlobalScope.async(Dispatchers.IO) {
-                rs = repository.getStmNextSymbol(adv_level)
+               rs = repository.getStmNextSymbol(adv_level)
+              //  rs = rs + repository.getStmNextSymbol(adv_level)
             }.await()
         }
 
@@ -161,43 +157,39 @@ class Storage @Inject constructor(
     }
 
     fun getNextAdv(adv: Int): Question {
-        var rs: StatForStmNextAdv? = null
+        var rs: List<StatForStmNextAdv>? = null
 
         runBlocking {
             GlobalScope.async(Dispatchers.IO) {
-                rs = repository.getStmNextAdv(adv_level)
+               rs = repository.getStmNextAdv(adv_level)
             }.await()
         }
 
-        Timber.e("==========================StatForStmNextAdv== symbol=>>> ${rs?.symbol}")
-
-       // var items: Vector<AdvItem> = Vector<AdvItem>()
         var items = mutableListOf<AdvItem>()
         var question = ""
         var min_ratio = 99
 
-        rs?.symbol?.forEach {
-            min_ratio = Math.min(min_ratio, rs!!.ratio)
-            items.add(AdvItem(rs!!.symbol))
+        for (i in rs!!) {
+            Timber.e("$i symbol = ${i.symbol}")
+            min_ratio = Math.min(min_ratio, i.ratio)
+            items.add(AdvItem(i.symbol))
         }
 
         val count = 2 + (adv_max - 1) * (min_ratio - adv_level) / (100 - adv_level)
 
         if (items.size > count) {
             items = Vector(items.subList(0, count))
-          //  items = MutableList(items.subList(0, count))
         } else {
             var ii = items.size - 1
             while (ii < count) {
-                val item = items[ii % adv]
+              var item = items[ii % adv]
                 items.add(AdvItem(item.symbol))
+                Timber.e("++++++++++item.symbol+++++++++${item.symbol}++++++++++++++ ...}")
                 ii++
             }
         }
 
         items.sortedWith(AdvItemShuffle())
-       // items.sort(AdvItemShuffle())
-
         for (i in 0 until count) question += items.get(i).symbol
 
         return Question(question, 999)

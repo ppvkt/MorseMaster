@@ -5,7 +5,7 @@ import timber.log.Timber
 
 class CurrentLesson(
     storage: Storage,
-   currsymbols: String?,
+    currsymbols: String?,
 ) {
     private var storage: Storage = storage
      var symbols: String = currsymbols.toString()

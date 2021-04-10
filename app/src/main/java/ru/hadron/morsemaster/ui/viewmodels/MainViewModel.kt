@@ -8,11 +8,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import ru.hadron.morsemaster.db.entity.*
 import ru.hadron.morsemaster.repositories.Storage
 import ru.hadron.morsemaster.util.CurrentLesson
@@ -20,9 +16,7 @@ import ru.hadron.morsemaster.util.Question
 import ru.hadron.morsemaster.util.Sound
 import timber.log.Timber
 import java.io.File
-import java.io.IOError
 import java.io.IOException
-import java.lang.Thread.sleep
 import java.util.*
 
 open class MainViewModel @ViewModelInject constructor(
@@ -136,7 +130,7 @@ open class MainViewModel @ViewModelInject constructor(
      */
     init {
         isBackgroundChange.postValue(1)
-        currentMorseCode.postValue("...-...-...-")
+        currentMorseCode.postValue("...- ...- ...-")
     }
 
     //mappingLessonToCurrentLesson
@@ -213,7 +207,7 @@ open class MainViewModel @ViewModelInject constructor(
                 Timber.e(" -----question symbol----live data-----> ${questionSymbol.value}")
                 startTimer(ms + help_wait)
             } else {
-                questionSymbol.postValue(question.getSecret(""))
+                questionSymbol.postValue("(mask) "+ question.getSecret(""))
                 if (question_wait > 0) {
                    // startTimer(ms + question_wait)  //secret question witout timer
                 }

@@ -18,7 +18,7 @@ interface StorageDao {
 
  @Transaction
  @Query("SELECT symbol, 100*correct/(correct+mistake/2) AS ratio FROM stat WHERE ratio >= :ratio AND correct >= 10 ORDER BY lastseen, ratio")
- suspend  fun getStmNextAdv(ratio: Int): StatForStmNextAdv
+ suspend  fun getStmNextAdv(ratio: Int): List<StatForStmNextAdv>?
 
  @Transaction
  @Query("SELECT count(*) as _count, 100*correct/(correct+mistake/2) AS ratio FROM stat WHERE ratio >= :ratio AND correct >= 10")

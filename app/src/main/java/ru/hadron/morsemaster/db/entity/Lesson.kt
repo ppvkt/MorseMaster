@@ -6,7 +6,10 @@ import androidx.room.PrimaryKey
 
 @Entity (tableName = "lesson")
 data class Lesson(
-    @PrimaryKey(autoGenerate = false)
+  //  @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "info") val info: String,
     @ColumnInfo(name = "symbols")  val symbols: String
-)
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int? = null
+}

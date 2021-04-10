@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ListAdapter
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_settings.*
@@ -85,10 +86,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
 
         btnClearStatistic.setOnClickListener {
-            viewModel.clearStat()
-            setDefaultSpinnersPosition()
-            writeDataToSharedPref()
-            Toast.makeText(activity, "Your statistic is cleared!", Toast.LENGTH_SHORT).show()
+            showClearStatisticDialog()
         }
     }
 
@@ -287,6 +285,26 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private fun showProgressBar() {
         paginationProgressBar.visibility = View.VISIBLE
+    }
+
+    private fun showClearStatisticDialog() {
+        val dialog = MaterialAlertDialogBuilder(
+            requireContext(),
+            R.style.AlertDialogTheme
+        )
+            .setTitle("Clear your Statistic?")
+            .setMessage("Are you sure want to clear the Statistic with your answers?")
+            .setIcon(R.drawable.ic_clear)
+            .setPositiveButton("YES") {_, _ ->
+                viewModel.clearStat()
+                setDefaultSpinnersPosition()
+                writeDataToSharedPref()
+                Toast.makeText(activity, "Your statistic is cleared!", Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton("NO") {dialogInterface, _ -> dialogInterface.cancel()}
+
+            .create()
+        dialog.show()
     }
 
 }

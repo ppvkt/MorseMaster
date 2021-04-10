@@ -5,31 +5,33 @@
     android:id="@+id/cl_qwery"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp"
+
     android:visibility="invisible"
     app:layout_constraintBottom_toTopOf="@+id/guideline13"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="@+id/guideline2">
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnChar1"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="1"
         android:textSize="@dimen/textsize_keys"
+
         app:layout_constraintBottom_toTopOf="@+id/btnCharQ"
         app:layout_constraintEnd_toStartOf="@+id/btnChar2"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnChar2"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="2"
         android:textSize="@dimen/textsize_keys"
@@ -39,10 +41,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnChar1"
         app:layout_constraintTop_toTopOf="@+id/btnChar1" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnChar3"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="3"
         android:textSize="@dimen/textsize_keys"
@@ -52,10 +55,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnChar2"
         app:layout_constraintTop_toTopOf="@+id/btnChar2" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnChar4"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="4"
         android:textSize="@dimen/textsize_keys"
@@ -65,10 +69,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnChar3"
         app:layout_constraintTop_toTopOf="@+id/btnChar3" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnChar5"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="5"
         android:textSize="@dimen/textsize_keys"
@@ -78,10 +83,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnChar4"
         app:layout_constraintTop_toTopOf="@+id/btnChar4" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnChar6"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="6"
         android:textSize="@dimen/textsize_keys"
@@ -91,10 +97,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnChar5"
         app:layout_constraintTop_toTopOf="@+id/btnChar5" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnChar7"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="7"
         android:textSize="@dimen/textsize_keys"
@@ -104,10 +111,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnChar6"
         app:layout_constraintTop_toTopOf="@+id/btnChar6" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnChar8"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="8"
         android:textSize="@dimen/textsize_keys"
@@ -117,10 +125,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnChar7"
         app:layout_constraintTop_toTopOf="@+id/btnChar7" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnChar9"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="9"
         android:textSize="@dimen/textsize_keys"
@@ -131,10 +140,11 @@
         app:layout_constraintTop_toTopOf="@+id/btnChar8" />
 
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharNull"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="0"
         android:textSize="@dimen/textsize_keys"
@@ -144,10 +154,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnChar9"
         app:layout_constraintTop_toTopOf="@+id/btnChar9" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharZ"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="Z"
         android:textSize="@dimen/textsize_keys"
@@ -157,10 +168,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnCharA" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharX"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="X"
         android:textSize="@dimen/textsize_keys"
@@ -170,10 +182,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnCharZ"
         app:layout_constraintTop_toTopOf="@+id/btnCharZ" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharC"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="C"
         android:textSize="@dimen/textsize_keys"
@@ -183,10 +196,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnCharX"
         app:layout_constraintTop_toTopOf="@+id/btnCharX" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharV"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="V"
         android:textSize="@dimen/textsize_keys"
@@ -196,10 +210,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnCharC"
         app:layout_constraintTop_toTopOf="@+id/btnCharC" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharB"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="B"
         android:textSize="@dimen/textsize_keys"
@@ -209,10 +224,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnCharV"
         app:layout_constraintTop_toTopOf="@+id/btnCharV" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharN"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="N"
         android:textSize="@dimen/textsize_keys"
@@ -222,10 +238,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnCharB"
         app:layout_constraintTop_toTopOf="@+id/btnCharB" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharM"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="M"
         android:textSize="@dimen/textsize_keys"
@@ -235,10 +252,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnCharN"
         app:layout_constraintTop_toTopOf="@+id/btnCharN" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharComma"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text=","
         android:textSize="@dimen/textsize_keys"
@@ -249,10 +267,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnCharM"
         app:layout_constraintTop_toTopOf="@+id/btnCharM" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharDot"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="."
         android:textSize="@dimen/textsize_keys"
@@ -263,10 +282,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnCharComma"
         app:layout_constraintTop_toTopOf="@+id/btnCharComma" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharQuestionMark"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="@string/questionMark"
         android:textSize="@dimen/textsize_keys"
@@ -278,10 +298,11 @@
         app:layout_constraintTop_toTopOf="@+id/btnCharDot" />
 
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharD"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="D"
         android:textSize="@dimen/textsize_keys"
@@ -291,10 +312,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnCharS"
         app:layout_constraintTop_toTopOf="@+id/btnCharS" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharF"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="F"
         android:textSize="@dimen/textsize_keys"
@@ -304,10 +326,12 @@
         app:layout_constraintStart_toEndOf="@+id/btnCharD"
         app:layout_constraintTop_toTopOf="@+id/btnCharD" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharA"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
+        android:layout_margin="@dimen/margin_keys"
         android:text="A"
         android:textSize="@dimen/textsize_keys"
         android:backgroundTint="@color/colorPrimaryDark"
@@ -317,10 +341,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnCharQ" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharS"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="S"
         android:textSize="@dimen/textsize_keys"
@@ -330,10 +355,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnCharA"
         app:layout_constraintTop_toTopOf="@+id/btnCharA" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharG"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="G"
         android:textSize="@dimen/textsize_keys"
@@ -343,10 +369,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnCharF"
         app:layout_constraintTop_toTopOf="@+id/btnCharF" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharH"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="H"
         android:textSize="@dimen/textsize_keys"
@@ -356,10 +383,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnCharG"
         app:layout_constraintTop_toTopOf="@+id/btnCharG" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharJ"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="J"
         android:textSize="@dimen/textsize_keys"
@@ -370,10 +398,12 @@
         app:layout_constraintStart_toEndOf="@+id/btnCharH"
         app:layout_constraintTop_toTopOf="@+id/btnCharH" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharK"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
+        android:layout_margin="@dimen/margin_keys"
         android:text="K"
         android:textSize="@dimen/textsize_keys"
         app:layout_constraintBottom_toBottomOf="@+id/btnCharJ"
@@ -382,10 +412,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnCharJ"
         app:layout_constraintTop_toTopOf="@+id/btnCharJ" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharL"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="L"
         android:textSize="@dimen/textsize_keys"
@@ -395,10 +426,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnCharK"
         app:layout_constraintTop_toTopOf="@+id/btnCharK" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharEqually"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="="
         android:textSize="@dimen/textsize_keys"
@@ -410,10 +442,11 @@
         app:layout_constraintTop_toTopOf="@+id/btnCharL" />
 
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharQ"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="Q"
         android:textSize="@dimen/textsize_keys"
@@ -423,10 +456,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnChar1" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharW"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="W"
         android:textSize="@dimen/textsize_keys"
@@ -436,10 +470,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnCharQ"
         app:layout_constraintTop_toTopOf="@+id/btnCharQ" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharE"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="E"
         android:textSize="@dimen/textsize_keys"
@@ -453,7 +488,8 @@
     <Button
         android:id="@+id/btnCharR"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="R"
         android:textSize="@dimen/textsize_keys"
@@ -463,10 +499,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnCharE"
         app:layout_constraintTop_toTopOf="@+id/btnCharE" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharT"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="T"
         android:textSize="@dimen/textsize_keys"
@@ -476,10 +513,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnCharR"
         app:layout_constraintTop_toTopOf="@+id/btnCharR" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharY"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="Y"
         android:textSize="@dimen/textsize_keys"
@@ -490,10 +528,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnCharT"
         app:layout_constraintTop_toTopOf="@+id/btnCharT" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharU"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="U"
         android:textSize="@dimen/textsize_keys"
@@ -504,10 +543,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnCharY"
         app:layout_constraintTop_toTopOf="@+id/btnCharY" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharI"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="I"
         android:textSize="@dimen/textsize_keys"
@@ -518,10 +558,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnCharU"
         app:layout_constraintTop_toTopOf="@+id/btnCharU" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharO"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="O"
         android:textSize="@dimen/textsize_keys"
@@ -532,10 +573,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnCharI"
         app:layout_constraintTop_toTopOf="@+id/btnCharI" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharP"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="P"
         android:textSize="@dimen/textsize_keys"
@@ -545,10 +587,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnCharO"
         app:layout_constraintTop_toTopOf="@+id/btnCharO" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnRepeat"
-        android:layout_width="216dp"
-        android:layout_height="32dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="repeat question"
         android:textSize="10sp"
@@ -558,10 +601,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnCharSlash" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharSlash"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="/"
         android:textSize="@dimen/textsize_keys"
@@ -572,10 +616,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnCharZ" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharPlus"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="+"
         android:textSize="@dimen/textsize_keys"
@@ -586,10 +631,11 @@
         app:layout_constraintStart_toEndOf="@+id/btnCharSlash"
         app:layout_constraintTop_toTopOf="@+id/btnCharSlash" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCharMinus"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="@dimen/height32"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100"
         android:layout_margin="@dimen/margin_keys"
         android:text="-"
         android:textSize="@dimen/textsize_keys"

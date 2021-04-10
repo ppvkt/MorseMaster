@@ -2,4 +2,5 @@
 <resources>
     <dimen name="margin_keys">1dp</dimen>
     <dimen name="textsize_keys">7sp</dimen>
+    <dimen name="height32">32dp</dimen>
 </resources>

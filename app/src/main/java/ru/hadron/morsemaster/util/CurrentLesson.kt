@@ -9,7 +9,7 @@ class CurrentLesson(
 ) {
     private var storage: Storage = storage
      var symbols: String = currsymbols.toString()
-    lateinit var currentquestion: Question
+    private lateinit var currentquestion: Question
     private var count = 0
 
     fun initStat() = symbols.let { storage.initStat(symbols = it) }
@@ -29,7 +29,7 @@ class CurrentLesson(
             Timber.e("=====question = getNextSymbol(remain)=====$question")
         }
         currentquestion = question
-        return question
+        return currentquestion
     }
 
     fun setAnswer(answer: String): Boolean {

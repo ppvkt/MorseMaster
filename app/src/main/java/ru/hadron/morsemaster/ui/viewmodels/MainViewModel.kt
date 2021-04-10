@@ -197,7 +197,6 @@ open class MainViewModel @ViewModelInject constructor(
                 return
             }
 
-
             question = currentLesson.getQuestion()
             answer_buf = ""
 
@@ -216,7 +215,7 @@ open class MainViewModel @ViewModelInject constructor(
             } else {
                 questionSymbol.postValue(question.getSecret(""))
                 if (question_wait > 0) {
-                    startTimer(ms + question_wait)
+                   // startTimer(ms + question_wait)  //secret question witout timer
                 }
             }
             coutShowedSymbols.postValue("count : $count")
@@ -235,8 +234,6 @@ open class MainViewModel @ViewModelInject constructor(
     fun startTimerFromFragment() {
         questionSymbol.postValue("get ready!")
         sound.wpm(_speedName.toInt())
-        //sound.wpm(16)
-        Timber.e("==================_speedName.toInt()======= = ${_speedName.toInt()}")
         helloMs = sound.code("...-...-...-")
     }
 
@@ -302,8 +299,4 @@ open class MainViewModel @ViewModelInject constructor(
     }
 
     var helloMs = 0
-
-    fun setHelloSoundWpm(speed: Int) {
-        sound.wpm(speed)
-    }
 }

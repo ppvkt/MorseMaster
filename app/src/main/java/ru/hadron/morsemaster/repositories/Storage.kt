@@ -17,23 +17,20 @@ class Storage @Inject constructor(
     private var adv_level = 75
     private var adv_max = 3
 
-    class AdvItem (
-        var initSymbol: String
+    inner class AdvItem (
+        initSymbol: String,
+        initShuffle: Double = Math.random()
     ) {
-        var symbol: String
-        var shuffle: Double
+        var symbol: String = initSymbol
+        var shuffle = initShuffle
 
-        init {
-            this.symbol = initSymbol
-            this.shuffle = Math.random()
-        }
     }
 
-    class AdvItemShuffle
+    inner class AdvItemShuffle
         : Comparator<AdvItem> {
-        override fun compare(a: AdvItem, b: AdvItem): Int {
-            return if (a.shuffle < b.shuffle) 1
-            else -1
+        override fun compare(a: AdvItem, b: AdvItem): Int = when {
+            a.shuffle < b.shuffle -> 1
+            else -> -1
         }
     }
 
@@ -44,15 +41,15 @@ class Storage @Inject constructor(
                 res += "|"
             } else {
                 try {
-                runBlocking {
-                    GlobalScope.async(Dispatchers.IO) {
-                        val code = repository.getStmCode(symbol = c.toString())
-                        if (!code.isEmpty()) {
-                            res += "$code "
-                        }
-                    }.await()
-                }
-            } catch (e: SQLException) {
+                    runBlocking {
+                        GlobalScope.async(Dispatchers.IO) {
+                            val code = repository.getStmCode(symbol = c.toString())
+                            if (!code.isEmpty()) {
+                                res += "$code "
+                            }
+                        }.await()
+                    }
+                } catch (e: SQLException) {
                     e.printStackTrace()
                     return res
                 }
@@ -75,8 +72,8 @@ class Storage @Inject constructor(
             // Timber.e("-load lesson--return--${Lesson(info = info, symbols = symbols?.split(" ").toString())}----")
             Timber.e("-load lesson--return info--${info}----")
 
-           // var s = symbols?.split(" ").toString().drop(1).dropLast(1)   // [ ..... ]
-          //  var s = symbols?.split("").toString().drop(1).dropLast(1)   // [ ..... ] space
+            // var s = symbols?.split(" ").toString().drop(1).dropLast(1)   // [ ..... ]
+            //  var s = symbols?.split("").toString().drop(1).dropLast(1)   // [ ..... ] space
             var s = symbols?.replace(" ", "")?.replace(",", "")
             Timber.e("-load lesson--return symbols--${s}----")
             // Lesson(info = info, symbols = s)
@@ -156,8 +153,7 @@ class Storage @Inject constructor(
         var result: Int = 0
         runBlocking {
             GlobalScope.async(Dispatchers.IO) {
-                var test = repository.getStmCountAdv(ratio = adv_level)
-                result = test._count
+                result = repository.getStmCountAdv(ratio = adv_level)._count
             }.await()
         }
         Timber.e("stmcountadv count======>>> ${result}")
@@ -165,31 +161,31 @@ class Storage @Inject constructor(
     }
 
     fun getNextAdv(adv: Int): Question {
-        var rs = StatForStmNextAdv("x", 0)
+        var rs: StatForStmNextAdv? = null
 
         runBlocking {
-
             GlobalScope.async(Dispatchers.IO) {
-                var stm_next_adv= repository.getStmNextAdv(adv_level)
-                rs = stm_next_adv
+                rs = repository.getStmNextAdv(adv_level)
             }.await()
         }
 
-        Timber.e("===StatForStmNextAdv== symbol=>>> ${rs.symbol}")
+        Timber.e("==========================StatForStmNextAdv== symbol=>>> ${rs?.symbol}")
 
-        var items: Vector<AdvItem> = Vector<AdvItem>()
+       // var items: Vector<AdvItem> = Vector<AdvItem>()
+        var items = mutableListOf<AdvItem>()
         var question = ""
         var min_ratio = 99
 
-        rs.symbol.forEach {
-            min_ratio = Math.min(min_ratio, rs.ratio)
-            items.add(AdvItem(rs.symbol))
+        rs?.symbol?.forEach {
+            min_ratio = Math.min(min_ratio, rs!!.ratio)
+            items.add(AdvItem(rs!!.symbol))
         }
 
         val count = 2 + (adv_max - 1) * (min_ratio - adv_level) / (100 - adv_level)
 
         if (items.size > count) {
             items = Vector(items.subList(0, count))
+          //  items = MutableList(items.subList(0, count))
         } else {
             var ii = items.size - 1
             while (ii < count) {
@@ -199,9 +195,10 @@ class Storage @Inject constructor(
             }
         }
 
-        items.sortWith(AdvItemShuffle())
+        items.sortedWith(AdvItemShuffle())
+       // items.sort(AdvItemShuffle())
 
-        for (i in 0 until count) question += items[i].symbol
+        for (i in 0 until count) question += items.get(i).symbol
 
         return Question(question, 999)
     }

@@ -293,7 +293,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             R.style.AlertDialogTheme
         )
             .setTitle("Clear your Statistic?")
-            .setMessage("Are you sure want to clear the Statistic with your answers?")
+            .setMessage("Are you sure you want to clear all Statistic with your answers?")
             .setIcon(R.drawable.ic_clear)
             .setPositiveButton("YES") {_, _ ->
                 viewModel.clearStat()

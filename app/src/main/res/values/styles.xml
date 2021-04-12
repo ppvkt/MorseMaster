@@ -12,7 +12,7 @@
 
     <style name="ShapeAppearanceOverlay_ButtonCircle100">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">50%</item>
+        <item name="cornerSize">10%</item>
     </style>
 
     <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">

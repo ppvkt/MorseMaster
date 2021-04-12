@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="margin_keys">1dp</dimen>
-    <dimen name="textsize_keys">7sp</dimen>
-    <dimen name="height32">32dp</dimen>
+    <dimen name="textsize_keys">14sp</dimen>
+    <dimen name="height32">44dp</dimen>
 </resources>

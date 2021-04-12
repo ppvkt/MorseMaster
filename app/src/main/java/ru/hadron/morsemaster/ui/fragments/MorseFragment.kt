@@ -189,7 +189,7 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-        when(switchNMorse.isChecked) {
+        when (switchNMorse.isChecked) {
             false ->  tvShowingMorse.visibility = View.INVISIBLE
             true ->  tvShowingMorse.visibility = View.VISIBLE
         }

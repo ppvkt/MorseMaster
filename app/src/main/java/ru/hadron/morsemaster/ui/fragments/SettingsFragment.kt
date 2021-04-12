@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -62,7 +63,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     @ExperimentalStdlibApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setTextSizeInAutocompleteTextView(textSize = 14F)
         hideProgressBar()
         importAllCvsInDbIfNeedAndInitSpinners()
 
@@ -88,6 +89,15 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         btnClearStatistic.setOnClickListener {
             showClearStatisticDialog()
         }
+    }
+
+    private fun setTextSizeInAutocompleteTextView(textSize: Float) {
+        actLesson.textSize = textSize
+        actSpeed.textSize = textSize
+        actAnswerTimeout.textSize = textSize
+        actLevel.textSize = textSize
+        actMaxchar.textSize = textSize
+        actRepeat.textSize = textSize
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -32,6 +32,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
+    <Switch
+        android:id="@+id/switchNMorse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+       android:paddingRight="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
@@ -44,6 +53,7 @@
         layout="@layout/keyboard"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline13"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -64,32 +74,32 @@
         app:layout_constraintTop_toTopOf="@+id/switchNMorse"
         tools:ignore="MissingConstraints" />
 
-    <TextView
-        android:id="@+id/tvWorth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:text="worth : х%"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvCountShowedSymbols"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tvCountShowedSymbols"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:paddingLeft="8dp"
-        android:text="count : 0"
-        app:layout_constraintBottom_toTopOf="@+id/switchNMorse"
-        app:layout_constraintStart_toEndOf="@+id/tvWorth"
-        app:layout_constraintTop_toTopOf="@+id/btnStop" />
+        android:layout_height="19dp"
+        android:paddingRight="8dp"
+        android:text="сount : 0"
+        app:layout_constraintBaseline_toBaselineOf="@+id/switchNMorse"
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <TextView
+        android:id="@+id/tvWorth"
+        android:layout_width="wrap_content"
+        android:layout_height="17dp"
 
-    <Button
+        android:text="worth : х%"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cl_qwery" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnStop"
+        style="?attr/materialButtonOutlinedStyle"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        style="?attr/materialButtonOutlinedStyle"
         android:text="stop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -103,21 +113,30 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_end="60dp" />
 
-    <Switch
-        android:id="@+id/switchNMorse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:text="code"
-        app:layout_constraintBottom_toBottomOf="@+id/btnStop"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.7" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnRepeat"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/repeat"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline12"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline13" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.3" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

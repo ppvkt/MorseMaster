@@ -84,6 +84,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:hint="@string/lesson"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
         app:layout_constraintBottom_toTopOf="@+id/textInputLayout2"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
@@ -94,9 +95,6 @@
             android:id="@+id/actLesson"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-
-            android:hint="@string/lesson"
             android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -105,7 +103,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-
+        android:hint="@string/speed"
         app:layout_constraintBottom_toTopOf="@+id/textInputLayout3"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintStart_toStartOf="parent"
@@ -115,8 +113,6 @@
             android:id="@+id/actSpeed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:hint="@string/speed"
             android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -125,6 +121,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:hint="@string/level"
         app:layout_constraintBottom_toTopOf="@+id/textInputLayout4"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintStart_toStartOf="parent"
@@ -134,7 +131,6 @@
             android:id="@+id/actLevel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/level"
             android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -143,6 +139,8 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:hint="@string/answer_timeout"
+
         app:layout_constraintBottom_toTopOf="@+id/textInputLayout5"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintStart_toStartOf="parent"
@@ -152,7 +150,6 @@
             android:id="@+id/actAnswerTimeout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/answer_timeout"
             android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -161,6 +158,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:hint="@string/max_char"
         app:layout_constraintBottom_toTopOf="@+id/textInputLayout6"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintStart_toStartOf="parent"
@@ -170,7 +168,6 @@
             android:id="@+id/actMaxchar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/max_char"
             android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -179,6 +176,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:hint="@string/repeat"
         app:layout_constraintBottom_toTopOf="@+id/btnRun"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintStart_toStartOf="parent"
@@ -188,7 +186,6 @@
             android:id="@+id/actRepeat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/repeat"
             android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
 

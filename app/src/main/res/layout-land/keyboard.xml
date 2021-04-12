@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_qwery"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:visibility="invisible"
+    app:layout_constraintBottom_toTopOf="@+id/guideline13"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="@+id/guideline2">
+
+    <LinearLayout
+        android:id="@+id/linear1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/linear2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed">
+
+        <com.google.android.material.button.MaterialButton
+
+            android:id="@+id/btnChar1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="1"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnChar2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="2"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnChar3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="3"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnChar4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="4"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnChar5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="5"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnChar6"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="6"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnChar7"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="7"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnChar8"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="8"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnChar9"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="9"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharNull"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+
+            android:padding="0dp"
+            android:text="0"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linear2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/linear3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear1">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharQ"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="Q"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharW"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="W"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharE"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="E"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharR"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="R"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharT"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="T"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharY"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="Y"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharU"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="U"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharI"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="I"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharO"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="O"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharP"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="P"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/linear4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear2">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharA"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="A"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharS"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="S"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharD"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="D"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharF"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="F"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharG"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="G"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharH"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="H"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharJ"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="J"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharK"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="K"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharL"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="L"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharEqually"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="="
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/linear5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear3">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharZ"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="Z"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharX"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="X"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharC"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="C"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharV"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="V"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharB"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="B"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharN"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="N"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharM"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="M"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharQuestionMark"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="@string/questionMark"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharDot"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="."
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharComma"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text=","
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear4">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSome1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSome2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSome3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSome4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSome5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSome6"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSome7"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharSlash"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="/"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharPlus"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="+"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCharMinus"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.1"
+            android:includeFontPadding="false"
+            android:padding="0dp"
+            android:text="-"
+            android:textSize="@dimen/textsize_keys"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

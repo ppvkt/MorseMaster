@@ -4,4 +4,6 @@
     <dimen name="textsize_keys">14sp</dimen>
     <dimen name="height32">44dp</dimen>
     <dimen name="textsize_actv">12sp</dimen>
+    <dimen name="button_h_36">36dp</dimen>
+    <dimen name="button_min_w64">64dp</dimen>
 </resources>

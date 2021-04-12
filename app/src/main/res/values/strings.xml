@@ -17,7 +17,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="questionMark">\?</string>
-    <string name="repeat">repeat question</string>
+    <string name="repeat">repeat</string>
     <string name="max_char">Max (char)</string>
     <string name="level">Level (%)</string>
     <string name="answer_timeout">Answer timeout</string>

@@ -256,7 +256,7 @@ open class MainViewModel @ViewModelInject constructor(
         //if (question.equals(null)) return
         if (isStopButtonClicked) return
 
-        if(curranswer == "repeat question") {
+        if(curranswer == "repeat") {
             playQuestion(1)
             return
         }

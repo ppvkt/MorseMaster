@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_end="60dp" />
+        app:layout_constraintGuide_end="52dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline5"
@@ -60,23 +60,21 @@
     <Button
         android:id="@+id/btnRun"
         style="?attr/materialButtonStyle"
-        android:layout_width="0dp"
+        android:layout_width="100dp"
         android:layout_height="0dp"
         android:text="@string/run"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline4" />
 
     <Button
         android:id="@+id/btnClearStatistic"
         style="?attr/materialButtonStyle"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:text="@string/clear_statistic"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline4" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -89,7 +87,8 @@
         app:layout_constraintBottom_toTopOf="@+id/textInputLayout2"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread_inside">
 
         <AutoCompleteTextView
             android:id="@+id/actLesson"
@@ -177,10 +176,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/repeat"
-        app:layout_constraintBottom_toTopOf="@+id/btnRun"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout5">
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout5"
+        app:layout_goneMarginBottom="16dp">
 
         <AutoCompleteTextView
             android:id="@+id/actRepeat"
@@ -193,8 +193,8 @@
         android:id="@+id/textView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:gravity="center|left"
         android:layout_marginLeft="8dp"
+        android:gravity="center|left"
         android:text="Select how many times will be repeat each question"
         app:layout_constraintBottom_toBottomOf="@+id/textInputLayout6"
         app:layout_constraintEnd_toEndOf="parent"
@@ -205,8 +205,8 @@
         android:id="@+id/textView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:gravity="center|left"
         android:layout_marginLeft="8dp"
+        android:gravity="center|left"
         android:text="Maximum lenght of difficult question"
         app:layout_constraintBottom_toBottomOf="@+id/textInputLayout5"
         app:layout_constraintEnd_toEndOf="parent"
@@ -217,8 +217,8 @@
         android:id="@+id/textView3"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:gravity="center|left"
         android:layout_marginLeft="8dp"
+        android:gravity="center|left"
         android:text="Time for answer on simple question"
         app:layout_constraintBottom_toBottomOf="@+id/textInputLayout4"
         app:layout_constraintEnd_toEndOf="parent"
@@ -231,7 +231,7 @@
         android:layout_height="0dp"
         android:layout_marginLeft="8dp"
         android:gravity="center|left"
-        android:text="TextView"
+        android:text="Percent of the correct answers when begin show complex questions"
         app:layout_constraintBottom_toBottomOf="@+id/textInputLayout3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline5"

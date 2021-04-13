@@ -14,4 +14,6 @@ object Constants {
     const val KEY_ISCVSLOADED = "KEY_ISCVSLOADED"
 
     const val SAMPLE_RATE: Int = 8000
+
+    const val  REQUEST_CODE_CAMERA_PERMISSION = 0
 }

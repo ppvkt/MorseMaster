@@ -26,6 +26,7 @@
     <string name="morse_master">Morse Master</string>
     <string name="run">Run</string>
     <string name="clear_statistic">Clear statistic</string>
+    <string name="switch_flash_text">flash</string>
 
     <string-array name="lesson_array">
         <item>test1</item>

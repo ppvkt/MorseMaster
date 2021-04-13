@@ -1,5 +1,6 @@
 package ru.hadron.morsemaster.ui.fragments
 
+import android.Manifest
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
@@ -8,18 +9,19 @@ import android.widget.ArrayAdapter
 
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.ListAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_settings.*
+import pub.devrel.easypermissions.AppSettingsDialog
+import pub.devrel.easypermissions.EasyPermissions
 import ru.hadron.morsemaster.R
 import ru.hadron.morsemaster.ui.viewmodels.MainViewModel
+import ru.hadron.morsemaster.util.Constants
 import ru.hadron.morsemaster.util.Constants.KEY_ANSWER_TIMEOUT
 import ru.hadron.morsemaster.util.Constants.KEY_ISCVSLOADED
 import ru.hadron.morsemaster.util.Constants.KEY_LESSON
@@ -27,12 +29,12 @@ import ru.hadron.morsemaster.util.Constants.KEY_LEVEL
 import ru.hadron.morsemaster.util.Constants.KEY_MAX_CHAR
 import ru.hadron.morsemaster.util.Constants.KEY_REPEAT
 import ru.hadron.morsemaster.util.Constants.KEY_SPEED
+import ru.hadron.morsemaster.util.MorseUtility
 import timber.log.Timber
 import javax.inject.Inject
-import android.widget.Adapter as Adapter1
 
 @AndroidEntryPoint
-class SettingsFragment : Fragment(R.layout.fragment_settings) {
+class SettingsFragment : Fragment(R.layout.fragment_settings), EasyPermissions.PermissionCallbacks {
     private val viewModel: MainViewModel by viewModels()
 
     @Inject
@@ -63,6 +65,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     @ExperimentalStdlibApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        requestPermissions()
+
         setTextSizeInAutocompleteTextView(textSize = 14F)
         hideProgressBar()
         importAllCvsInDbIfNeedAndInitSpinners()
@@ -317,5 +322,40 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         dialog.show()
     }
 
+//----
+    private fun requestPermissions() {
+        if (MorseUtility.hasPermissions(requireContext())) { return }
+        EasyPermissions.requestPermissions(
+            this,
+            "You need to accept camera permission to use flashlight code!",
+            Constants.REQUEST_CODE_CAMERA_PERMISSION,
+            Manifest.permission.CAMERA
+        )
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {/*NO-OP*/}
+
+    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            AppSettingsDialog.Builder(this).build().show()
+        } else {
+            requestPermissions()
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        EasyPermissions.onRequestPermissionsResult(
+            requestCode,
+            permissions,
+            grantResults,
+            this
+        )
+    }
 }
 

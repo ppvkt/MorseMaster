@@ -15,5 +15,10 @@ object Constants {
 
     const val SAMPLE_RATE: Int = 8000
 
+    const val FREQ = 700 //Hz 700
+    const val ATTACK = 3 //ms
+    const val SYMBOL_PAUSE = 3 // dits
+    const val WORD_PAUSE = 7 // dits
+
     const val  REQUEST_CODE_CAMERA_PERMISSION = 0
 }

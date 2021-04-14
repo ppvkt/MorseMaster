@@ -3,15 +3,21 @@ package ru.hadron.morsemaster.ui.viewmodels
 import android.app.Application
 import android.content.Context
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.hadron.morsemaster.db.entity.*
 import ru.hadron.morsemaster.repositories.Storage
 import ru.hadron.morsemaster.util.CurrentLesson
+import ru.hadron.morsemaster.util.FlashLight
 import ru.hadron.morsemaster.util.Question
 import ru.hadron.morsemaster.util.Sound
 import timber.log.Timber
@@ -36,6 +42,7 @@ open class MainViewModel @ViewModelInject constructor(
     //-----
 
     private val sound: Sound = Sound()
+    private val flashLight: FlashLight = FlashLight(context = context)
 
     ///----import cvcs files--------//// это остается во VM
     fun insertLesson(lesson: Lesson) = storage.insertCvsLesson(lesson)
@@ -166,7 +173,10 @@ open class MainViewModel @ViewModelInject constructor(
 
         storage.setAdvLevel(_levelName)
         storage.setAdvMax(_maxcharName)
+
         sound.wpm(_speedName.toInt())
+        flashLight.wpm(_speedName.toInt())
+
         var index = 0
         when (_timeoutName) {
             "Forever" -> index = 0
@@ -175,15 +185,12 @@ open class MainViewModel @ViewModelInject constructor(
             "3 sec" -> index = 3
         }
         question_wait = timeout_items[index]
-        Timber.e("---------------------------question_wait----------------------$question_wait")
     }
 
     //---------------------------------------
     private var count = 1
     inner class LessonTask : TimerTask() {
-
         override fun run() {
-
             if (isStopButtonClicked) {
                 timer.cancel()
                 timer.purge()
@@ -198,22 +205,99 @@ open class MainViewModel @ViewModelInject constructor(
             if (question._correct <= 3) { help = true }
 
             isBackgroundChange.postValue(1)
+            val _isSound = isSound
+            val _isFlash = isFlash
 
-            var  ms = playQuestion(_repeatName)
-            currentMorseCode.postValue(storage.getCode(question._symbol))
+            if (_isSound && !_isFlash) {
+                Timber.e("is sound ========$isSound")
+                Timber.e("is flash =========$isFlash")
+                Timber.e("has camera? =======${FlashLight.isDeviceHasCamera} ")
+                var  ms = playQuestion(_repeatName)
+                currentMorseCode.postValue(storage.getCode(question._symbol))
 
-            if (help) {
-                questionSymbol.postValue(question._symbol)
-                Timber.e(" -----question symbol----live data-----> ${questionSymbol.value}")
-                startTimer(ms + help_wait)
-            } else {
-                questionSymbol.postValue("(mask) "+ question.getSecret(""))
-                if (question_wait > 0) {
-                   // startTimer(ms + question_wait)  //secret question witout timer
+                if (help) {
+                    questionSymbol.postValue(question._symbol)
+                    startTimer(ms + help_wait)
+                } else {
+                    questionSymbol.postValue("(mask) "+ question.getSecret(""))
+                    if (question_wait > 0) {
+                        // startTimer(ms + question_wait)  //secret question witout timer
+                    }
                 }
+                coutShowedSymbols.postValue("count : $count")
+                count++
             }
-            coutShowedSymbols.postValue("count : $count")
-            count++
+            if (_isSound && _isFlash && FlashLight.isDeviceHasCamera) {
+                var  msSound = playQuestion(_repeatName)
+                var msFlash = lightQuestion(_repeatName)
+
+                Timber.e("is sound ========$isSound")
+                Timber.e("is flash =========$isFlash")
+                Timber.e("has camera? =======${FlashLight.isDeviceHasCamera} ")
+                Timber.e("check length light = ${msFlash} and play = $msSound")
+                currentMorseCode.postValue(storage.getCode(question._symbol))
+
+                if (help) {
+                    questionSymbol.postValue(question._symbol)
+                    startTimer(msSound + help_wait)
+                } else {
+                    questionSymbol.postValue("(mask) "+ question.getSecret(""))
+                    if (question_wait > 0) {
+                        // startTimer(ms + question_wait)  //secret question witout timer
+                    }
+                }
+                coutShowedSymbols.postValue("count : $count")
+                count++
+            }
+            if (_isSound && _isFlash && !FlashLight.isDeviceHasCamera) {
+                var  ms = playQuestion(_repeatName)
+                currentMorseCode.postValue(storage.getCode(question._symbol))
+
+                if (help) {
+                    questionSymbol.postValue(question._symbol)
+                    startTimer(ms + help_wait)
+                } else {
+                    questionSymbol.postValue("(mask) "+ question.getSecret(""))
+                    if (question_wait > 0) {
+                        // startTimer(ms + question_wait)  //secret question witout timer
+                    }
+                }
+                coutShowedSymbols.postValue("count : $count")
+                count++
+            }
+            if (!_isSound && _isFlash && FlashLight.isDeviceHasCamera) {
+                var ms = lightQuestion(_repeatName)
+                currentMorseCode.postValue(storage.getCode(question._symbol))
+
+                if (help) {
+                    questionSymbol.postValue(question._symbol)
+                    startTimer(ms + help_wait)
+                } else {
+                    questionSymbol.postValue("(mask) "+ question.getSecret(""))
+                    if (question_wait > 0) {
+                        // startTimer(ms + question_wait)  //secret question witout timer
+                    }
+                }
+                coutShowedSymbols.postValue("count : $count")
+                count++
+            }
+            if (!_isSound && _isFlash && !FlashLight.isDeviceHasCamera) {
+
+                var  ms = playQuestion(_repeatName)
+                currentMorseCode.postValue(storage.getCode(question._symbol))
+
+                if (help) {
+                    questionSymbol.postValue(question._symbol)
+                    startTimer(ms + help_wait)
+                } else {
+                    questionSymbol.postValue("(mask) "+ question.getSecret(""))
+                    if (question_wait > 0) {
+                        // startTimer(ms + question_wait)  //secret question witout timer
+                    }
+                }
+                coutShowedSymbols.postValue("count : $count")
+                count++
+            }
         }
     }
 
@@ -228,7 +312,9 @@ open class MainViewModel @ViewModelInject constructor(
     fun startTimerFromFragment() {
         questionSymbol.postValue("get ready!")
         sound.wpm(_speedName.toInt())
+        flashLight.wpm(_speedName.toInt())
         helloMs = sound.code("...-...-...-")
+        flashLight.code("...-...-...-")
     }
 
     private fun stopTimer() {
@@ -251,13 +337,40 @@ open class MainViewModel @ViewModelInject constructor(
         return sound.code(code)
     }
 
+    fun lightQuestion(x: Int): Int {
+        var q = storage.getCode(question._symbol)
+        var code = q
+        if (question.length() > 0) {
+            for (i in 1 until x step 1) {
+                val prepended = "|${q}"
+                code += prepended
+            }
+        }
+        return flashLight.code(code)
+    }
+
     ///----
     private fun keyTyped(): Unit {
         //if (question.equals(null)) return
-        if (isStopButtonClicked) return
 
+        if (isStopButtonClicked) return
         if(curranswer == "repeat") {
-            playQuestion(1)
+            if (isSound && !isFlash) {
+                playQuestion(1)
+            }
+            if (isSound && isFlash && FlashLight.isDeviceHasCamera) {
+                playQuestion(1)
+                lightQuestion(1)
+            }
+            if (isSound && isFlash && !FlashLight.isDeviceHasCamera) {
+                playQuestion(1)
+            }
+            if (!isSound && isFlash && FlashLight.isDeviceHasCamera) {
+                lightQuestion(1)
+            }
+            if (!isSound && isFlash && !FlashLight.isDeviceHasCamera) {
+                playQuestion(1)
+            }
             return
         }
 
@@ -293,4 +406,13 @@ open class MainViewModel @ViewModelInject constructor(
     }
 
     var helloMs = 0
+
+    private var isSound = true
+    private var isFlash = false
+    fun whenSwitchSoundClicked(state: Boolean) {
+        isSound = state
+    }
+    fun whenSwitchLightClicked(state: Boolean) {
+        isFlash = state
+    }
 }

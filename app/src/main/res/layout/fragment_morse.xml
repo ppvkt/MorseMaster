@@ -49,6 +49,17 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline13"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <Switch
+        android:id="@+id/switchSound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="@string/switch_sound_text"
+        app:layout_constraintBottom_toTopOf="@+id/guideline13"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
@@ -75,7 +86,6 @@
         android:gravity="center"
         android:text="------------------------"
         android:textSize="20dp"
-        android:visibility="invisible"
 
         app:layout_constraintBottom_toBottomOf="@+id/switchNMorse"
         app:layout_constraintStart_toEndOf="@+id/switchNMorse"

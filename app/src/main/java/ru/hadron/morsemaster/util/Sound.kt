@@ -4,35 +4,36 @@ import android.media.AudioFormat
 import android.media.AudioManager
 import android.media.AudioTrack
 import kotlinx.coroutines.*
+import ru.hadron.morsemaster.util.Constants.ATTACK
+import ru.hadron.morsemaster.util.Constants.FREQ
 import ru.hadron.morsemaster.util.Constants.SAMPLE_RATE
+import ru.hadron.morsemaster.util.Constants.SYMBOL_PAUSE
+import ru.hadron.morsemaster.util.Constants.WORD_PAUSE
 import timber.log.Timber
 import java.lang.Thread.sleep
 import kotlin.math.roundToInt
 
 class Sound {
-    private var freq = 700 //Hz 700
-    private var attack = 3 //ms
+
     private var dit = 100 // ms
     private var dah = 300 //ms
-    private var symbol_pause = 3 // dits
-    private var word_pause = 7 // dits
-    var buf: ByteArray? = null
+    private var buf: ByteArray? = null
 
     fun wpm(x: Int) {
         dit = ((60.0 / (x * 50.0) * 1000.0).roundToInt())
         dah = dit * 3
 
-        dit += attack
-        dah += attack
+        dit += ATTACK
+        dah += ATTACK
     }
 
     fun tone(ms: Int, freq: Int, from: Int): Int {
         val length: Int = SAMPLE_RATE * ms / 1000
-        val a: Int = SAMPLE_RATE * attack / 1000
+        val a: Int = SAMPLE_RATE * ATTACK / 1000
         val r = length - a
         for (i in 0 .. length - 1) {
-          val period  = SAMPLE_RATE / freq
-          // val period = SAMPLE_RATE.toDouble() / freq //низкочастотный звук если частота меньше 1000
+            val period  = SAMPLE_RATE / freq
+            // val period = SAMPLE_RATE.toDouble() / freq //низкочастотный звук если частота меньше 1000
 
             val angle = (2.0 * Math.PI * i) / period
             var amp = 1.0F  //f?
@@ -67,10 +68,10 @@ class Sound {
                     length += dah + dit
                 }
                 ' ' -> {
-                    length += dit * (symbol_pause - 1)
+                    length += dit * (SYMBOL_PAUSE - 1)
                 }
                 '|' -> {
-                    length += dit * (word_pause - 1)
+                    length += dit * (WORD_PAUSE - 1)
                 }
             }
         }
@@ -84,19 +85,20 @@ class Sound {
                 for (c in chars) {
                     when (c) {
                         '.' -> {
-                            from = tone(dit, freq, from)
+                            from = tone(dit, FREQ, from)
                             from = pause(dit, from)
                         }
                         '-' -> {
-                            from = tone(dah, freq, from)
+                            from = tone(dah, FREQ, from)
                             from = pause(dit, from)
                         }
-                        ' ' -> from = pause(dit * (symbol_pause - 1), from)
-                        '|' -> from = pause(dit * (word_pause - 1), from)
+                        ' ' -> from = pause(dit * (SYMBOL_PAUSE - 1), from)
+
+                        '|' -> from = pause(dit * (WORD_PAUSE - 1), from)
                     }
                 }
                 val audioTrack = AudioTrack(
-                       AudioManager.STREAM_MUSIC,
+                    AudioManager.STREAM_MUSIC,
                     SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO,
                     AudioFormat.ENCODING_PCM_8BIT, buf!!.size,
                     AudioTrack.MODE_STATIC

@@ -27,6 +27,7 @@
     <string name="run">Run</string>
     <string name="clear_statistic">Clear statistic</string>
     <string name="switch_flash_text">flash</string>
+    <string name="switch_sound_text">sound</string>
 
     <string-array name="lesson_array">
         <item>test1</item>

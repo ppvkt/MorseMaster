@@ -9,6 +9,4 @@ object MorseUtility {
         context,
         Manifest.permission.CAMERA
     )
-
-
 }

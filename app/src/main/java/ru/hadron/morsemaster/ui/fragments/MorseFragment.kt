@@ -2,12 +2,9 @@ package ru.hadron.morsemaster.ui.fragments
 
 import android.graphics.Color
 import android.os.Bundle
-import android.text.Layout
 import android.view.View
 import android.widget.Button
-import android.widget.ImageButton
-
-import androidx.annotation.ColorRes
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,12 +13,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_morse.*
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 import ru.hadron.morsemaster.R
 import ru.hadron.morsemaster.ui.viewmodels.MainViewModel
+import ru.hadron.morsemaster.util.FlashLight
 import java.lang.Integer.parseInt
-import javax.annotation.Resource
+
 
 @AndroidEntryPoint
 class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
@@ -78,6 +74,10 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
     private lateinit var btnCharSlash: Button
 
     lateinit var clQewry: ConstraintLayout
+
+    private var isSoundChecked: Boolean = true
+    private var isFlashLightChecked: Boolean  = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -139,16 +139,20 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
             isHelloShowedFlag = true
             viewModel.startTimerFromFragment()
 
+            btnRepeat.isClickable = false
+
             view.postDelayed(
                 {
                     clQewry.visibility = View.VISIBLE
                     isHelloShowedFlag = true
+                    btnRepeat.isClickable = true
                 },
                 (viewModel.helloMs + 1000).toLong()
             )
         } else {
             isHelloShowedFlag = true
             clQewry.visibility = View.VISIBLE
+            btnRepeat.isClickable = true
         }
 
         if (!isCurrentDataLoadedFlag) {
@@ -167,13 +171,76 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
             findNavController().navigate(R.id.action_morseFragment_to_settingsFragment)
         }
 
-
         switchNMorse.setOnClickListener {
             when(switchNMorse.isChecked) {
-                false ->  tvShowingMorse.visibility = View.INVISIBLE
-                true ->  tvShowingMorse.visibility = View.VISIBLE
+                false -> tvShowingMorse.visibility = View.INVISIBLE
+                true -> tvShowingMorse.visibility = View.VISIBLE
             }
         }
+
+        switchFlashLight.setOnClickListener {
+            when (switchFlashLight.isChecked) {
+                false -> {
+                    isFlashLightChecked = false
+                    if (!isSoundChecked) { switchSound.isChecked = true }
+                }
+                true -> {
+                    if(FlashLight.isDeviceHasCamera) {
+                        isFlashLightChecked = true
+                        //switchFlashLight.isChecked = true
+                    }
+
+                    if (!isSoundChecked) {
+                        isSoundChecked = true
+                        switchSound.isChecked = true
+                    }
+                    if (!FlashLight.isDeviceHasCamera) {
+                        isFlashLightChecked = false
+                        switchFlashLight.isChecked = false
+                        Toast.makeText(requireContext(), " flash light not available.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+            sendSwitchValueInViewModel()
+        }
+
+        switchSound.setOnClickListener {
+            when (switchSound.isChecked) {
+                false -> {
+                    isSoundChecked = false
+                    if (FlashLight.isDeviceHasCamera) {
+                        if (!isFlashLightChecked) { switchFlashLight.isChecked = true }
+                    }
+
+                    if (!isFlashLightChecked && FlashLight.isDeviceHasCamera) {
+                        isSoundChecked = false
+                        switchFlashLight.isChecked = true
+                    }
+
+                    if (!FlashLight.isDeviceHasCamera) {
+                        isSoundChecked = true
+                        switchSound.isChecked = true
+                       Toast.makeText(requireContext(), " flash light not available.", Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+                true -> isSoundChecked = true
+            }
+            sendSwitchValueInViewModel()
+        }
+
+        when (switchNMorse.isChecked) {
+            false -> {
+                tvShowingMorse.visibility = View.GONE
+            }
+            true -> {
+                tvShowingMorse.visibility = View.VISIBLE
+            }
+        }
+    }
+    fun sendSwitchValueInViewModel() {
+        viewModel.whenSwitchLightClicked(isFlashLightChecked)
+        viewModel.whenSwitchSoundClicked(isSoundChecked)
     }
 
     var isHelloShowedFlag  = false
@@ -184,20 +251,28 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
         if (savedInstanceState != null) {
             isHelloShowedFlag = savedInstanceState.getBoolean("isHelloShowedFlag")
             isCurrentDataLoadedFlag = savedInstanceState.getBoolean("isCurrentDataLoadedFlag")
+            isFlashLightChecked = savedInstanceState.getBoolean("isFlashlightChecked")
+            isSoundChecked = savedInstanceState.getBoolean("isSoundChecked")
         }
     }
 
     override fun onResume() {
         super.onResume()
         when (switchNMorse.isChecked) {
-            false ->  tvShowingMorse.visibility = View.INVISIBLE
-            true ->  tvShowingMorse.visibility = View.VISIBLE
+            false -> {
+                tvShowingMorse.visibility = View.INVISIBLE
+            }
+            true -> {
+                tvShowingMorse.visibility = View.VISIBLE
+            }
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putBoolean("isHelloShowedFlag", isHelloShowedFlag)
         outState.putBoolean("isCurrentDataLoadedFlag", isCurrentDataLoadedFlag)
+        outState.putBoolean("isFlashlightChecked", isFlashLightChecked)
+        outState.putBoolean("isSoundChecked", isSoundChecked)
         super.onSaveInstanceState(outState)
     }
 
@@ -241,10 +316,12 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
         })
 
         viewModel.currentMorseCode?.observe(viewLifecycleOwner, Observer {
-            it.let { tvShowingMorse.text = it
+            it.let {
+                tvShowingMorse.text = it
                 if (it == null) {
                     tvShowingMorse.text = ""
-                }}
+                }
+            }
         })
 
         viewModel.coutShowedSymbols?.observe(viewLifecycleOwner, Observer {
@@ -338,7 +415,7 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
                 answer = btnCharU.text.toString()
                 viewModel.setAnswer(answer = answer)
             }
-            R.id.btnCharI ->{
+            R.id.btnCharI -> {
                 answer = btnCharI.text.toString()
                 viewModel.setAnswer(answer = answer)
             }

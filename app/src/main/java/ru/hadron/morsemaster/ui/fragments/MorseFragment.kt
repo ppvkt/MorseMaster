@@ -182,18 +182,16 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
             when (switchFlashLight.isChecked) {
                 false -> {
                     isFlashLightChecked = false
-                    if (!isSoundChecked) { switchSound.isChecked = true }
-                }
-                true -> {
-                    if(FlashLight.isDeviceHasCamera) {
-                        isFlashLightChecked = true
-                        //switchFlashLight.isChecked = true
-                    }
-
                     if (!isSoundChecked) {
                         isSoundChecked = true
                         switchSound.isChecked = true
                     }
+                }
+                true -> {
+                    if (FlashLight.isDeviceHasCamera) {
+                        isFlashLightChecked = true
+                    }
+
                     if (!FlashLight.isDeviceHasCamera) {
                         isFlashLightChecked = false
                         switchFlashLight.isChecked = false
@@ -208,17 +206,13 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
             when (switchSound.isChecked) {
                 false -> {
                     isSoundChecked = false
-                    if (FlashLight.isDeviceHasCamera) {
-                        if (!isFlashLightChecked) { switchFlashLight.isChecked = true }
-                    }
-
                     if (!isFlashLightChecked && FlashLight.isDeviceHasCamera) {
-                        isSoundChecked = false
+                       isFlashLightChecked = true
                         switchFlashLight.isChecked = true
                     }
 
                     if (!FlashLight.isDeviceHasCamera) {
-                        isSoundChecked = true
+                       isSoundChecked = true
                         switchSound.isChecked = true
                        Toast.makeText(requireContext(), " flash light not available.", Toast.LENGTH_SHORT).show()
                     }

@@ -217,11 +217,13 @@ open class MainViewModel @ViewModelInject constructor(
 
                 if (help) {
                     questionSymbol.postValue(question._symbol)
-                    startTimer(ms + help_wait)
+                    if (question_wait > 0) {
+                        startTimer(ms + help_wait)
+                    }
                 } else {
                     questionSymbol.postValue("(mask) "+ question.getSecret(""))
                     if (question_wait > 0) {
-                        // startTimer(ms + question_wait)  //secret question witout timer
+                        startTimer(ms + question_wait)
                     }
                 }
                 coutShowedSymbols.postValue("count : $count")
@@ -239,11 +241,13 @@ open class MainViewModel @ViewModelInject constructor(
 
                 if (help) {
                     questionSymbol.postValue(question._symbol)
-                    startTimer(msSound + help_wait)
+                    if (question_wait > 0) {
+                        startTimer(msSound + help_wait)
+                    }
                 } else {
                     questionSymbol.postValue("(mask) "+ question.getSecret(""))
                     if (question_wait > 0) {
-                        // startTimer(ms + question_wait)  //secret question witout timer
+                        startTimer(msSound + question_wait)
                     }
                 }
                 coutShowedSymbols.postValue("count : $count")
@@ -255,11 +259,13 @@ open class MainViewModel @ViewModelInject constructor(
 
                 if (help) {
                     questionSymbol.postValue(question._symbol)
-                    startTimer(ms + help_wait)
+                    if (question_wait > 0) {
+                        startTimer(ms + help_wait)
+                    }
                 } else {
                     questionSymbol.postValue("(mask) "+ question.getSecret(""))
                     if (question_wait > 0) {
-                        // startTimer(ms + question_wait)  //secret question witout timer
+                        startTimer(ms + question_wait)
                     }
                 }
                 coutShowedSymbols.postValue("count : $count")
@@ -271,11 +277,13 @@ open class MainViewModel @ViewModelInject constructor(
 
                 if (help) {
                     questionSymbol.postValue(question._symbol)
-                    startTimer(ms + help_wait)
+                    if (question_wait > 0) {
+                        startTimer(ms + help_wait)
+                    }
                 } else {
                     questionSymbol.postValue("(mask) "+ question.getSecret(""))
                     if (question_wait > 0) {
-                        // startTimer(ms + question_wait)  //secret question witout timer
+                        startTimer(ms + question_wait)
                     }
                 }
                 coutShowedSymbols.postValue("count : $count")
@@ -288,11 +296,13 @@ open class MainViewModel @ViewModelInject constructor(
 
                 if (help) {
                     questionSymbol.postValue(question._symbol)
-                    startTimer(ms + help_wait)
+                    if (question_wait > 0) {
+                        startTimer(ms + help_wait)
+                    }
                 } else {
                     questionSymbol.postValue("(mask) "+ question.getSecret(""))
                     if (question_wait > 0) {
-                        // startTimer(ms + question_wait)  //secret question witout timer
+                         startTimer(ms + question_wait)
                     }
                 }
                 coutShowedSymbols.postValue("count : $count")

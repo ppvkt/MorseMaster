@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -31,7 +32,9 @@ import ru.hadron.morsemaster.util.Constants.KEY_REPEAT
 import ru.hadron.morsemaster.util.Constants.KEY_SPEED
 import ru.hadron.morsemaster.util.MorseUtility
 import timber.log.Timber
+import java.lang.System.exit
 import javax.inject.Inject
+import kotlin.system.exitProcess
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment(R.layout.fragment_settings), EasyPermissions.PermissionCallbacks {
@@ -113,6 +116,13 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), EasyPermissions.P
         itemSelectedLevelInSpinner = sharedPref.getString(KEY_LEVEL, defaultLevel). toString()
         itemSelectedMaxCharInSpinner = sharedPref.getString(KEY_MAX_CHAR, defaultMaxChar). toString()
         itemSelectedRepeatInSpinner = sharedPref.getString(KEY_REPEAT, defaultRepeat). toString()
+
+        val callback = requireActivity()
+            .onBackPressedDispatcher
+            .addCallback(this) {
+                requireActivity().finish()
+                exitProcess(0)
+            }
     }
 
     fun showCurrentDataInSpinner() {

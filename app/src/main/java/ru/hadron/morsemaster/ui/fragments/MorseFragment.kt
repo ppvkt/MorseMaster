@@ -233,6 +233,7 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
             }
         }
     }
+
     fun sendSwitchValueInViewModel() {
         viewModel.whenSwitchLightClicked(isFlashLightChecked)
         viewModel.whenSwitchSoundClicked(isSoundChecked)

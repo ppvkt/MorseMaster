@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -247,6 +248,17 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
             isCurrentDataLoadedFlag = savedInstanceState.getBoolean("isCurrentDataLoadedFlag")
             isFlashLightChecked = savedInstanceState.getBoolean("isFlashlightChecked")
             isSoundChecked = savedInstanceState.getBoolean("isSoundChecked")
+        }
+
+        val callback = requireActivity()
+            .onBackPressedDispatcher
+            .addCallback(this) {
+                // Handle the back button event
+                isHelloShowedFlag = false
+                isCurrentDataLoadedFlag = false
+                viewModel.whenStopBtnClickedPassTrue()
+                findNavController().navigate(R.id.action_morseFragment_to_settingsFragment)
+
         }
     }
 

@@ -3,17 +3,13 @@ package ru.hadron.morsemaster.ui.viewmodels
 import android.app.Application
 import android.content.Context
 import android.os.Build
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import ru.hadron.morsemaster.AppLifecycleObserver
 import ru.hadron.morsemaster.db.entity.*
 import ru.hadron.morsemaster.repositories.Storage
 import ru.hadron.morsemaster.util.CurrentLesson
@@ -190,14 +186,8 @@ open class MainViewModel @ViewModelInject constructor(
     //---------------------------------------
     private var count = 1
     inner class LessonTask : TimerTask() {
-        override fun run() {
-            if (isStopButtonClicked) {
-                timer.cancel()
-                timer.purge()
-                Timber.e(" if (isStopButtonClicked) return.....")
-                return
-            }
 
+        private fun doLogic() {
             question = currentLesson.getQuestion()
             answer_buf = ""
 
@@ -302,13 +292,35 @@ open class MainViewModel @ViewModelInject constructor(
                 } else {
                     questionSymbol.postValue("(mask) "+ question.getSecret(""))
                     if (question_wait > 0) {
-                         startTimer(ms + question_wait)
+                        startTimer(ms + question_wait)
                     }
                 }
                 coutShowedSymbols.postValue("count : $count")
                 count++
             }
         }
+
+        override fun run() {
+
+            if (AppLifecycleObserver.isMoveToBackground) {
+                isStopButtonClicked = true
+            }
+          /*  if (!AppLifecycleListener.isMoveToBackground) {
+                isStopButtonClicked = false
+                //goto setting screen
+            }
+*/
+
+            if (isStopButtonClicked) {
+                timer.cancel()
+                timer.purge()
+                Timber.e(" if (isStopButtonClicked) return.....")
+                return
+            }
+
+            doLogic()
+        }
+
     }
 
     lateinit var timer: Timer
@@ -413,6 +425,10 @@ open class MainViewModel @ViewModelInject constructor(
     var isStopButtonClicked = false
     fun whenStopBtnClickedPassTrue( ) {
         this.isStopButtonClicked = true
+    }
+
+    fun whenStopBtnClickedPassFalse( ) {
+        this.isStopButtonClicked = false
     }
 
     var helloMs = 0

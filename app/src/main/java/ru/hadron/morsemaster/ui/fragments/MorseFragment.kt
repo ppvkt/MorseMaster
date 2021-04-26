@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_morse.*
+import ru.hadron.morsemaster.AppLifecycleObserver
 import ru.hadron.morsemaster.R
 import ru.hadron.morsemaster.ui.viewmodels.MainViewModel
 import ru.hadron.morsemaster.util.FlashLight
@@ -162,6 +163,8 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
             isCurrentDataLoadedFlag = true
         }
 
+
+
         btnStop.setOnClickListener {
             //todo
             // stopTimer()
@@ -208,14 +211,14 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
                 false -> {
                     isSoundChecked = false
                     if (!isFlashLightChecked && FlashLight.isDeviceHasCamera) {
-                       isFlashLightChecked = true
+                        isFlashLightChecked = true
                         switchFlashLight.isChecked = true
                     }
 
                     if (!FlashLight.isDeviceHasCamera) {
-                       isSoundChecked = true
+                        isSoundChecked = true
                         switchSound.isChecked = true
-                       Toast.makeText(requireContext(), " flash light not available.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), " flash light not available.", Toast.LENGTH_SHORT).show()
                     }
 
                 }
@@ -260,7 +263,8 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
                 viewModel.whenStopBtnClickedPassTrue()
                 findNavController().navigate(R.id.action_morseFragment_to_settingsFragment)
 
-        }
+            }
+
     }
 
     override fun onResume() {
@@ -336,7 +340,9 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
                 tvCountShowedSymbols.text = it
             }
         })
+
     }
+
 
     private fun sendDataInViewModel() {
         viewModel.setDataName(
@@ -576,5 +582,6 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
         btnCharSlash.setOnClickListener(this)
         btnRepeat.setOnClickListener(this)
     }
+
 }
 

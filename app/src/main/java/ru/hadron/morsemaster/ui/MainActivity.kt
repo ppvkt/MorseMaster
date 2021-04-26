@@ -9,6 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.hadron.morsemaster.R
 import ru.hadron.morsemaster.db.StorageDao
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint

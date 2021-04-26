@@ -1,5 +1,6 @@
 package ru.hadron.morsemaster.di
 
+import android.app.Application
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import androidx.room.Room
@@ -32,7 +33,6 @@ object AppModule {
             .build()
 
 
-
     @Singleton
     @Provides
     fun provideStorageDao(db: MorseDatabase) = db.getStorageDao()
@@ -41,4 +41,10 @@ object AppModule {
     @Provides
     fun provideSharedPreferences(@ApplicationContext app: Context) = app.getSharedPreferences(
         SHARED_PREFERENCES_NAME, MODE_PRIVATE)
+
+    @Singleton
+    @Provides
+    fun provideContext(application: Application): Context {
+        return application
+    }
 }

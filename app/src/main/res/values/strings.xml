@@ -28,6 +28,8 @@
     <string name="clear_statistic">Clear statistic</string>
     <string name="switch_flash_text">flash</string>
     <string name="switch_sound_text">sound</string>
+    <string name="background_message">background message</string>
+    <string name="foreground_message">foregraund message</string>
 
     <string-array name="lesson_array">
         <item>test1</item>

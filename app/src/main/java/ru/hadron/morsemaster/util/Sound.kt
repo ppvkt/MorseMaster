@@ -12,6 +12,7 @@ import ru.hadron.morsemaster.util.Constants.WORD_PAUSE
 import timber.log.Timber
 import java.lang.Thread.sleep
 import kotlin.math.roundToInt
+import kotlin.math.sin
 
 class Sound {
 
@@ -31,18 +32,20 @@ class Sound {
         val length: Int = SAMPLE_RATE * ms / 1000
         val a: Int = SAMPLE_RATE * ATTACK / 1000
         val r = length - a
+
         for (i in 0 .. length - 1) {
-            val period  = SAMPLE_RATE / freq
+            val period: Double  = (SAMPLE_RATE / freq).toDouble()
             // val period = SAMPLE_RATE.toDouble() / freq //низкочастотный звук если частота меньше 1000
 
-            val angle = (2.0 * Math.PI * i) / period
-            var amp = 1.0F  //f?
+            val angle = 2.0 * Math.PI * i / period
+            var amp: Double = 1.0  //f?
             if (i < a) {
-                amp = (i / a).toFloat()
+              //  amp = (i / a).toFloat()
+                amp = (i / a).toDouble()
             } else if (i > r) {
-                amp = (1.0f - (i - r) / a)
+                amp = (1.0f - ((i - r) / a).toDouble())
             }
-            buf!![from + i] = (Math.sin(angle) * amp * 127f).toByte()
+            buf!![from + i] = (sin(angle) * amp * 127f).toByte()
         }
         return from + length
     }
@@ -54,7 +57,6 @@ class Sound {
         }
         return from + length
     }
-
 
     fun code(text: String): Int {
         val chars = text.toCharArray()

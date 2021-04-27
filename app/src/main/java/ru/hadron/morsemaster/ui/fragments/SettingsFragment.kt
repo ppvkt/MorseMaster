@@ -20,6 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_settings.*
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
+import ru.hadron.morsemaster.AppLifecycleObserver
 import ru.hadron.morsemaster.R
 import ru.hadron.morsemaster.ui.viewmodels.MainViewModel
 import ru.hadron.morsemaster.util.Constants
@@ -79,6 +80,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), EasyPermissions.P
         setAllSpinnerListeners()
 
         btnRun.setOnClickListener { view ->
+            AppLifecycleObserver.count = 0
             showProgressBar()
             writeDataToSharedPref()
             val bundle = Bundle().apply {

@@ -6,6 +6,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
@@ -441,4 +442,6 @@ open class MainViewModel @ViewModelInject constructor(
     fun whenSwitchLightClicked(state: Boolean) {
         isFlash = state
     }
+
+
 }

@@ -16,6 +16,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import ru.hadron.morsemaster.db.MorseDatabase
 import ru.hadron.morsemaster.util.Constants.MORSE_DATABASE_NAME
 import ru.hadron.morsemaster.util.Constants.SHARED_PREFERENCES_NAME
+import ru.hadron.morsemaster.util.Sound
 import javax.inject.Singleton
 
 @Module

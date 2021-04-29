@@ -170,6 +170,7 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
             isHelloShowedFlag = false
             isCurrentDataLoadedFlag = false
             viewModel.whenStopBtnClickedPassTrue()
+            viewModel.cancelPlayQuestion()
             findNavController().navigate(R.id.action_morseFragment_to_settingsFragment)
         }
 
@@ -259,6 +260,7 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
                 isHelloShowedFlag = false
                 isCurrentDataLoadedFlag = false
                 viewModel.whenStopBtnClickedPassTrue()
+                viewModel.cancelPlayQuestion()
                 findNavController().navigate(R.id.action_morseFragment_to_settingsFragment)
 
             }
@@ -279,6 +281,7 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
             isHelloShowedFlag = false
             isCurrentDataLoadedFlag = false
             viewModel.whenStopBtnClickedPassTrue()
+            viewModel.cancelPlayQuestion()
             findNavController().navigate(R.id.action_morseFragment_to_settingsFragment)
         }
     }
@@ -587,8 +590,9 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
 
     override fun onPause() {
         super.onPause()
-        if (AppLifecycleObserver.count != 0)
+        if (AppLifecycleObserver.count != 0) {
             AppLifecycleObserver.count = -1
+        }
     }
 }
 

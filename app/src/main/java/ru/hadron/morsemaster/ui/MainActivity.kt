@@ -3,12 +3,15 @@ package ru.hadron.morsemaster.ui
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.hadron.morsemaster.R
 import ru.hadron.morsemaster.db.StorageDao
+import ru.hadron.morsemaster.ui.viewmodels.MainViewModel
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -17,6 +20,9 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var storageDao: StorageDao
+
+    private val viewModel: MainViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -52,4 +58,5 @@ class MainActivity : AppCompatActivity() {
             }
 
     }
+
 }

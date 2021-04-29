@@ -3,6 +3,8 @@ package ru.hadron.morsemaster.util
 import android.media.AudioFormat
 import android.media.AudioManager
 import android.media.AudioTrack
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
 import kotlinx.coroutines.*
 import ru.hadron.morsemaster.util.Constants.ATTACK
 import ru.hadron.morsemaster.util.Constants.FREQ
@@ -11,6 +13,7 @@ import ru.hadron.morsemaster.util.Constants.SYMBOL_PAUSE
 import ru.hadron.morsemaster.util.Constants.WORD_PAUSE
 import timber.log.Timber
 import java.lang.Thread.sleep
+import kotlin.experimental.and
 import kotlin.math.roundToInt
 import kotlin.math.sin
 
@@ -19,6 +22,13 @@ class Sound {
     private var dit = 100 // ms
     private var dah = 300 //ms
     private var buf: ByteArray? = null
+
+    private lateinit var job: Job
+
+    fun cancelPlaySoundQuestion() {
+        Timber.e("job cancel!")
+        job.cancel()
+    }
 
     fun wpm(x: Int) {
         dit = ((60.0 / (x * 50.0) * 1000.0).roundToInt())
@@ -32,20 +42,19 @@ class Sound {
         val length: Int = SAMPLE_RATE * ms / 1000
         val a: Int = SAMPLE_RATE * ATTACK / 1000
         val r = length - a
-
         for (i in 0 .. length - 1) {
-            val period: Double  = (SAMPLE_RATE / freq).toDouble()
+            val period  = SAMPLE_RATE / freq
             // val period = SAMPLE_RATE.toDouble() / freq //низкочастотный звук если частота меньше 1000
 
-            val angle = 2.0 * Math.PI * i / period
-            var amp: Double = 1.0  //f?
+            val angle = (2.0 * Math.PI * i) / period
+            var amp = 1.0F  //f?
             if (i < a) {
-              //  amp = (i / a).toFloat()
-                amp = (i / a).toDouble()
+                amp = (i / a).toFloat()
             } else if (i > r) {
-                amp = (1.0f - ((i - r) / a).toDouble())
+                amp = (1.0f - (i - r) / a)
             }
-            buf!![from + i] = (sin(angle) * amp * 127f).toByte()
+            // buf!![from + i] = (Math.sin(angle) * amp * 127f).toByte()
+            buf!![from + i] = (Math.sin(angle + 127f) * amp * 127f).toByte()
         }
         return from + length
     }
@@ -53,10 +62,13 @@ class Sound {
     fun pause(ms: Int, from: Int): Int {
         val length: Int = SAMPLE_RATE * ms / 1000
         for (i in 0 until length) {
-            buf?.set(from + i, 0)
+            //  buf?.set(from + i, 0)
+            buf?.set(from + i, 127)
+
         }
         return from + length
     }
+
 
     fun code(text: String): Int {
         val chars = text.toCharArray()
@@ -79,8 +91,11 @@ class Sound {
         }
         buf = ByteArray(SAMPLE_RATE * length / 1000)
 
-        GlobalScope.launch(Dispatchers.Default) {
+        job = GlobalScope.launch(Dispatchers.Default) {
             try {
+
+                Timber.e("is Active? --- $isActive")
+
                 var from: Int
                 from = pause(100, 0)
 
@@ -106,15 +121,19 @@ class Sound {
                     AudioTrack.MODE_STATIC
                 )
 
-                Timber.e("--------audioTrack.state-------${audioTrack.state}")
-                audioTrack.write(buf!!, 0, buf!!.size)
+                audioTrack.write(buf!!, 0, buf!!.size - 1)
                 audioTrack.play()
                 counttest++
-                sleep(length.toLong())
+
+                var bit = length.toLong() / chars.size
+                for (i in 0 .. chars.size) {
+                    if (job.isActive) {
+                        sleep(bit)
+                    }
+                }
+
                 audioTrack.stop()
                 audioTrack.release()
-
-                Timber.e("code from sound $counttest")
 
             } catch (t: Throwable) {
                 Timber.e("playback failed")
@@ -141,7 +160,7 @@ class Sound {
                     AudioTrack.MODE_STATIC
                 )
 
-                audioTrack.write(buf!!, 0, buf!!.size)
+                audioTrack.write(buf!!, 0, buf!!.size - 1)
                 audioTrack.play()
                 counttest++
                 sleep(length.toLong())

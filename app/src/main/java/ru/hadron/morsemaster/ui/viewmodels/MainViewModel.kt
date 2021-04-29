@@ -6,7 +6,6 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
@@ -37,6 +36,7 @@ open class MainViewModel @ViewModelInject constructor(
     fun insertStat(stat: Stat) = storage.insertStat(stat = stat)
     fun clearStat() = storage.clearStat()
     //-----
+
 
     private val sound: Sound = Sound()
     private val flashLight: FlashLight = FlashLight(context = context)
@@ -212,7 +212,7 @@ open class MainViewModel @ViewModelInject constructor(
                         startTimer(ms + help_wait)
                     }
                 } else {
-                    questionSymbol.postValue("(mask) "+ question.getSecret(""))
+                    questionSymbol.postValue( question.getSecret(""))
                     if (question_wait > 0) {
                         startTimer(ms + question_wait)
                     }
@@ -236,7 +236,7 @@ open class MainViewModel @ViewModelInject constructor(
                         startTimer(msSound + help_wait)
                     }
                 } else {
-                    questionSymbol.postValue("(mask) "+ question.getSecret(""))
+                    questionSymbol.postValue(question.getSecret(""))
                     if (question_wait > 0) {
                         startTimer(msSound + question_wait)
                     }
@@ -254,7 +254,7 @@ open class MainViewModel @ViewModelInject constructor(
                         startTimer(ms + help_wait)
                     }
                 } else {
-                    questionSymbol.postValue("(mask) "+ question.getSecret(""))
+                    questionSymbol.postValue( question.getSecret(""))
                     if (question_wait > 0) {
                         startTimer(ms + question_wait)
                     }
@@ -272,7 +272,7 @@ open class MainViewModel @ViewModelInject constructor(
                         startTimer(ms + help_wait)
                     }
                 } else {
-                    questionSymbol.postValue("(mask) "+ question.getSecret(""))
+                    questionSymbol.postValue(question.getSecret(""))
                     if (question_wait > 0) {
                         startTimer(ms + question_wait)
                     }
@@ -291,7 +291,7 @@ open class MainViewModel @ViewModelInject constructor(
                         startTimer(ms + help_wait)
                     }
                 } else {
-                    questionSymbol.postValue("(mask) "+ question.getSecret(""))
+                    questionSymbol.postValue(question.getSecret(""))
                     if (question_wait > 0) {
                         startTimer(ms + question_wait)
                     }
@@ -305,12 +305,8 @@ open class MainViewModel @ViewModelInject constructor(
 
             if (AppLifecycleObserver.isMoveToBackground) {
                 isStopButtonClicked = true
+                cancelPlayQuestion()
             }
-          /*  if (!AppLifecycleListener.isMoveToBackground) {
-                isStopButtonClicked = false
-                //goto setting screen
-            }
-*/
 
             if (isStopButtonClicked) {
                 timer.cancel()
@@ -321,7 +317,6 @@ open class MainViewModel @ViewModelInject constructor(
 
             doLogic()
         }
-
     }
 
     lateinit var timer: Timer
@@ -443,5 +438,11 @@ open class MainViewModel @ViewModelInject constructor(
         isFlash = state
     }
 
-
+    /**
+     * stop playing question when app backgroung or navigate
+     * **/
+    fun cancelPlayQuestion() {
+        sound.cancelPlaySoundQuestion()
+        flashLight.cancelPlayLightQuestion()
+    }
 }

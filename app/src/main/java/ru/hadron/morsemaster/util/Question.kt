@@ -17,7 +17,8 @@ class Question (
         var res = prefix
         //for (i in prefix.length until _symbol.length) res += "*"
         for ( i in prefix.length .._symbol.length - 1) {  // -1?
-            res += "*"
+           // res += "*"
+            res+= "\u26A1"
         }
         Timber.e("  **res ===> $res")
         return res

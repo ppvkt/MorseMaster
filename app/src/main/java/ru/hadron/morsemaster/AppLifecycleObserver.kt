@@ -5,7 +5,11 @@ import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
+import dagger.hilt.android.AndroidEntryPoint
+import ru.hadron.morsemaster.ui.viewmodels.MainViewModel
+import ru.hadron.morsemaster.util.Sound
 import javax.inject.Inject
+
 
 class AppLifecycleObserver @Inject constructor(
     context: Context

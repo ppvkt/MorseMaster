@@ -28,6 +28,14 @@ class FlashLight constructor(
         var isDeviceHasCamera = false
     }
 
+    private var job: Job? = null
+
+    fun cancelPlayLightQuestion() {
+        if (job != null && job!!.isActive) {
+            job!!.cancel()
+        }
+    }
+
     fun wpm(x: Int) {
         dit = ((60.0 / (x * 50.0) * 1000.0).roundToInt())
         dah = dit * 3
@@ -89,23 +97,25 @@ class FlashLight constructor(
 
                 isDeviceHasCamera = true
 
-                GlobalScope.launch(Dispatchers.Default) {
+              job = GlobalScope.launch(Dispatchers.Default) {
                     try {
                         if (isDeviceHasCamera) {
                             pause(100)
                             for (c in chars) {
-                                when (c) {
-                                    '.' -> {
-                                        flash(dit)
-                                        pause(dit)
-                                    }
-                                    '-' -> {
-                                        flash(dah)
-                                        pause(dit)
-                                    }
-                                    ' ' -> pause(dit * (SYMBOL_PAUSE - 1))
+                                if (job!!.isActive) {
+                                    when (c) {
+                                        '.' -> {
+                                            flash(dit)
+                                            pause(dit)
+                                        }
+                                        '-' -> {
+                                            flash(dah)
+                                            pause(dit)
+                                        }
+                                        ' ' -> pause(dit * (SYMBOL_PAUSE - 1))
 
-                                    '|' -> pause(dit * (WORD_PAUSE - 1))
+                                        '|' -> pause(dit * (WORD_PAUSE - 1))
+                                    }
                                 }
                             }
                         }

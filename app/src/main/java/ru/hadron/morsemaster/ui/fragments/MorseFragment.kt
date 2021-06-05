@@ -2,7 +2,8 @@ package ru.hadron.morsemaster.ui.fragments
 
 import android.graphics.Color
 import android.os.Bundle
-import android.view.View
+import android.os.SystemClock
+import android.view.*
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.addCallback
@@ -79,6 +80,94 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
 
     private var isSoundChecked: Boolean = true
     private var isFlashLightChecked: Boolean  = false
+
+    private var menu: Menu? = null
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        setHasOptionsMenu(true)
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.toolbar_morse_menu, menu)
+        this.menu = menu
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        when {
+            isSoundChecked -> this.menu?.getItem(1)?.setIcon(R.drawable.ic_music_note_24_y)
+            !isSoundChecked -> this.menu?.getItem(1)?.setIcon(R.drawable.ic_music_off_24_y)
+            isFlashLightChecked -> this.menu?.getItem(0)?.setIcon(R.drawable.ic_lash_on_24_y)
+            !isFlashLightChecked -> this.menu?.getItem(0)?.setIcon(R.drawable.ic_flash_off_24_y)
+
+        }
+    }
+    private fun menuSoundOn(){
+        this.menu?.getItem(1)?.setIcon(R.drawable.ic_music_note_24_y)
+        isSoundChecked = true
+    }
+    private fun menuSoundOff(){
+        this.menu?.getItem(1)?.setIcon(R.drawable.ic_music_off_24_y)
+        isSoundChecked = false
+    }
+    private fun menuFlashOn() {
+        this.menu?.getItem(0)?.setIcon(R.drawable.ic_lash_on_24_y)
+        isFlashLightChecked = true
+    }
+    private fun menuFlashOff() {
+        this.menu?.getItem(0)?.setIcon(R.drawable.ic_flash_off_24_y)
+        isFlashLightChecked = false
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_sound -> {
+                if (isSoundChecked) {
+                    if (!isFlashLightChecked && FlashLight.isDeviceHasCamera) {
+                        menuSoundOff()
+                        menuFlashOn()
+                    }
+                    if (isFlashLightChecked && FlashLight.isDeviceHasCamera) {
+                        menuSoundOff()
+                    }
+                    if (!FlashLight.isDeviceHasCamera) {
+                        Toast.makeText(requireContext(), " flash light not available", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                   menuSoundOn()
+                }
+            }
+            R.id.menu_flash -> {
+                if (isFlashLightChecked) {
+                  menuFlashOff()
+                    if(!isSoundChecked) {
+                        menuSoundOn()
+                    }
+                } else { //если была выключена
+                    if (FlashLight.isDeviceHasCamera) {
+                        menuFlashOn()
+                    }
+                    if (!FlashLight.isDeviceHasCamera) {
+                        Toast.makeText(requireContext(), " flash light not available.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+            R.id.menu_code -> {
+                if (tvShowingMorse.visibility == View.VISIBLE) {
+                    tvShowingMorse.visibility = View.INVISIBLE
+                } else {
+                    tvShowingMorse.visibility = View.VISIBLE
+                }
+            }
+        }
+        sendSwitchValueInViewModel()
+        return super.onOptionsItemSelected(item)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -164,9 +253,6 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
         }
 
         btnStop.setOnClickListener {
-            //todo
-            // stopTimer()
-            //  viewModel.stopTimerFromFragment()
             isHelloShowedFlag = false
             isCurrentDataLoadedFlag = false
             viewModel.whenStopBtnClickedPassTrue()
@@ -174,66 +260,21 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
             findNavController().navigate(R.id.action_morseFragment_to_settingsFragment)
         }
 
-        switchNMorse.setOnClickListener {
+   /*     switchNMorse.setOnClickListener {
             when(switchNMorse.isChecked) {
                 false -> tvShowingMorse.visibility = View.INVISIBLE
                 true -> tvShowingMorse.visibility = View.VISIBLE
             }
-        }
+        }*/
 
-        switchFlashLight.setOnClickListener {
-            when (switchFlashLight.isChecked) {
-                false -> {
-                    isFlashLightChecked = false
-                    if (!isSoundChecked) {
-                        isSoundChecked = true
-                        switchSound.isChecked = true
-                    }
-                }
-                true -> {
-                    if (FlashLight.isDeviceHasCamera) {
-                        isFlashLightChecked = true
-                    }
-
-                    if (!FlashLight.isDeviceHasCamera) {
-                        isFlashLightChecked = false
-                        switchFlashLight.isChecked = false
-                        Toast.makeText(requireContext(), " flash light not available.", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-            sendSwitchValueInViewModel()
-        }
-
-        switchSound.setOnClickListener {
-            when (switchSound.isChecked) {
-                false -> {
-                    isSoundChecked = false
-                    if (!isFlashLightChecked && FlashLight.isDeviceHasCamera) {
-                        isFlashLightChecked = true
-                        switchFlashLight.isChecked = true
-                    }
-
-                    if (!FlashLight.isDeviceHasCamera) {
-                        isSoundChecked = true
-                        switchSound.isChecked = true
-                        Toast.makeText(requireContext(), " flash light not available.", Toast.LENGTH_SHORT).show()
-                    }
-
-                }
-                true -> isSoundChecked = true
-            }
-            sendSwitchValueInViewModel()
-        }
-
-        when (switchNMorse.isChecked) {
+     /*   when (switchNMorse.isChecked) {
             false -> {
                 tvShowingMorse.visibility = View.GONE
             }
             true -> {
                 tvShowingMorse.visibility = View.VISIBLE
             }
-        }
+        }*/
     }
 
     fun sendSwitchValueInViewModel() {
@@ -309,15 +350,15 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
 
                 when (it) {
                     1 -> {
-                        tvShowingChar.setBackgroundColor(Color.DKGRAY)
+                        tvShowingChar.setBackgroundColor(Color.parseColor("#121212"))
                         tvShowingChar.text = ""
                     }
                     2 -> {
                         tvShowingChar.setBackgroundColor(Color.RED)
                     }
                     3 -> {
-                        tvShowingChar.setBackgroundColor(Color.parseColor("#304FFE"))
-                        tvShowingChar.text = ""
+                        tvShowingChar.setBackgroundColor(Color.parseColor("#229954"))
+                        tvShowingChar.text = "YES"
                     }
                     else -> tvShowingChar.setBackgroundColor(Color.DKGRAY)
                 }

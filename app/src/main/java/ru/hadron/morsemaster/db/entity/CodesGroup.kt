@@ -5,13 +5,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "codes_group")
-data class CodesGroup(
+data class CodesGroup (
     @PrimaryKey(autoGenerate = false)
     @NonNull
     val id: String, //Int
-
     val info: String
-
 ) {
-
 }

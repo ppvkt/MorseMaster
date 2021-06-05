@@ -38,9 +38,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-       android:paddingRight="8dp"
+        android:paddingRight="8dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="parent" />
+
 
     <Switch
         android:id="@+id/switchFlashLight"
@@ -108,23 +109,21 @@
         android:id="@+id/tvWorth"
         android:layout_width="wrap_content"
         android:layout_height="17dp"
-
+        android:visibility="invisible"
         android:text="worth : х%"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintStart_toEndOf="@+id/btnRepeat"
         app:layout_constraintTop_toBottomOf="@+id/cl_qwery" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnStop"
         style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="stop"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline14"
-        app:layout_constraintTop_toTopOf="@+id/guideline13" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline13"
@@ -143,13 +142,11 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnRepeat"
         style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/repeat"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline12"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline13" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline12"

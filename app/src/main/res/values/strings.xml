@@ -17,11 +17,11 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="questionMark">\?</string>
-    <string name="repeat">repeat</string>
-    <string name="max_char">Max (char)</string>
-    <string name="level">Level (%)</string>
-    <string name="answer_timeout">Answer timeout</string>
-    <string name="speed">Speed</string>
+    <string name="repeat">Question repeat</string>
+    <string name="max_char">Max number of characters</string>
+    <string name="level">Difficulty level (%)</string>
+    <string name="answer_timeout">Answer time</string>
+    <string name="speed">Play speed</string>
     <string name="lesson">Lesson</string>
     <string name="morse_master">Morse Master</string>
     <string name="run">Run</string>
@@ -30,6 +30,22 @@
     <string name="switch_sound_text">sound</string>
     <string name="background_message">background message</string>
     <string name="foreground_message">foregraund message</string>
+    <string name="lesson_disc"> <b> Koch method </b> now regarded as the <b>fastest route</b> to morse code proficiency. \n
+        The philosophy of the method is simple: You do not learn morse the same way you study and learn other subjects. \n
+        Morse code is the translation between a stimulus (sound in our case) into a reaction (writing down the letter). \n
+        Learning morse code is not a particularly conscious process, it is more like developing <b>reflexes</b>. \n
+        Start off with two characters sent at <b>full speed</b> (first lesson). \n
+        Write down each character as you identify it. Do this during a five minute session. \n
+        If you have jotted down the characters with at least 90 percent success rate then will be added one more char. \n
+        Do this until all characters have been processed. \n
+        <b>That’s all there is!</b>
+
+</string>
+    <string name="speed_disc">Select speed for the question\'s sound</string>
+    <string name="level_disc">Percent of the correct answers when begin show complex questions</string>
+    <string name="answer_disc">Time for answer on simple question</string>
+    <string name="maxchar_disc">Maximum lenght of difficult question</string>
+    <string name="repeat_disc">Select how many times will be repeat each question</string>
 
     <string-array name="lesson_array">
         <item>test1</item>

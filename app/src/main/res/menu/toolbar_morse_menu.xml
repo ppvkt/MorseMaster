@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_flash"
+        android:title="Flash morse"
+        android:visible="true"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_flash_off_24_y"/>
+    <item
+        android:id="@+id/menu_sound"
+        android:title="Sound morse"
+        android:visible="true"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_music_note_24_y"/>
+    <item
+        android:id="@+id/menu_code"
+        android:title="Code morse"
+        android:visible="true"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_code_24_y"/>
+
+</menu>

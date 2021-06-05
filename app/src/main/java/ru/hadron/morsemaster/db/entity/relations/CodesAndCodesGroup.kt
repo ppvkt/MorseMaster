@@ -11,6 +11,5 @@ data class CodesAndCodesGroup (
 
     @Relation(parentColumn = "group_id", entityColumn = "id")
     val codes: Codes
-
 ) {
 }

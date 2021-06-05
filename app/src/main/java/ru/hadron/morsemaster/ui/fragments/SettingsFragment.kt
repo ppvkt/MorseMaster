@@ -33,7 +33,6 @@ import ru.hadron.morsemaster.util.Constants.KEY_REPEAT
 import ru.hadron.morsemaster.util.Constants.KEY_SPEED
 import ru.hadron.morsemaster.util.MorseUtility
 import timber.log.Timber
-import java.lang.System.exit
 import javax.inject.Inject
 import kotlin.system.exitProcess
 

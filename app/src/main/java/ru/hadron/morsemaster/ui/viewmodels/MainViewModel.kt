@@ -9,6 +9,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import ru.hadron.morsemaster.AppLifecycleObserver
 import ru.hadron.morsemaster.db.entity.*
 import ru.hadron.morsemaster.repositories.Storage
@@ -41,7 +43,6 @@ open class MainViewModel @ViewModelInject constructor(
     private val sound: Sound = Sound()
     private val flashLight: FlashLight = FlashLight(context = context)
 
-    ///----import cvcs files--------//// это остается во VM
     fun insertLesson(lesson: Lesson) = storage.insertCvsLesson(lesson)
     fun insertCodes(codes: Codes) = storage.insertCvsCodes(codes)
     fun insertCodesGroup(codesGroup: CodesGroup) = storage.insertCvsCodesGroup(codesGroup)
@@ -74,8 +75,10 @@ open class MainViewModel @ViewModelInject constructor(
         tsvReader.open(filePath) {
             readAllWithHeaderAsSequence().forEach { row: Map<String, String> ->
                 Timber.e("row  = ${row}  ")
-                val lesson = Lesson(info = row.getOrDefault("info", ""), symbols = row.getOrDefault("symbols", ""))
-                Timber.e("======${lesson.hashCode()}")
+                val lesson = Lesson(
+                    info = row.getOrDefault("info", ""),
+                    symbols = row.getOrDefault("symbols", "")
+                )
                 insertLesson(lesson)
 
             }
@@ -87,7 +90,6 @@ open class MainViewModel @ViewModelInject constructor(
         val filePath = getFileFromAssets(context, "codes.cvs").absolutePath
         tsvReader.open(filePath) {
             readAllWithHeaderAsSequence().forEach { row: Map<String, String> ->
-                Timber.e("row  = ${row}  ")
                 val codes = Codes(
                     group_id = row.getOrDefault("group_id",""),
                     symbol = row.getOrDefault("symbol", ""),
@@ -104,9 +106,10 @@ open class MainViewModel @ViewModelInject constructor(
 
         tsvReader.open(filePath) {
             readAllWithHeaderAsSequence().forEach { row: Map<String, String> ->
-                Timber.e("row  = ${row}  ")
-                val codesGroup = CodesGroup(id = row.getOrDefault("id",""), info = row.getOrDefault("info", ""))
-                Timber.e("======${codesGroup.hashCode()}")
+                val codesGroup = CodesGroup(
+                    id = row.getOrDefault("id",""),
+                    info = row.getOrDefault("info", "")
+                )
                 insertCodesGroup(codesGroup)
             }
         }
@@ -130,7 +133,7 @@ open class MainViewModel @ViewModelInject constructor(
     /*
     1 gray
     2 red
-    3 green
+    3 blue
      */
     init {
         isBackgroundChange.postValue(1)
@@ -332,7 +335,8 @@ open class MainViewModel @ViewModelInject constructor(
         sound.wpm(_speedName.toInt())
         flashLight.wpm(_speedName.toInt())
         helloMs = sound.code("...-...-...-")
-        flashLight.code("...-...-...-")
+        // flashLight.code("...-...-...-")
+        flashLight.code("")
     }
 
     private fun stopTimer() {
@@ -342,6 +346,7 @@ open class MainViewModel @ViewModelInject constructor(
     }
 
     fun playQuestion(x: Int): Int {
+
         var q = storage.getCode(question._symbol)
         var code = q
         if (question.length() > 0) {
@@ -352,6 +357,7 @@ open class MainViewModel @ViewModelInject constructor(
             }
         }
         Timber.e("   ==================code q =====>${code}")
+
         return sound.code(code)
     }
 
@@ -372,22 +378,33 @@ open class MainViewModel @ViewModelInject constructor(
         //if (question.equals(null)) return
 
         if (isStopButtonClicked) return
-        if(curranswer == "repeat") {
-            if (isSound && !isFlash) {
-                playQuestion(1)
+
+
+        if (curranswer == "Question repeat") {
+            cancelPlayQuestion()
+            sound.alarm()
+
+            runBlocking {
+                delay(500)
             }
-            if (isSound && isFlash && FlashLight.isDeviceHasCamera) {
-                playQuestion(1)
-                lightQuestion(1)
-            }
-            if (isSound && isFlash && !FlashLight.isDeviceHasCamera) {
-                playQuestion(1)
-            }
-            if (!isSound && isFlash && FlashLight.isDeviceHasCamera) {
-                lightQuestion(1)
-            }
-            if (!isSound && isFlash && !FlashLight.isDeviceHasCamera) {
-                playQuestion(1)
+
+            when {
+                isSound && !isFlash -> {
+                    playQuestion(1)
+                }
+                isSound && isFlash && FlashLight.isDeviceHasCamera -> {
+                    playQuestion(1)
+                    lightQuestion(1)
+                }
+                isSound && isFlash && !FlashLight.isDeviceHasCamera -> {
+                    playQuestion(1)
+                }
+                !isSound && isFlash && FlashLight.isDeviceHasCamera -> {
+                    lightQuestion(1)
+                }
+                !isSound && isFlash && !FlashLight.isDeviceHasCamera -> {
+                    playQuestion(1)
+                }
             }
             return
         }
@@ -402,7 +419,7 @@ open class MainViewModel @ViewModelInject constructor(
             stopTimer()
             if (currentLesson.setAnswer(answer_buf)) {
                 isBackgroundChange.postValue(3)
-                startTimer(100)
+                startTimer(500)
             } else {
                 questionSymbol.postValue(question.symbol)
                 isBackgroundChange.postValue(2)

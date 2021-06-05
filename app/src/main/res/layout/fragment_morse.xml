@@ -21,13 +21,15 @@
         android:id="@+id/tvShowingChar"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
         android:background="@android:color/darker_gray"
         android:gravity="center_vertical|center_horizontal"
         android:text="xxxx"
-        android:textSize="50sp"
 
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toTopOf="@+id/cl_qwery"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
@@ -35,29 +37,37 @@
     <Switch
         android:id="@+id/switchNMorse"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-       android:paddingRight="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="24dp"
+        android:paddingRight="8dp"
+        android:text="code"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/guideline13"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Switch
         android:id="@+id/switchFlashLight"
+        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
+        android:layout_marginEnd="8dp"
         android:text="@string/switch_flash_text"
-        app:layout_constraintBottom_toTopOf="@+id/guideline13"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Switch
         android:id="@+id/switchSound"
+        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
+        android:layout_marginStart="8dp"
         android:checked="true"
         android:text="@string/switch_sound_text"
-        app:layout_constraintBottom_toTopOf="@+id/guideline13"
-        app:layout_constraintEnd_toEndOf="parent" />
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -71,32 +81,34 @@
         android:id="@+id/cl_qwery"
         layout="@layout/keyboard"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline13"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline2" />
+        app:layout_constraintTop_toBottomOf="@+id/tvShowingChar" />
 
     <TextView
         android:id="@+id/tvShowingMorse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
         android:gravity="center"
         android:text="------------------------"
         android:textSize="20dp"
 
-        app:layout_constraintBottom_toBottomOf="@+id/switchNMorse"
-        app:layout_constraintStart_toEndOf="@+id/switchNMorse"
-        app:layout_constraintTop_toTopOf="@+id/switchNMorse"
+        app:layout_constraintBottom_toBottomOf="@+id/tvShowingChar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints" />
 
 
     <TextView
         android:id="@+id/tvCountShowedSymbols"
         android:layout_width="wrap_content"
-        android:layout_height="19dp"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
         android:paddingRight="8dp"
         android:text="сount : 0"
         app:layout_constraintBaseline_toBaselineOf="@+id/switchNMorse"
@@ -105,24 +117,21 @@
     <TextView
         android:id="@+id/tvWorth"
         android:layout_width="wrap_content"
-        android:layout_height="17dp"
+        android:layout_height="wrap_content"
 
         android:text="worth : х%"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/switchSound"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cl_qwery" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnStop"
         style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="stop"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline14"
-        app:layout_constraintTop_toTopOf="@+id/guideline13" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline13"
@@ -141,13 +150,12 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnRepeat"
         style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
         android:text="@string/repeat"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline12"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline13" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline12"

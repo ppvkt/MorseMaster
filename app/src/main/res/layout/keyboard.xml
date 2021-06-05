@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cl_qwery"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
 
     android:visibility="invisible"
     app:layout_constraintBottom_toTopOf="@+id/guideline13"
@@ -37,6 +37,7 @@
             android:padding="0dp"
             android:text="1"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -49,6 +50,7 @@
             android:padding="0dp"
             android:text="2"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -61,6 +63,7 @@
             android:padding="0dp"
             android:text="3"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -73,6 +76,7 @@
             android:padding="0dp"
             android:text="4"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -85,6 +89,7 @@
             android:padding="0dp"
             android:text="5"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -97,6 +102,7 @@
             android:padding="0dp"
             android:text="6"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -109,6 +115,7 @@
             android:padding="0dp"
             android:text="7"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -121,6 +128,7 @@
             android:padding="0dp"
             android:text="8"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -133,6 +141,7 @@
             android:padding="0dp"
             android:text="9"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -146,6 +155,7 @@
             android:padding="0dp"
             android:text="0"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
     </LinearLayout>
@@ -169,6 +179,7 @@
             android:padding="0dp"
             android:text="Q"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -181,6 +192,7 @@
             android:padding="0dp"
             android:text="W"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -193,6 +205,7 @@
             android:padding="0dp"
             android:text="E"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -205,6 +218,7 @@
             android:padding="0dp"
             android:text="R"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -217,6 +231,7 @@
             android:padding="0dp"
             android:text="T"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -229,6 +244,7 @@
             android:padding="0dp"
             android:text="Y"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -241,6 +257,7 @@
             android:padding="0dp"
             android:text="U"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -253,6 +270,7 @@
             android:padding="0dp"
             android:text="I"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -265,6 +283,7 @@
             android:padding="0dp"
             android:text="O"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -277,6 +296,7 @@
             android:padding="0dp"
             android:text="P"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
     </LinearLayout>
@@ -299,6 +319,7 @@
             android:padding="0dp"
             android:text="A"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -311,6 +332,7 @@
             android:padding="0dp"
             android:text="S"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -323,6 +345,7 @@
             android:padding="0dp"
             android:text="D"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -335,6 +358,7 @@
             android:padding="0dp"
             android:text="F"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -347,6 +371,7 @@
             android:padding="0dp"
             android:text="G"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -359,6 +384,7 @@
             android:padding="0dp"
             android:text="H"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -371,6 +397,7 @@
             android:padding="0dp"
             android:text="J"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -383,6 +410,7 @@
             android:padding="0dp"
             android:text="K"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -395,6 +423,7 @@
             android:padding="0dp"
             android:text="L"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -407,6 +436,7 @@
             android:padding="0dp"
             android:text="="
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
     </LinearLayout>
 
@@ -428,6 +458,7 @@
             android:padding="0dp"
             android:text="Z"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -440,6 +471,7 @@
             android:padding="0dp"
             android:text="X"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -452,6 +484,7 @@
             android:padding="0dp"
             android:text="C"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -464,6 +497,7 @@
             android:padding="0dp"
             android:text="V"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -476,6 +510,7 @@
             android:padding="0dp"
             android:text="B"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -488,6 +523,7 @@
             android:padding="0dp"
             android:text="N"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -500,6 +536,7 @@
             android:padding="0dp"
             android:text="M"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -512,6 +549,7 @@
             android:padding="0dp"
             android:text="@string/questionMark"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -524,6 +562,7 @@
             android:padding="0dp"
             android:text="."
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -536,6 +575,7 @@
             android:padding="0dp"
             android:text=","
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
     </LinearLayout>
 
@@ -548,6 +588,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSome1"
+            android:visibility="invisible"
             android:layout_width="0dp"
             android:layout_height="@dimen/height32"
             android:layout_margin="1dp"
@@ -557,6 +598,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSome2"
+            android:visibility="invisible"
             android:layout_width="0dp"
             android:layout_height="@dimen/height32"
             android:layout_margin="1dp"
@@ -566,6 +608,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSome3"
+            android:visibility="invisible"
             android:layout_width="0dp"
             android:layout_height="@dimen/height32"
             android:layout_margin="1dp"
@@ -575,6 +618,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSome4"
+            android:visibility="invisible"
             android:layout_width="0dp"
             android:layout_height="@dimen/height32"
             android:layout_margin="1dp"
@@ -584,6 +628,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSome5"
+            android:visibility="invisible"
             android:layout_width="0dp"
             android:layout_height="@dimen/height32"
             android:layout_margin="1dp"
@@ -593,6 +638,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSome6"
+            android:visibility="invisible"
             android:layout_width="0dp"
             android:layout_height="@dimen/height32"
             android:layout_margin="1dp"
@@ -602,6 +648,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSome7"
+            android:visibility="invisible"
             android:layout_width="0dp"
             android:layout_height="@dimen/height32"
             android:layout_margin="1dp"
@@ -619,6 +666,7 @@
             android:padding="0dp"
             android:text="/"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -631,6 +679,7 @@
             android:padding="0dp"
             android:text="+"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
         <com.google.android.material.button.MaterialButton
@@ -643,6 +692,7 @@
             android:padding="0dp"
             android:text="-"
             android:textSize="@dimen/textsize_keys"
+            android:backgroundTint="@color/colorAccent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_ButtonCircle100" />
 
     </LinearLayout>

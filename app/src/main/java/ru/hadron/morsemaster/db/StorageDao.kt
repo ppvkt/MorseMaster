@@ -2,7 +2,6 @@ package ru.hadron.morsemaster.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import androidx.sqlite.db.SupportSQLiteQuery
 import ru.hadron.morsemaster.db.entity.*
 
 @Dao
@@ -22,12 +21,11 @@ interface StorageDao {
 
  @Transaction
  @Query("SELECT count(*) as _count, 100*correct/(correct+mistake/2) AS ratio FROM stat WHERE ratio >= :ratio AND correct >= 10")
- //suspend  fun getStmCountAdv(ratio: Int): List<StatForStmCountAdv>
-// suspend  fun getStmCountAdv(ratio: Int): Int
  suspend  fun getStmCountAdv(ratio: Int): StatForStmCountAdv
 
  @Transaction
- @Query("SELECT min(100*correct/(correct+mistake/2)) AS worst FROM stat")
+ //@Query("SELECT min(100*correct/(correct+mistake/2)) AS worst FROM stat")
+ @Query("SELECT min(100*correct/(correct+mistake)) AS worst FROM stat")
  fun getStmWorst(): LiveData<Int>?
 
 /* @Transaction

@@ -31,7 +31,7 @@ class AppLifecycleObserver @Inject constructor(
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onMoveToForeground() {
-        enterForegroundToast.showAfterCanceling(enterBackgroundToast)
+      //  enterForegroundToast.showAfterCanceling(enterBackgroundToast)
 
         isMoveToForeground = true
         isMoveToBackground = false
@@ -40,7 +40,7 @@ class AppLifecycleObserver @Inject constructor(
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onMoveToBackground() {
-        enterBackgroundToast.showAfterCanceling(enterForegroundToast)
+      //  enterBackgroundToast.showAfterCanceling(enterForegroundToast)
 
         isMoveToForeground = false
         isMoveToBackground = true

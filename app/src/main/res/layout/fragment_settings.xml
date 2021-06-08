@@ -59,7 +59,8 @@
 
     <Button
         android:id="@+id/btnRun"
-        style="?attr/materialButtonOutlinedStyle"
+        app:icon="@drawable/ic__run_24_y"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/run"

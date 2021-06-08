@@ -331,7 +331,7 @@ open class MainViewModel @ViewModelInject constructor(
         isTimerRun = true
     }
     fun startTimerFromFragment() {
-        questionSymbol.postValue("get ready!")
+        questionSymbol.postValue("GET READY")
         sound.wpm(_speedName.toInt())
         flashLight.wpm(_speedName.toInt())
         helloMs = sound.code("...-...-...-")
@@ -382,7 +382,6 @@ open class MainViewModel @ViewModelInject constructor(
 
         if (curranswer == "Question repeat") {
             cancelPlayQuestion()
-            sound.alarm()
 
             runBlocking {
                 delay(500)

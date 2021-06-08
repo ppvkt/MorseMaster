@@ -136,7 +136,7 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
                         menuSoundOff()
                     }
                     if (!FlashLight.isDeviceHasCamera) {
-                        Toast.makeText(requireContext(), " flash light not available", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), " You can use sound only", Toast.LENGTH_SHORT).show()
                     }
                 } else {
                    menuSoundOn()
@@ -148,12 +148,12 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
                     if(!isSoundChecked) {
                         menuSoundOn()
                     }
-                } else { //если была выключена
+                } else {
                     if (FlashLight.isDeviceHasCamera) {
                         menuFlashOn()
                     }
                     if (!FlashLight.isDeviceHasCamera) {
-                        Toast.makeText(requireContext(), " flash light not available.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), " Flash is not available in your device", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -259,22 +259,6 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
             viewModel.cancelPlayQuestion()
             findNavController().navigate(R.id.action_morseFragment_to_settingsFragment)
         }
-
-   /*     switchNMorse.setOnClickListener {
-            when(switchNMorse.isChecked) {
-                false -> tvShowingMorse.visibility = View.INVISIBLE
-                true -> tvShowingMorse.visibility = View.VISIBLE
-            }
-        }*/
-
-     /*   when (switchNMorse.isChecked) {
-            false -> {
-                tvShowingMorse.visibility = View.GONE
-            }
-            true -> {
-                tvShowingMorse.visibility = View.VISIBLE
-            }
-        }*/
     }
 
     fun sendSwitchValueInViewModel() {
@@ -336,6 +320,7 @@ class MorseFragment : Fragment(R.layout.fragment_morse) , View.OnClickListener {
     }
 
     fun subscribeToObservers() {
+
         viewModel.worth?.observe(viewLifecycleOwner, Observer {
             it.let {
                 tvWorth.text = "worth : $it %"

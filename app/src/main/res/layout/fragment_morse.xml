@@ -118,7 +118,7 @@
         android:id="@+id/tvWorth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:visibility="invisible"
         android:text="worth : х%"
         app:layout_constraintBaseline_toBaselineOf="@+id/switchSound"
         app:layout_constraintEnd_toEndOf="parent"

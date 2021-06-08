@@ -41,12 +41,6 @@
         <b>That’s all there is!</b>
 
 </string>
-    <string name="speed_disc">Select speed for the question\'s sound</string>
-    <string name="level_disc">Percent of the correct answers when begin show complex questions</string>
-    <string name="answer_disc">Time for answer on simple question</string>
-    <string name="maxchar_disc">Maximum lenght of difficult question</string>
-    <string name="repeat_disc">Select how many times will be repeat each question</string>
-
     <string-array name="lesson_array">
         <item>test1</item>
         <item>test2</item>

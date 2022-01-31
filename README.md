@@ -11,3 +11,6 @@ Morse activity - play sound or flash or sound&flash<br>
 <br>
 Tips "<>" On<br>
 ![alt text](screenshots/pic5.png)
+
+Статья про приложение Морзе для часов - идеи для развития проекта<br>
+https://medium.com/huawei-developers/harmonyos-lite-wearable-morse-app-b6c28eeadc8f
